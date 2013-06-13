@@ -1,0 +1,82 @@
+body {
+  font-size: 120% !important;
+}
+
+.ui-header h1 {
+  font-size: 2em !important;
+  overflow: visible !important;
+  margin: 0.67em 0 0.67em 0 !important;
+}
+
+.ui-header .ui-title {
+  overflow: visible !important;
+  white-space: normal !important;
+}
+
+.ui-header > .ui-btn,.ui-footer > .ui-btn {
+  top: 25%;
+}
+
+.ui-btn-text {
+  font-size: 2em;
+}
+
+/* Carousel */
+.position {
+  font-size: 2em;
+}
+
+.on {
+  color: #abcd14;
+}
+
+img {
+  max-width:100%;
+  max-height:75%;
+}
+
+/* Misc */
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#alert {
+  margin-bottom: 15px;
+}
+
+#alert h3 {
+  float: left;
+  margin-top: 8px;
+}
+
+#alert p {
+  clear: both;
+  font-size: 85%;
+}
+
+.score-bar {
+  height: auto;
+  margin-top: 24px;
+  width: 50%;
+}
+
+/* Swipe related */
+.swipe {
+  overflow: hidden;
+  visibility: hidden;
+  position: relative;
+}
+
+.swipe-wrap {
+  overflow: hidden;
+  position: relative;
+}
+
+.swipe-wrap > div {
+  float: left;
+  width: 100%;
+  position: relative;
+}
