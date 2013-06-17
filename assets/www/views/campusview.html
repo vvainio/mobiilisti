@@ -3,12 +3,17 @@
     <h1>Campus View</h1>
   </div>
   <div class="content" data-role="content">
-    <button class="btn" id="increaseScore">+</button>
-    <button class="btn" id="decreaseScore">-</button>
+    <div id="map" class="center">
+      <img src="../assets/img/karttapohja.jpg">
+    </div>
+    <button class="btn" id="setDone">setDone</button>
   </div>
   <div data-role="footer" data-position="fixed">
-    <div class="score-bar center">
-      <div id="progressBar" class="tiny-green"><div></div></div>
-    </div>
+    <div data-role="navbar">
+    <ul>
+      <li><a href="#" data-icon="star" class="ui-btn-active">Tasks</a></li>
+      <li><a href="campusmap.html" data-icon="grid">Campus Map</a></li>
+    </ul>
+  </div><!-- /navbar -->
   </div>
 </div>

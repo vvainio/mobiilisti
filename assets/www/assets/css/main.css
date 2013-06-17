@@ -1,4 +1,4 @@
-body {
+/*body {
   font-size: 120% !important;
 }
 
@@ -8,17 +8,17 @@ body {
   margin: 0.67em 0 0.67em 0 !important;
 }
 
-.ui-header .ui-title {
-  overflow: visible !important;
-  white-space: normal !important;
-}
-
 .ui-header > .ui-btn,.ui-footer > .ui-btn {
   top: 25%;
 }
 
 .ui-btn-text {
   font-size: 2em;
+} */
+
+.ui-header .ui-title {
+  overflow: visible;
+  white-space: normal;
 }
 
 /* Carousel */
@@ -31,8 +31,48 @@ body {
 }
 
 img {
-  max-width:100%;
-  max-height:75%;
+  width: 100%;
+  height: auto;
+  display: block; /* Fix over-sized parent div */
+}
+
+.marker {
+  position: absolute;
+  height: 34px;
+  width: 20px;
+  margin-top: -34px;
+  margin-left: -10px;
+  z-index:100;
+}
+
+.marker-incomplete {
+  background-image: url('../img/marker-incomplete.png');
+}
+
+.marker-complete {
+  background-image: url('../img/marker-complete.png');
+}
+
+.marker-active {
+  -webkit-transform: scale(1.4);
+  -moz-transform: scale(1.4);
+  -o-transform: scale(1.4);
+  -ms-transform: scale(1.4);
+  transform: scale(1.4);
+}
+
+#map { 
+  height: 100%; 
+  position: relative;
+}
+
+.task {
+  display: none;
+}
+
+.complete {
+  cursor: default !important;
+  pointer-events: none;
 }
 
 /* Misc */

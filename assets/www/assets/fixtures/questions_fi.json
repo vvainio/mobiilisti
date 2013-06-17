@@ -11,7 +11,8 @@
         "Puun hinta": "false"
       },
       "weight": 1,
-      "type": "checkbox"
+      "type": "checkbox",
+      "score": false
     },
     {
       "area": "Biopolttoaine",
@@ -23,7 +24,8 @@
         "Evolta Mustialaan": "false"
       },
       "weight": 1,
-      "type": "checkbox"
+      "type": "checkbox",
+      "score": false
     },
     {
       "area": "Jokamiehenoikeudet",
@@ -35,7 +37,8 @@
         "Kerätä makoisia marjoja myyntiin": "true"
       },
       "weight": 1,
-      "type": "checkbox"
+      "type": "checkbox",
+      "score": false
     },
     {
       "area": "Luonnon monimuotoisuus",
@@ -47,8 +50,8 @@
         "Kulottamalla": "true"
       },
       "weight": 1,
-      "type": "checkbox"
+      "type": "checkbox",
+      "score": false
     }
-  ],
-  "timeInterval": 30
+  ]
 }
