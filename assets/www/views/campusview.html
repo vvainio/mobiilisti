@@ -1,19 +1,32 @@
 <div data-role="page" id="campusview" data-theme="c">
   <div data-role="header" data-position="inline" data-theme="b">
-    <h1>Campus View</h1>
+    <h1>Tasks</h1>
   </div>
   <div class="content" data-role="content">
     <div id="map" class="center">
       <img src="../assets/img/karttapohja.jpg">
     </div>
     <button class="btn" id="setDone">setDone</button>
+      <script id="task" type="text/template">
+      <div id="task-{{id}}" class="task">
+        <ul data-role="listview" data-inset="true">
+          <li><a href="taskview.html">
+            <h2>{{area}}</h2>
+            {{#isComplete}}
+              <p>Score: {{score}} / xx</p>
+            {{/isComplete}}
+            </a>
+          </li>
+        </ul>
+      </div>
+      </script>
   </div>
   <div data-role="footer" data-position="fixed">
     <div data-role="navbar">
-    <ul>
-      <li><a href="#" data-icon="star" class="ui-btn-active">Tasks</a></li>
-      <li><a href="campusmap.html" data-icon="grid">Campus Map</a></li>
-    </ul>
-  </div><!-- /navbar -->
+      <ul>
+        <li><a href="#" data-icon="star" class="ui-btn-active">Tasks</a></li>
+        <li><a href="campusmap.html" data-icon="grid">Campus Map</a></li>
+      </ul>
+      </div><!-- /navbar -->
+    </div>
   </div>
-</div>

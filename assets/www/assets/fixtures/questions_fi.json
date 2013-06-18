@@ -1,57 +1,76 @@
 {
-  "campus": "Evo",
-  "questions": [
-    {
-      "area": "Luonnonprosessit, ekologia ja metsät",
-      "question": "Valitse metsien kasvuun vaikuttavat keskeiset tekijät",
-      "answers": {
-        "Kasvupaikka": "true",
-        "Hiilidioksidin määrä": "true",
-        "Edellisen hakkuun ajankohta": "true",
-        "Puun hinta": "false"
-      },
-      "weight": 1,
-      "type": "checkbox",
-      "score": false
-    },
-    {
-      "area": "Biopolttoaine",
-      "question": "Kuinka pitkälle 1m&#179; kokoisesta puusta jalostetulla biopolttoaineella voidaan ajaa?",
-      "answers": {
-        "Helsingistä Hämeenlinnaan": "false",
-        "Helsingistä Ouluun": "false",
-        "Helsingistä Inariin": "true",
-        "Evolta Mustialaan": "false"
-      },
-      "weight": 1,
-      "type": "checkbox",
-      "score": false
-    },
-    {
-      "area": "Jokamiehenoikeudet",
-      "question": "Millä tavoilla jokamiehenoikeudet mahdollistavat luonnossa virkistäytymisen?",
-      "answers": {
-        "Onkia ja pilkkiä tyynellä järvellä": "true",
-        "Retkeillä ja telttailla vehreässä metsässä": "true",
-        "Tehdä tulet ja paistaa maistuvaa makkaraa": "false",
-        "Kerätä makoisia marjoja myyntiin": "true"
-      },
-      "weight": 1,
-      "type": "checkbox",
-      "score": false
-    },
-    {
-      "area": "Luonnon monimuotoisuus",
-      "question": "Metsätaloudessa luonnon monimuotoisuutta tuetaan:",
-      "answers": {
-        "Suosimalla vain yhtä puulajia": "false",
-        "Pitkäjänteisellä suunnittelulla": "true",
-        "Monipuolisilla metsänkäsittelytavoilla": "true",
-        "Kulottamalla": "true"
-      },
-      "weight": 1,
-      "type": "checkbox",
-      "score": false
+  "campuses": [{
+      "campus": "Evo",
+      "x": "25%",
+      "y": "25%",
+      "isComplete": false,
+      "questions": [{
+          "area": "Luonnonprosessit, ekologia ja metsät",
+          "x": "10%",
+          "y": "15%",
+          "question": "Valitse metsien kasvuun vaikuttavat keskeiset tekijät",
+          "answers": {
+            "Kasvupaikka": true,
+            "Hiilidioksidin määrä": true,
+            "Edellisen hakkuun ajankohta": true,
+            "Puun hinta": false
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": false,
+          "isComplete": false
+        }, {
+          "area": "Biopolttoaine",
+          "x": "42%",
+          "y": "42%",
+          "question": "Kuinka pitkälle 1m&#179; kokoisesta puusta jalostetulla biopolttoaineella voidaan ajaa?",
+          "answers": {
+            "Helsingistä Hämeenlinnaan": false,
+            "Helsingistä Ouluun": false,
+            "Helsingistä Inariin": true,
+            "Evolta Mustialaan": false
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": 2,
+          "isComplete": true
+        }, {
+          "area": "Jokamiehenoikeudet",
+          "x": "53%",
+          "y": "89%",
+          "question": "Millä tavoilla jokamiehenoikeudet mahdollistavat luonnossa virkistäytymisen?",
+          "answers": {
+            "Onkia ja pilkkiä tyynellä järvellä": true,
+            "Retkeillä ja telttailla vehreässä metsässä": true,
+            "Tehdä tulet ja paistaa maistuvaa makkaraa": false,
+            "Kerätä makoisia marjoja myyntiin": true
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": false,
+          "isComplete": false
+        }, {
+          "area": "Luonnon monimuotoisuus",
+          "x": "76%",
+          "y": "88%",
+          "question": "Metsätaloudessa luonnon monimuotoisuutta tuetaan:",
+          "answers": {
+            "Suosimalla vain yhtä puulajia": false,
+            "Pitkäjänteisellä suunnittelulla": true,
+            "Monipuolisilla metsänkäsittelytavoilla": true,
+            "Kulottamalla": true
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": false,
+          "isComplete": false
+        }
+      ]
+    }, {
+      "campus": "Forssa",
+      "x": "36%",
+      "y": "85%",
+      "isComplete": false
     }
   ]
 }

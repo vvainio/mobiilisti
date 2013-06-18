@@ -5,11 +5,13 @@ $.ajaxSetup({
 
 /* Globals */
 var Score,
-    Game;
+    Game,
+    data;
 
 // Set default settings
 var selectedCharacter = 0,
-    selectedCampus = 0;
+    selectedCampus = 0,
+    selectedTask;
 
 // jQuery Mobile framework configurations
 $(document).bind("mobileinit", function() {
@@ -54,6 +56,7 @@ $(document).on('pageshow', '#campusselect', function() {
 $(document).on('pageshow', '#campusview', function() {
     Game.start();
 
+    /*
     // Bind NFC listeners
 
     function onNfc(nfcEvent) {
@@ -61,78 +64,25 @@ $(document).on('pageshow', '#campusview', function() {
     }
 
     nfc.addTagDiscoveredListener(onNfc);
+    */
 
-    // Bind markers
-    /* TODO: get data from JSON 
-       this is an test object */
-    var pos = {
-        '25%': '25%',
-        '50%': '50%',
-        '75%': '75%',
-        '100%': '100%'
-    };
-
-    var id = 0;
-
-    $.each(pos, function(key, value) {
-        $('<div/>', {
-            id: 'marker-' + id,
-            class: 'marker marker-incomplete',
-            css: {
-                top: key,
-                left: value,
-            }
-        }).appendTo('#map');
-        id++;
-    });
-
-    // Create tasks
-    /* TODO: get data from JSON
-       this is an test object */
-
-    var jsonData = {};
-
-    $.getJSON('../assets/fixtures/questions_fi.json', function(data) {
-        jsonData = data;
-    }).done(function() {
-        parseJson();
-    });
-
-    function parseJson() {
-        var id = 0;
-        $.each(jsonData.questions, function(key, value) {
-            var area = value.area;
-            createTask(id, area);
-            id++;
-            // Save data to object
+    // Get JSON if data is undefined, else use existing data for parsing
+    if (typeof data == 'undefined') {
+        $.getJSON('../assets/fixtures/questions_fi.json', function(jsonData) {
+            data = jsonData;
+        }).done(function() {
+            Tasks.parseData();
         });
+    } else {
+        Tasks.parseData();
     }
 
-    // TODO: use templating libraries
-
-    function createTask(id, area) {
-        var task =
-            '<div id="task-' + id + '" class="task">' +
-            '<ul data-role="listview" data-inset="true">' +
-            '<li><a href="taskview.html">' +
-            '<h2>' + area + '</h2>' +
-            '<p>Score - / 4</p></a>' +
-            '</li>' +
-            '</ul>' +
-            '</div>';
-        $('#campusview > .content').append(task).trigger('create');
-    }
-
-    var selected_id;
-
-    $('.marker').on('click', function() {
-        var id = $(this).attr('id').replace(/marker-/, ''),
-            element = $('#task-' + id),
-            tasks = $('.task'),
+    $(document).on('click', '.marker', function() {
+        var activePage = $.mobile.activePage[0].id,
+            markerId = $(this).attr('id').replace(/marker-/, ''),
             markers = $('.marker');
 
-        selected_id = id;
-
+        // Set correct marker icons    
         $.each(markers, function() {
             if (!$(this).hasClass('marker-complete')) {
                 $(this).removeClass().addClass('marker marker-incomplete');
@@ -140,30 +90,36 @@ $(document).on('pageshow', '#campusview', function() {
             $(this).removeClass('marker-active');
         });
 
-        $(this).addClass('marker-active');
-        tasks.hide();
-        element.show();
+        if (activePage === 'campusview') {
+            task = $('#task-' + markerId),
+            tasks = $('.task'),
+            selectedTask = markerId;
+            tasks.hide();
+            task.show();
+        } else if (activePage === 'campusmap') {
+            selectedCampus = markerId;
+        } else {
 
-        console.log(selected_id);
+        }
+
+        $(this).addClass('marker-active');
     });
 
+    // DEBUGGING
     $('#setDone').on('click', function() {
-        console.log(selected_id);
-        if (typeof selected_id !== 'undefined') {
-            setTaskComplete(selected_id);
+        if (typeof selectedTask !== 'undefined') {
+            Tasks.setTaskComplete(selectedTask);
         }
     });
+});
 
-    function setTaskComplete(selected_id) {
-        var marker = $('#marker-' + selected_id),
-            task = $('#task-' + selected_id);
 
-        marker.removeClass().addClass('marker marker-active marker-complete');
-        task.find('li').removeClass('ui-btn-up-c').addClass('ui-btn-hover-c complete');
-        task.find('span').attr('class', 'ui-icon ui-icon-check ui-icon-shadow');
-    }
+$(document).on('pageshow', '#campusmap', function() {
+    CampusMap.parseData();
+});
 
-    
+$(document).on('pageshow', '#taskview', function() {
+    Task.parseData(selectedTask);
 });
 
 // Page init
@@ -193,11 +149,13 @@ $(document).on('pageinit', function() {
                     //Game.end();
                 }
             } else {
-                // todo
+                // should not be possible
             }
+            // Refresh scorebar
             Score.display(score);
             console.log(score);
         },
+
         // Display score via progressbar
         display: function(score) {
             var percent = Math.round(score / scoreMax * 100);
@@ -206,6 +164,7 @@ $(document).on('pageinit', function() {
     };
 
     Game = {
+        // Start game
         start: function() {
             // Give bonus points on correct campus selection
             if (selectedCharacter === selectedCampus) {
@@ -213,6 +172,7 @@ $(document).on('pageinit', function() {
                 console.log("+1 bonus points (character === campus)");
             }
         },
+        // Trigger game end
         end: function() {
             $.mobile.changePage("end.html", {
                 transition: "slidedown"
@@ -222,8 +182,138 @@ $(document).on('pageinit', function() {
     };
 
     Task = {
-        createTasks: function(taskId) {
+        parseData: function(id) {
+            /*
+            $.each(data.campuses[selectedCampus].questions[id], function(key, value) {
+                //Task.createQuestion(id, value.x, value.y);
+                console.log(key, ": " + value);
+            });
+            */
+            var index = -1;
+            Handlebars.registerHelper('index', function() {
+                index++;
+                return index;
+            });
 
+            var source = $('#task').html(),
+                rendered = Handlebars.compile(source),
+                context = data.campuses[selectedCampus].questions[id];
+
+            $('.content').html(rendered(context)).trigger('create');
+        }
+    };
+
+    Tasks = {
+        // Parse data for view
+        parseData: function() {
+            var id = 0;
+            $.each(data.campuses[selectedCampus].questions, function(key, value) {
+                Tasks.createMarker(id, value.x, value.y);
+                Tasks.createTask(id, value.area, value.score, value.isComplete);
+                // Set task complete if true
+                if (value.isComplete) {
+                    Tasks.setTaskComplete(id);
+                }
+                // Check if all tasks are complete and set campus complete
+                Tasks.getAllComplete();
+                // Increment ID by one
+                id++;
+            });
+        },
+        // Create markers
+        createMarker: function(id, x, y, isComplete) {
+            $('<div/>', {
+                id: 'marker-' + id,
+                class: 'marker marker-incomplete',
+                css: {
+                    top: x,
+                    left: y
+                }
+            }).appendTo('#map');
+        },
+        // Create tasks
+        createTask: function(id, area, score, isComplete) {
+            var template = $('#task').html(),
+                data = {
+                    id: id,
+                    area: area,
+                    score: score,
+                    isComplete: isComplete
+                },
+                html = Mustache.to_html(template, data);
+
+            $('#campusview > .content').append(html).trigger('create');
+        },
+        // Set task complete
+        setTaskComplete: function(selected_id, score) {
+            var marker = $('#marker-' + selected_id),
+                task = $('#task-' + selected_id);
+
+            marker.removeClass().addClass('marker marker-active marker-complete');
+            task.find('li').removeClass('ui-btn-up-c').addClass('ui-btn-hover-c complete');
+            task.find('span').attr('class', 'ui-icon ui-icon-check ui-icon-shadow');
+
+            data.campuses[selectedCampus].questions[selected_id].isComplete = true;
+            data.campuses[selectedCampus].questions[selected_id].score = score;
+        },
+
+        getAllComplete: function() {
+            var markers = $('.marker');
+            complete = true;
+
+            $.each(markers, function() {
+                if (!$(this).hasClass('marker-complete')) {
+                    complete = false;
+                }
+            });
+            // Set campus complete
+            if (complete === true) {
+                data.campuses[selectedCampus].isComplete = true;
+            }
+        }
+    };
+
+    Markers = {
+        createMarker: function() {
+
+        }
+    };
+
+    CampusMap = {
+        parseData: function() {
+            var id = 0;
+            $.each(data.campuses, function(key, value) {
+                CampusMap.createMarker(id, value.x, value.y);
+                if (value.isComplete) {
+                    CampusMap.setCampusComplete(id);
+                }
+                // Increment ID by one
+                id++;
+            });
+        },
+
+        setCampusComplete: function(id) {
+            var marker = $('#marker-' + id),
+                task = $('#task-' + id);
+
+            marker.removeClass().addClass('marker marker-complete');
+
+            data.campuses[selectedCampus].isComplete = true;
+        },
+
+        createMarker: function(id, x, y, isComplete) {
+            $('<div/>', {
+                id: 'marker-' + id,
+                class: 'marker marker-incomplete',
+                css: {
+                    top: x,
+                    left: y
+                }
+            }).appendTo('#map');
+        },
+
+        selectCampus: function(id) {
+            selectedCampus = id;
         }
     };
 

@@ -1,11 +1,23 @@
-<div data-role="page" id="taskview" data-theme="c">
-  <div data-role="header" data-position="inline" data-theme="b">
-    <h1>Title</h1>
-  </div>
-  <div class="content" data-role="content">
-  <div data-role="footer" data-position="fixed">
-    <div class="score-bar center">
-      <div id="progressBar" class="tiny-green"><div></div></div>
-    </div>
-  </div>
+<div data-role="page" id="taskview">
+	<div data-role="header" data-position="inline">
+		<h1>{{title}}</h1>
+	</div>
+	<div class="content" data-role="content">
+		<script id="task" type="text/x-handlebars-template">
+		<div class="center"><b>{{question}}</b></div>
+		<form>
+			<fieldset data-role="controlgroup">
+					{{#each answers}}
+					<input type="checkbox" name="checkbox-{{index}}" id="checkbox-{{index}}">
+					<label for="checkbox-{{index}}">{{@key}}</label>
+					{{/each}}
+			</fieldset>
+		</form>
+		</script>
+	</div>
+	<div id="footer" data-role="footer" data-position="fixed">
+		<div class="score-bar center">
+			<div id="progressBar" class="tiny-green"><div></div></div>
+		</div>
+	</div>
 </div>
