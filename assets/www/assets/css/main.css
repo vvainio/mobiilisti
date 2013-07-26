@@ -70,10 +70,27 @@ img {
   display: none;
 }
 
+#task-navbar {
+  display: none;
+}
+
 .complete {
   cursor: default !important;
   pointer-events: none;
 }
+
+/* Tasks */
+
+.wrong {
+  background-color: #fb4f4f;
+  color: white;
+}
+
+.correct {
+ background-color: #abcd14;
+ color: white;
+}
+
 
 /* Misc */
 

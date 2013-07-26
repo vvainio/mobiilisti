@@ -11,15 +11,28 @@ var Score,
 // Set default settings
 var selectedCharacter = 0,
     selectedCampus = 0,
-    selectedTask;
+    selectedTask,
+    score = 0;
+
+/* CONSTANTS
+   TODO: Implement a better way?
+*/
+var SCORE_MIN = -15,
+    SCORE_MAX = 16,
+    SCORE_INCREASE_BY = 1,
+    SCORE_DECREASE_BY = 3;
 
 // jQuery Mobile framework configurations
 $(document).bind("mobileinit", function() {
     $.support.cors = true;
     $.mobile.allowCrossDomainPages = true;
     $.mobile.pushStateEnabled = false;
-    $.mobile.defaultPageTransition = 'none';
-
+    $.mobile.defaultPageTransition = 'slide';
+    // Loader settings
+    $.mobile.loader.prototype.options.text = "loading";
+    $.mobile.loader.prototype.options.textVisible = false;
+    $.mobile.loader.prototype.options.theme = "a";
+    $.mobile.loader.prototype.options.html = "";
     /* Theme settings */
     // Page
     $.mobile.page.prototype.options.headerTheme = "a";
@@ -27,13 +40,20 @@ $(document).bind("mobileinit", function() {
     $.mobile.page.prototype.options.footerTheme = "a";
 });
 
+$(document).on('pagebeforecreate', '[data-role="page"]', function() {
+    setTimeout(function() {
+        $.mobile.loading('show');
+    }, 1);
+});
+
+$(document).on('pageshow', '[data-role="page"]', function() {
+    setTimeout(function() {
+        $.mobile.loading('hide');
+    }, 300);
+});
+
 // Sliders
 $(document).on('pageshow', '#characterselect', function() {
-    /*
-    $("img").photoResize({
-        bottomSpacing: 15
-    });
-    */
     // Initialize slider with selected character
     window.slider = new Swipe(document.getElementById('slider'), {
         startSlide: selectedCharacter,
@@ -53,33 +73,28 @@ $(document).on('pageshow', '#campusselect', function() {
     });
 });
 
+$(document).on('pageshow', '#guide', function() {
+    // Initialize slider with selected campus
+    window.slider = new Swipe(document.getElementById('slider'), {
+        startSlide: selectedCampus,
+        callback: function(index, elem) {
+            selectedCampus = slider.getPos();
+        }
+    });
+    // Give bonus points on correct campus selection
+    if (selectedCharacter === selectedCampus) {
+        Score.count("increase");
+        console.log("+1 bonus points (character === campus)");
+    }
+});
+
 $(document).on('pageshow', '#campusview', function() {
-    Game.start();
-
-    /*
-    // Bind NFC listeners
-
-    function onNfc(nfcEvent) {
-        alert("NFC detected");
-    }
-
-    nfc.addTagDiscoveredListener(onNfc);
-    */
-
-    // Get JSON if data is undefined, else use existing data for parsing
-    if (typeof data == 'undefined') {
-        $.getJSON('../assets/fixtures/questions_fi.json', function(jsonData) {
-            data = jsonData;
-        }).done(function() {
-            Tasks.parseData();
-        });
-    } else {
-        Tasks.parseData();
-    }
+    Game.loadData();
+    //Nfc.bindEvents();
 
     $(document).on('click', '.marker', function() {
         var activePage = $.mobile.activePage[0].id,
-            markerId = $(this).attr('id').replace(/marker-/, ''),
+            markerId = parseInt($(this).attr('id').replace(/marker-/, ''), 10),
             markers = $('.marker');
 
         // Set correct marker icons    
@@ -98,18 +113,15 @@ $(document).on('pageshow', '#campusview', function() {
             task.show();
         } else if (activePage === 'campusmap') {
             selectedCampus = markerId;
+            if (data.campuses[selectedCampus].isComplete) {
+                // TODO
+                console.log('Campus complete!');
+            }
         } else {
 
         }
 
         $(this).addClass('marker-active');
-    });
-
-    // DEBUGGING
-    $('#setDone').on('click', function() {
-        if (typeof selectedTask !== 'undefined') {
-            Tasks.setTaskComplete(selectedTask);
-        }
     });
 });
 
@@ -119,155 +131,248 @@ $(document).on('pageshow', '#campusmap', function() {
 });
 
 $(document).on('pageshow', '#taskview', function() {
-    Task.parseData(selectedTask);
+    Score.display();
+
+    var correctAnswers = Task.parseData(selectedTask),
+        submitBtn = $('[type="submit"]');
+
+    submitBtn.button('disable');
+
+    $('#taskForm').find('input, checkbox').change(function() {
+        if ($('input[type=checkbox]:checked').length >= 1) {
+            console.log('checkbox checked');
+            submitBtn.button('enable');
+        } else {
+            submitBtn.button('disable');
+        }
+    });
+
+    // Handle form submit
+    $('#taskForm').submit(function() {
+        var score = 0,
+            maxScore = correctAnswers.length,
+            answers = $('input[type=checkbox]:checked').map(function() {
+                return $(this).parent().text().trim();
+            }).get();
+
+        answers.sort();
+        correctAnswers.sort();
+
+        for (i = 0; i < answers.length; i++) {
+            if ($.inArray(answers[i], correctAnswers) != -1) {
+                Score.count("increase");
+                //total += SCORE_INCREASE_BY;
+                score++;
+            } else {
+                Score.count("decrease");
+                //total -= SCORE_DECREASE_BY;
+            }
+        }
+
+        // TODO: Implement timeout
+        $('input[type=checkbox]').attr("disabled", true);
+        submitBtn.button('disable');
+        submitBtn.fadeOut(1600, function() {
+            $('#task-navbar').fadeIn(1600, function() {
+                $('#taskview').trigger('refresh');
+            });
+        });
+
+        CampusView.setTaskComplete({
+            id: selectedTask,
+            score: score,
+            maxScore: maxScore
+        });
+
+        Score.display();
+
+        return false;
+    });
+    /* 
+    $(document).on('click', '#next-task-btn', function() {
+        var questions = data.campuses[selectedCampus].questions;
+
+        var hasNext = function () {
+            return !(selectedTask >= questions.length - 1);
+        };
+
+        if (hasNext) {
+            selectedTask++;
+            console.log("Next question");
+        }
+        else {
+            console.log("No more questions");
+        }
+
+        $.mobile.changePage('#taskview', {
+            allowSamePageTransition: true,
+            transition: 'flip',
+            reloadPage: true
+        });
+    });
+*/
 });
 
-// Page init
+// Page init 
 $(document).on('pageinit', function() {
 
-    var score = 8,
-        scoreMin = 0,
-        scoreMax = 16,
-        scoreIncreaseBy = 1,
-        scoreDecreaseBy = 3;
-
-    // Functions
     Score = {
-        // Count score
         count: function(action) {
             if (action === "increase") {
-                score += scoreIncreaseBy;
+                score += SCORE_INCREASE_BY;
 
-                if (score >= scoreMax) {
-                    score = scoreMax;
+                if (score >= SCORE_MAX) {
+                    score = SCORE_MAX;
                 }
             } else if (action === "decrease") {
-                score -= scoreDecreaseBy;
+                score -= SCORE_DECREASE_BY;
 
-                if (score <= scoreMin) {
-                    score = scoreMin;
+                if (score <= SCORE_MIN) {
+                    score = SCORE_MIN;
                     //Game.end();
                 }
             } else {
                 // should not be possible
             }
-            // Refresh scorebar
-            Score.display(score);
             console.log(score);
         },
 
         // Display score via progressbar
-        display: function(score) {
-            var percent = Math.round(score / scoreMax * 100);
+        display: function() {
+            var percent = Math.round(score / SCORE_MAX * 100);
             progressBar(percent, $('#progressBar'));
         }
     };
 
     Game = {
-        // Start game
-        start: function() {
-            // Give bonus points on correct campus selection
-            if (selectedCharacter === selectedCampus) {
-                Score.count("increase");
-                console.log("+1 bonus points (character === campus)");
+        // Load JSON data
+        loadData: function() {
+            if (typeof data == 'undefined') {
+                console.log('No previous data found - loading JSON');
+                $.getJSON('../assets/fixtures/questions_fi.json', function(jsonData) {
+                    data = jsonData;
+                }).done(function() {
+                    CampusView.parseData();
+                });
+            } else {
+                console.log('Previous data found');
+                CampusView.parseData();
             }
         },
+
         // Trigger game end
         end: function() {
             $.mobile.changePage("end.html", {
                 transition: "slidedown"
             });
         }
-
     };
 
     Task = {
         parseData: function(id) {
-            /*
-            $.each(data.campuses[selectedCampus].questions[id], function(key, value) {
-                //Task.createQuestion(id, value.x, value.y);
-                console.log(key, ": " + value);
-            });
-            */
-            var index = -1;
-            Handlebars.registerHelper('index', function() {
+            var question = data.campuses[selectedCampus].questions[id].question,
+                index = 0,
+                tasks = [];
+
+            $('#question').html("<b>" + question + "</b>");
+
+            $.each(data.campuses[selectedCampus].questions[id].answers, function(key, value) {
+                var html = "<input type='checkbox' name='checkbox-" + index + "' id='checkbox-" + index + "'>" +
+                    "<label for='checkbox-" + index + "'>" + key + "</label>";
+
+                $('form > fieldset').append(html);
+
+                if (value === true) {
+                    tasks.push(key);
+                }
+
                 index++;
-                return index;
             });
 
-            var source = $('#task').html(),
-                rendered = Handlebars.compile(source),
-                context = data.campuses[selectedCampus].questions[id];
+            $('#taskview').trigger('create');
 
-            $('.content').html(rendered(context)).trigger('create');
+            return tasks;
         }
     };
 
-    Tasks = {
+    CampusView = {
         // Parse data for view
         parseData: function() {
-            var id = 0;
-            $.each(data.campuses[selectedCampus].questions, function(key, value) {
-                Tasks.createMarker(id, value.x, value.y);
-                Tasks.createTask(id, value.area, value.score, value.isComplete);
+            $.each(data.campuses[selectedCampus].questions, function(index, value) {
+                CampusView.createMarker({
+                    id: index,
+                    x: value.x,
+                    y: value.y
+                });
+                CampusView.createTask({
+                    id: index,
+                    area: value.area,
+                    score: value.score,
+                    maxScore: value.maxScore,
+                    isComplete: value.isComplete
+                });
                 // Set task complete if true
                 if (value.isComplete) {
-                    Tasks.setTaskComplete(id);
+                    CampusView.setTaskComplete({
+                        id: index,
+                        score: value.score,
+                        maxScore: value.maxScore
+                    });
                 }
                 // Check if all tasks are complete and set campus complete
-                Tasks.getAllComplete();
-                // Increment ID by one
-                id++;
+                CampusView.checkComplete();
             });
         },
         // Create markers
-        createMarker: function(id, x, y, isComplete) {
+        createMarker: function(obj) {
             $('<div/>', {
-                id: 'marker-' + id,
+                id: 'marker-' + obj.id,
                 class: 'marker marker-incomplete',
                 css: {
-                    top: x,
-                    left: y
+                    top: obj.x,
+                    left: obj.y
                 }
             }).appendTo('#map');
         },
         // Create tasks
-        createTask: function(id, area, score, isComplete) {
+        createTask: function(obj) {
             var template = $('#task').html(),
                 data = {
-                    id: id,
-                    area: area,
-                    score: score,
-                    isComplete: isComplete
+                    id: obj.id,
+                    area: obj.area,
+                    score: obj.score,
+                    maxScore: obj.maxScore,
+                    isComplete: obj.isComplete
                 },
                 html = Mustache.to_html(template, data);
 
             $('#campusview > .content').append(html).trigger('create');
         },
         // Set task complete
-        setTaskComplete: function(selected_id, score) {
-            var marker = $('#marker-' + selected_id),
-                task = $('#task-' + selected_id);
+        setTaskComplete: function(obj) {
+            var marker = $('#marker-' + obj.id),
+                task = $('#task-' + obj.id);
 
             marker.removeClass().addClass('marker marker-active marker-complete');
             task.find('li').removeClass('ui-btn-up-c').addClass('ui-btn-hover-c complete');
             task.find('span').attr('class', 'ui-icon ui-icon-check ui-icon-shadow');
 
-            data.campuses[selectedCampus].questions[selected_id].isComplete = true;
-            data.campuses[selectedCampus].questions[selected_id].score = score;
+            data.campuses[selectedCampus].questions[obj.id].isComplete = true;
+            data.campuses[selectedCampus].questions[obj.id].score = obj.score;
+            data.campuses[selectedCampus].questions[obj.id].maxScore = obj.maxScore;
         },
 
-        getAllComplete: function() {
-            var markers = $('.marker');
-            complete = true;
+        checkComplete: function() {
+            var isComplete = true;
 
-            $.each(markers, function() {
+            $.each($('.marker'), function() {
                 if (!$(this).hasClass('marker-complete')) {
-                    complete = false;
+                    isComplete = false;
                 }
             });
-            // Set campus complete
-            if (complete === true) {
+
+            // Set campus status to complete
+            if (isComplete === true) {
                 data.campuses[selectedCampus].isComplete = true;
             }
         }
@@ -281,14 +386,15 @@ $(document).on('pageinit', function() {
 
     CampusMap = {
         parseData: function() {
-            var id = 0;
-            $.each(data.campuses, function(key, value) {
-                CampusMap.createMarker(id, value.x, value.y);
+            $.each(data.campuses, function(index, value) {
+                CampusMap.createMarker({
+                    id: index,
+                    x: value.x,
+                    y: value.y
+                });
                 if (value.isComplete) {
-                    CampusMap.setCampusComplete(id);
+                    CampusMap.setCampusComplete(index);
                 }
-                // Increment ID by one
-                id++;
             });
         },
 
@@ -296,24 +402,48 @@ $(document).on('pageinit', function() {
             var marker = $('#marker-' + id),
                 task = $('#task-' + id);
 
-            marker.removeClass().addClass('marker marker-complete');
+            if (id === selectedCampus) {
+                marker.removeClass().addClass('marker marker-active marker-complete');
+            } else {
+                marker.removeClass().addClass('marker marker-complete');
+            }
 
             data.campuses[selectedCampus].isComplete = true;
         },
 
-        createMarker: function(id, x, y, isComplete) {
-            $('<div/>', {
-                id: 'marker-' + id,
-                class: 'marker marker-incomplete',
-                css: {
-                    top: x,
-                    left: y
-                }
-            }).appendTo('#map');
+        createMarker: function(obj) {
+            if (obj.id === selectedCampus) {
+                $('<div/>', {
+                    id: 'marker-' + obj.id,
+                    class: 'marker marker-active marker-incomplete',
+                    css: {
+                        top: obj.x,
+                        left: obj.y
+                    }
+                }).appendTo('#map');
+            } else {
+                $('<div/>', {
+                    id: 'marker-' + obj.id,
+                    class: 'marker marker-incomplete',
+                    css: {
+                        top: obj.x,
+                        left: obj.y
+                    }
+                }).appendTo('#map');
+            }
         },
 
         selectCampus: function(id) {
             selectedCampus = id;
+        }
+    };
+
+    Nfc = {
+        bindEvents: function() {
+            function onNfc(nfcEvent) {
+                alert("NFC detected");
+            }
+            nfc.addTagDiscoveredListener(onNfc);
         }
     };
 

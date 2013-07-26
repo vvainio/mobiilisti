@@ -32,8 +32,8 @@
           },
           "weight": 1,
           "type": "checkbox",
-          "score": 2,
-          "isComplete": true
+          "score": false,
+          "isComplete": false
         }, {
           "area": "Jokamiehenoikeudet",
           "x": "53%",

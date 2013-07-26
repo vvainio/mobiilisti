@@ -1,19 +1,19 @@
 <div data-role="page" id="taskview">
 	<div data-role="header" data-position="inline">
-		<h1>{{title}}</h1>
+		<h1 id="title">Question</h1>
 	</div>
 	<div class="content" data-role="content">
-		<script id="task" type="text/x-handlebars-template">
-		<div class="center"><b>{{question}}</b></div>
-		<form>
+		<div id="question" class="center"></div>
+		<form id="taskForm">
 			<fieldset data-role="controlgroup">
-					{{#each answers}}
-					<input type="checkbox" name="checkbox-{{index}}" id="checkbox-{{index}}">
-					<label for="checkbox-{{index}}">{{@key}}</label>
-					{{/each}}
 			</fieldset>
+			<input id="task-submit-btn" type="submit" value="Submit">
 		</form>
-		</script>
+		<div id="task-navbar" data-role="navbar">
+			<ul>
+				<li><a href="campusview.html">Back to Campus View</a></li>
+			</ul>
+		</div>
 	</div>
 	<div id="footer" data-role="footer" data-position="fixed">
 		<div class="score-bar center">
