@@ -4,6 +4,7 @@
       "x": "25%",
       "y": "25%",
       "isComplete": false,
+      "description": "Metsätalous",
       "questions": [{
           "area": "Luonnonprosessit, ekologia ja metsät",
           "x": "10%",
@@ -63,14 +64,207 @@
           "weight": 1,
           "type": "checkbox",
           "score": false,
-          "isComplete": false
         }
       ]
     }, {
       "campus": "Forssa",
       "x": "36%",
       "y": "85%",
-      "isComplete": false
+      "isComplete": false,
+      "description": "Kestävä kehitys",
+      "questions": [{
+          "area": "Ilmaston lämpeneminen ja hiilijalanjälki",
+          "x": "10%",
+          "y": "15%",
+          "question": "Mitä hiilijalanjälki mielestäsi tarkoittaa?",
+          "answers": {
+            "Tuotteeseen, esim. kenkiisi on tarttunut nokea ja niistä jää mitattava jälki parkettiin": false,
+            "Tuotteen tai esim. jalkaterän ääriviivat piirrettynä hiilellä": false,
+            "Tuotteen, toiminnan tai palvelun aiheuttama kasvihuonekaasupäästö": true,
+            "Tuotteen polttamisesta jäljelle jäävä tuhkamäärä": false
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": false,
+          "isComplete": false
+        }, {
+          "area": "Luonnonvarat",
+          "x": "42%",
+          "y": "42%",
+          "question": "Miten muuttaisit lähiympäristöä, jotta luonnonvarat saataisiin tehokkaasti ja kestävästi hyödynnettyä?",
+          "answers": {
+            "En mitenkään, lähinnä suojelisin, että kohde säilyisi ennallaan": true,
+            "Uudistaisin voimalaitoksen generaattorit (parempi hyötysuhde)": true,
+            "Sivuoja tulisi tukkia, jotta voimalaitokseen saataisiin enemmän vettä myös kesällä": true,
+            "Korottaisin patoa 2m ja tekisin tekoaltaan, jotta myös tulvavesi saataisiin hyödynnettyä": false
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": 2,
+          "isComplete": true
+        }, {
+          "area": "Jätehuolto",
+          "x": "53%",
+          "y": "89%",
+          "question": "Mitä hyötyä on jätteenlajittelusta?",
+          "answers": {
+            "Ei mitään, koska huhujen mukaan menevät kaatiksella samaan kasaan kuitenkin": false,
+            "Jätteen kierrätyskelpoinen osuus voidaan uudelleen käyttää": true,
+            "Se työllistää mm. ympäristösuunnittelijoita": true,
+            "Ei mitään, sillä suomalaisten jäte on niin tasapaksua": false
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": false,
+          "isComplete": false
+        }, {
+          "area": "Kansainvälinen yhteisvastuullisuus kestävässä kehityksessä",
+          "x": "76%",
+          "y": "88%",
+          "question": "Valitse tuntemasi ympäristösopimukset:",
+          "answers": {
+            "Rio Tinto": false,
+            "Rio+20": true,
+            "Kioto": true,
+            "FC Air 2020": false
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": false,
+        }
+      ]
+    },
+    {
+      "campus": "Lepaa",
+      "x": "66%",
+      "y": "15%",
+      "isComplete": false,
+      "description": "Viherala",
+      "questions": [{
+          "area": "Omenalajike",
+          "x": "10%",
+          "y": "15%",
+          "question": "Mitä omenalajike kuvassa on kyseessä?",
+          "answers": {
+            "Lepaan puikula": false,
+            "Lepaan liereä": true,
+            "Lepaan vireä": true,
+            "Lepaan kireä": false
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": false,
+          "isComplete": false
+        }, {
+          "area": "Hulevedet",
+          "x": "42%",
+          "y": "42%",
+          "question": "Millä keinoilla pystytään viivyttämään hulevesiä?",
+          "answers": {
+            "Viherkatoilla": true,
+            "Kovilla, kallistetuilla pinnoilla": false,
+            "Leveämmillä kiveyksen saumoilla": true,
+            "Sadettimilla": false
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": 2,
+          "isComplete": true
+        }, {
+          "area": "Lepaan kasvihuone",
+          "x": "53%",
+          "y": "89%",
+          "question": "Mikä on Lepaan kasvihuoneen tomaatin hiilijalanjälki suhteessa hollantilaiseen tomaattiin?",
+          "answers": {
+            "Parempi": true,
+            "Huonompi": false,
+            "Sama": false
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": false,
+          "isComplete": false
+        }, {
+          "area": "Viini omasta sadosta",
+          "x": "76%",
+          "y": "88%",
+          "question": "Miksi omenat kannattaa kerätä omaan pulloon?",
+          "answers": {
+            "Humala omista raaka-aineista": true,
+            "Pienempi moraalinen krapula": true,
+            "Ei tarvitse ajaa kauppaan": true,
+            "Eurot pysyvät himassa": true
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": false,
+        }
+      ]
+    },
+    {
+      "campus": "Mustiala",
+      "x": "22%",
+      "y": "84%",
+      "isComplete": false,
+      "description": "Maaseutuelinkeinot",
+      "questions": [{
+          "area": "Maatiaiseläin",
+          "x": "10%",
+          "y": "15%",
+          "question": "Miten säilytämme geneettistä monimuotoisuutta? Kasvattamalla:",
+          "answers": {
+            "Maatuvia tiaisia": false,
+            "Maatiaisia": true,
+            "Jalostettuja rotuja": true,
+            "Lapin lehmiä": true
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": false,
+          "isComplete": false
+        }, {
+          "area": "Mehiläiset",
+          "x": "42%",
+          "y": "42%",
+          "question": "Miksi mehiläiset ovat tärkeitä?",
+          "answers": {
+            "Kasvien pölyttäjinä": true,
+            "Lasten kiusaajina": false,
+            "Makeutusaineiden tuottajina": true,
+            "Hyttysten karkoittajina": false
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": 2,
+          "isComplete": true
+        }, {
+          "area": "Olut",
+          "x": "53%",
+          "y": "89%",
+          "question": "Kuinka monta ohramallaskiloa tarvitset 4,7 %-olutlitran tuottamiseksi?",
+          "answers": {
+            "Insert a slider between 10g-500g (correct answer 200g)": true,
+          },
+          "weight": 1,
+          "type": "slider",
+          "score": false,
+          "isComplete": false
+        }, {
+          "area": "Maaseudun kehittäminen",
+          "x": "76%",
+          "y": "88%",
+          "question": "Maaseutu on mahdollista säilyttää elävänä, kun:",
+          "answers": {
+            "Etätyö- ja mobiilityö ovat mahdollista": true,
+            "Toimitaan yhteisöllisesti ja yrittäjämäisesti": true,
+            "Käytetään lähipalveluita": true,
+            "Hyödynnetään hankerahoitusta paikallisesti": true
+          },
+          "weight": 1,
+          "type": "checkbox",
+          "score": false,
+        }
+      ]
     }
   ]
 }
