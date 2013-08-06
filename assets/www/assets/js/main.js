@@ -462,4 +462,21 @@ $(document).on('pageinit', function() {
     $('#decreaseScore').on('click', function() {
         Score.count("decrease");
     });
+
+    /* DEBUGGING */
+    
+    $('#setTaskComplete').on('click', function() {
+        CampusView.setTaskComplete({
+            id: selectedTask
+            });
+        });
+
+    $('#setCampusComplete').on('click', function() {
+        for (var i = 0; i < 4; i++) {
+            CampusView.setTaskComplete({
+                id: i
+            });
+        }
+        CampusMap.setCampusComplete(selectedCampus);
+    });
 });

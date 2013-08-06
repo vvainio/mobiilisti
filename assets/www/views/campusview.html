@@ -1,6 +1,15 @@
 <div data-role="page" id="campusview" data-theme="c">
   <div data-role="header" data-position="inline" data-theme="b">
     <h1 id="title"></h1>
+  <!-- Debugging -->
+  <a href="#popupMenu" data-rel="popup" data-role="button" data-inline="true" data-transition="slidedown" data-icon="gear" data-theme="a" class="ui-btn-right">Debugging</a>
+ <div data-role="popup" id="popupMenu" data-theme="d">
+    <ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="d">
+        <li><a href="#" id="setTaskComplete">Set task complete</a></li>
+        <li><a href="#" id="setCampusComplete">Set campus complete</a></li>
+    </ul>
+</div>
+  <!-- Debugging ends -->
   </div>
   <div class="content" data-role="content">
     <div id="map" class="center">
