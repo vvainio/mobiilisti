@@ -92,6 +92,13 @@ $(document).on('pageshow', '#campusview', function() {
     Game.loadData();
     //Nfc.bindEvents();
 
+    if (typeof selectedTask != 'undefined') {
+        var task = $('#task-' + selectedTask);
+        var marker = $('#marker-' + selectedTask);
+        marker.addClass('marker-active');
+        task.show();
+    }
+
     $(document).on('click', '.marker', function() {
         var activePage = $.mobile.activePage[0].id,
             markerId = parseInt($(this).attr('id').replace(/marker-/, ''), 10),
@@ -112,7 +119,11 @@ $(document).on('pageshow', '#campusview', function() {
             tasks.hide();
             task.show();
         } else if (activePage === 'campusmap') {
+            campus = $('#campus-' + markerId);
+            campuses = $('.task');
             selectedCampus = markerId;
+            campuses.hide();
+            campus.show();
             if (data.campuses[selectedCampus].isComplete) {
                 // TODO
                 console.log('Campus complete!');
@@ -124,7 +135,6 @@ $(document).on('pageshow', '#campusview', function() {
         $(this).addClass('marker-active');
     });
 });
-
 
 $(document).on('pageshow', '#campusmap', function() {
     CampusMap.parseData();
@@ -392,6 +402,14 @@ $(document).on('pageinit', function() {
                     x: value.x,
                     y: value.y
                 });
+                ///// NEW /////
+                CampusMap.createTask({
+                    id: index,
+                    campus: value.campus,
+                    description: value.description,
+                    isComplete: value.isComplete
+                });
+                // Set task complete if true
                 if (value.isComplete) {
                     CampusMap.setCampusComplete(index);
                 }
@@ -400,14 +418,18 @@ $(document).on('pageinit', function() {
 
         setCampusComplete: function(id) {
             var marker = $('#marker-' + id),
-                task = $('#task-' + id);
+                campus = $('#campus-' + id);
 
+            marker.removeClass().addClass('marker marker-active marker-complete');
+            campus.find('li').removeClass('ui-btn-up-c').addClass('ui-btn-hover-c complete');
+            campus.find('span').attr('class', 'ui-icon ui-icon-check ui-icon-shadow');
+/*
             if (id === selectedCampus) {
                 marker.removeClass().addClass('marker marker-active marker-complete');
             } else {
                 marker.removeClass().addClass('marker marker-complete');
             }
-
+*/
             data.campuses[selectedCampus].isComplete = true;
         },
 
@@ -432,7 +454,19 @@ $(document).on('pageinit', function() {
                 }).appendTo('#map');
             }
         },
+        // Create tasks
+        createTask: function(obj) {
+            var template = $('#campus').html(),
+                data = {
+                    id: obj.id,
+                    campus: obj.campus,
+                    description: obj.description,
+                    isComplete: obj.isComplete
+                },
+                html = Mustache.to_html(template, data);
 
+            $('#campusmap > .content').append(html).trigger('create');
+        },
         selectCampus: function(id) {
             selectedCampus = id;
         }
@@ -451,15 +485,5 @@ $(document).on('pageinit', function() {
     // Hide alerts
     $('#alert').on('click', function() {
         $('#alert').fadeOut();
-    });
-
-    // Increase score
-    $('#increaseScore').on('click', function() {
-        Score.count("increase");
-    });
-
-    // Decrease score
-    $('#decreaseScore').on('click', function() {
-        Score.count("decrease");
     });
 });

@@ -6,7 +6,20 @@
     <div id="map" class="center">
       <img src="../assets/img/campusmap.jpg">
     </div>
-  </div>
+      <script id="campus" type="text/template">
+      <div id="campus-{{id}}" class="task">
+        <ul data-role="listview" data-inset="true">
+          <li><a href="campusview.html">
+            <h2>{{campus}}</h2>
+            <p>{{description}}</p>
+            {{#isComplete}}
+              <p>Score: {{score}} / {{maxScore}}</p>
+            {{/isComplete}}
+            </a>
+          </li>
+        </ul>
+      </div>
+      </script>
   <div data-role="footer" data-position="fixed">
     <div data-role="navbar">
       <ul>
