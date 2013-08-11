@@ -138,6 +138,7 @@ $(document).on('pageshow', '#campusview', function() {
 
 $(document).on('pageshow', '#campusmap', function() {
     CampusMap.parseData();
+    CampusMap.checkComplete();
 });
 
 $(document).on('pageshow', '#taskview', function() {
@@ -273,6 +274,12 @@ $(document).on('pageinit', function() {
         // Trigger game end
         end: function() {
             $.mobile.changePage("end.html", {
+                transition: "slidedown"
+            });
+        },
+
+        complete: function() {
+            $.mobile.changePage("complete.html", {
                 transition: "slidedown"
             });
         }
@@ -469,6 +476,20 @@ $(document).on('pageinit', function() {
         },
         selectCampus: function(id) {
             selectedCampus = id;
+        },
+
+        checkComplete: function() {
+            var allComplete = true;
+
+            $.each(data.campuses, function(index, value) {
+                if (!value.isComplete) {
+                    allComplete = false;
+                }
+            });
+
+            if (allComplete) {
+                Game.complete();
+            }
         }
     };
 
@@ -485,5 +506,32 @@ $(document).on('pageinit', function() {
     // Hide alerts
     $('#alert').on('click', function() {
         $('#alert').fadeOut();
+    });
+
+    // Increase score
+    $('#increaseScore').on('click', function() {
+        Score.count("increase");
+    });
+
+    // Decrease score
+    $('#decreaseScore').on('click', function() {
+        Score.count("decrease");
+    });
+
+    /* DEBUGGING */
+    
+    $('#setTaskComplete').on('click', function() {
+        CampusView.setTaskComplete({
+            id: selectedTask
+            });
+        });
+
+    $('#setCampusComplete').on('click', function() {
+        for (var i = 0; i < 4; i++) {
+            CampusView.setTaskComplete({
+                id: i
+            });
+        }
+        CampusMap.setCampusComplete(selectedCampus);
     });
 });
