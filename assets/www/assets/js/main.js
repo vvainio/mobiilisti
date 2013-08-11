@@ -4,19 +4,9 @@ $.ajaxSetup({
 });
 
 /* Globals */
-var Score,
-    Game,
-    data;
+var Score, Game, data, selectedCharacter, selectedCampus, selectedTask, score;
 
-// Set default settings
-var selectedCharacter = 0,
-    selectedCampus = 0,
-    selectedTask,
-    score = 0;
-
-/* CONSTANTS
-   TODO: Implement a better way?
-*/
+/* CONSTANTS */
 var SCORE_MIN = -15,
     SCORE_MAX = 16,
     SCORE_INCREASE_BY = 1,
@@ -38,6 +28,10 @@ $(document).bind("mobileinit", function() {
     $.mobile.page.prototype.options.headerTheme = "a";
     $.mobile.page.prototype.options.contentTheme = "c";
     $.mobile.page.prototype.options.footerTheme = "a";
+});
+
+$(document).on('pageshow', '#containerPage', function() {
+    Game.init();
 });
 
 $(document).on('pagebeforecreate', '[data-role="page"]', function() {
@@ -89,15 +83,11 @@ $(document).on('pageshow', '#guide', function() {
 });
 
 $(document).on('pageshow', '#campusview', function() {
-    Game.loadData();
     //Nfc.bindEvents();
+    // Set header
+    $('#title').html(data.campuses[selectedCampus].campus);
 
-    if (typeof selectedTask != 'undefined') {
-        var task = $('#task-' + selectedTask);
-        var marker = $('#marker-' + selectedTask);
-        marker.addClass('marker-active');
-        task.show();
-    }
+    CampusView.parseData();
 
     $(document).on('click', '.marker', function() {
         var activePage = $.mobile.activePage[0].id,
@@ -122,23 +112,38 @@ $(document).on('pageshow', '#campusview', function() {
             campus = $('#campus-' + markerId);
             campuses = $('.task');
             selectedCampus = markerId;
+            selectedTask = undefined;
             campuses.hide();
             campus.show();
             if (data.campuses[selectedCampus].isComplete) {
                 // TODO
                 console.log('Campus complete!');
             }
-        } else {
-
-        }
+        } else { }
 
         $(this).addClass('marker-active');
     });
+/*
+    if (typeof selectedTask != 'undefined') {
+        var task = $('#task-' + selectedTask);
+        var marker = $('#marker-' + selectedTask);
+        marker.addClass('marker-active');
+        task.show();
+    }
+*/
+    CampusView.checkComplete();
 });
 
 $(document).on('pageshow', '#campusmap', function() {
     CampusMap.parseData();
     CampusMap.checkComplete();
+
+    if (typeof selectedCampus != 'undefined') {
+        var campus = $('#campus-' + selectedCampus);
+        var marker = $('#marker-' + selectedCampus);
+        marker.addClass('marker-active');
+        campus.show();
+    }
 });
 
 $(document).on('pageshow', '#taskview', function() {
@@ -224,6 +229,9 @@ $(document).on('pageshow', '#taskview', function() {
 */
 });
 
+$(document).on('pageshow', '#highscore', function() {
+    Highscore.createList();
+});
 // Page init 
 $(document).on('pageinit', function() {
 
@@ -256,18 +264,22 @@ $(document).on('pageinit', function() {
     };
 
     Game = {
+        init: function() {
+            selectedCharacter = 0,
+            selectedCampus = 0,
+            selectedTask = undefined,
+            score = 0;
+            data = undefined;
+            Game.loadData();
+        },
+
         // Load JSON data
         loadData: function() {
             if (typeof data == 'undefined') {
                 console.log('No previous data found - loading JSON');
-                $.getJSON('../assets/fixtures/questions_fi.json', function(jsonData) {
+                $.getJSON('./assets/fixtures/questions_fi.json', function(jsonData) {
                     data = jsonData;
-                }).done(function() {
-                    CampusView.parseData();
                 });
-            } else {
-                console.log('Previous data found');
-                CampusView.parseData();
             }
         },
 
@@ -335,9 +347,7 @@ $(document).on('pageinit', function() {
                         score: value.score,
                         maxScore: value.maxScore
                     });
-                }
-                // Check if all tasks are complete and set campus complete
-                CampusView.checkComplete();
+                }                
             });
         },
         // Create markers
@@ -388,9 +398,9 @@ $(document).on('pageinit', function() {
                 }
             });
 
-            // Set campus status to complete
             if (isComplete === true) {
                 data.campuses[selectedCampus].isComplete = true;
+                $.mobile.changePage("campusmap.html");
             }
         }
     };
@@ -461,7 +471,7 @@ $(document).on('pageinit', function() {
                 }).appendTo('#map');
             }
         },
-        // Create tasks
+
         createTask: function(obj) {
             var template = $('#campus').html(),
                 data = {
@@ -490,6 +500,27 @@ $(document).on('pageinit', function() {
             if (allComplete) {
                 Game.complete();
             }
+        }
+    };
+
+    Highscore = {
+        parseData: function() {
+            $.each(data.campuses, function(index, value) {
+                Highscore.createList({
+                    campus: value.campus,
+                    description: value.description,
+                    isComplete: value.isComplete
+                });
+            });
+        },
+
+        createList: function(obj) {
+            var template = $('#highscorelist').html(),
+                html = Mustache.to_html(template, data);
+
+            console.log(data);
+
+            $('#highscore > .content').append(html).trigger('create');
         }
     };
 

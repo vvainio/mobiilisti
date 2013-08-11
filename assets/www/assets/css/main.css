@@ -54,11 +54,9 @@ img {
 }
 
 .marker-active {
-  -webkit-transform: scale(1.333);
-  -moz-transform: scale(1.333);
-  -o-transform: scale(1.333);
-  -ms-transform: scale(1.333);
-  transform: scale(1.333);
+  transform: scale(1.3,1.3);
+  -ms-transform: scale(1.3,1.3);
+  -webkit-transform: scale(1.3,1.3);
 }
 
 #map { 

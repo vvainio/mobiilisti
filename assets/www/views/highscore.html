@@ -1,1 +1,28 @@
-highscore.html
+<div data-role="page" id="highscore">
+  <div data-role="header" data-position="inline">
+      <h1 id="title">Highscores</h1>
+  </div>
+  <div class="content" data-role="content">
+    <script id="highscorelist" type="text/template">
+      <div data-role="collapsible-set" data-theme="c" data-content-theme="d" data-iconpos="right">
+        {{#campuses}}
+          <div data-role="collapsible">
+            <h3>{{campus}}</h3>
+            <ul data-role="listview" data-count-theme="c" data-inset="true">
+              {{#questions}}
+                <li>{{area}} <span class="ui-li-count">{{score}}</span></li>
+              {{/questions}}
+            </ul>
+          </div>
+        {{/campuses}}
+      </div>
+    </script>
+  </div>
+  <div data-role="footer" data-position="fixed">
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#" data-icon="grid" class="ui-btn-active">Highscores</a></li>
+        <li><a href="leaderboard.html" data-icon="star">Leaderboard</a></li>
+      </ul>
+    </div>
+</div>
