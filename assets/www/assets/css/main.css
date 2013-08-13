@@ -54,9 +54,9 @@ img {
 }
 
 .marker-active {
-  transform: scale(1.3,1.3);
-  -ms-transform: scale(1.3,1.3);
-  -webkit-transform: scale(1.3,1.3);
+  transform: scale(1.5,1.5);
+  -ms-transform: scale(1.5,1.5);
+  -webkit-transform: scale(1.5,1.5);
 }
 
 #map { 
@@ -89,6 +89,31 @@ img {
  color: white;
 }
 
+.complete-green {
+  border: 1px solid     #bbb /*{c-bhover-border}*/;
+  background:       #dfdfdf /*{c-bhover-background-color}*/;
+  font-weight: bold;
+  color:          #fff /*{c-bhover-color}*/;
+  background-image: -webkit-gradient(linear, left top, left bottom, from( #abcd14 /*{c-bhover-background-start}*/), to( #abcd14 /*{c-bhover-background-end}*/)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient( #abcd14 /*{c-bhover-background-start}*/, #abcd14 /*{c-bhover-background-end}*/); /* Chrome 10+, Saf5.1+ */
+  background-image:    -moz-linear-gradient( #abcd14 /*{c-bhover-background-start}*/, #abcd14 /*{c-bhover-background-end}*/); /* FF3.6 */
+  background-image:     -ms-linear-gradient( #abcd14 /*{c-bhover-background-start}*/, #abcd14 /*{c-bhover-background-end}*/); /* IE10 */
+  background-image:      -o-linear-gradient( #abcd14 /*{c-bhover-background-start}*/, #abcd14 /*{c-bhover-background-end}*/); /* Opera 11.10+ */
+  background-image:         linear-gradient( #abcd14 /*{c-bhover-background-start}*/, #abcd14 /*{c-bhover-background-end}*/);
+}
+.complete-green:visited,
+.complete-green:hover,
+.complete-green a.ui-link-inherit {
+  color:          #fff /*{c-bhover-color}*/;
+}
+
+#score-text {
+  top: 0;
+  right: 0;
+  margin-top: 10px;
+  margin-right: 20px;
+  position: absolute;
+}
 
 /* Misc */
 

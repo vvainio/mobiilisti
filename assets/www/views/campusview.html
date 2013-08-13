@@ -14,7 +14,7 @@
   <!-- Debugging ends -->
   <div class="content" data-role="content">
     <div id="map" class="center">
-      <img src="../assets/img/karttapohja.jpg">
+      <img id="map-img" src="">
     </div>
       <script id="task" type="text/template">
       <div id="task-{{id}}" class="task">
@@ -38,8 +38,8 @@
         {{#isComplete}}
       </script>
   </div>
+  <!--
   <div data-role="footer" data-position="fixed">
-    <!-- old layout
     <div data-role="navbar">
       <ul>
         <li><a href="#" data-icon="star" class="ui-btn-active">Tasks</a></li>

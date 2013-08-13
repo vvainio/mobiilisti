@@ -2,6 +2,7 @@
   "campuses": [{
     "campus": "Evo",
     "description": "Metsätalous",
+    "map_image": "evo_map.jpg",
     "x": "25%",
     "y": "25%",
     "isComplete": false,
@@ -12,6 +13,7 @@
       "weight": 1,
       "type": "checkbox",
       "score": false,
+      "maxScore": 3,
       "isComplete": false,
       "question": "Valitse metsien kasvuun vaikuttavat keskeiset tekijät",
       "answers": {
@@ -69,6 +71,7 @@
   }, {
     "campus": "Forssa",
     "description": "Kestävä kehitys",
+    "map_image": "forssa_map.jpg",
     "x": "36%",
     "y": "85%",
     "isComplete": false,
@@ -79,6 +82,7 @@
       "weight": 1,
       "type": "checkbox",
       "score": false,
+      "maxScore": 4,
       "isComplete": false,
       "question": "Mitä hiilijalanjälki mielestäsi tarkoittaa?",
       "answers": {
@@ -136,6 +140,7 @@
   }, {
     "campus": "Lepaa",
     "description": "Viherala",
+    "map_image": "lepaa_map.jpg",
     "x": "66%",
     "y": "15%",
     "isComplete": false,
@@ -202,6 +207,7 @@
   }, {
     "campus": "Mustiala",
     "description": "Maaseutuelinkeinot",
+    "map_image": "mustiala_map.jpg",
     "x": "22%",
     "y": "84%",
     "isComplete": false,

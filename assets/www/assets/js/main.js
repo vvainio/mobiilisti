@@ -7,10 +7,10 @@ $.ajaxSetup({
 var Score, Game, data, selectedCharacter, selectedCampus, selectedTask, score;
 
 /* CONSTANTS */
-var SCORE_MIN = -15,
+var SCORE_MIN = -4,
     SCORE_MAX = 16,
     SCORE_INCREASE_BY = 1,
-    SCORE_DECREASE_BY = 3;
+    SCORE_DECREASE_BY = 1;
 
 // jQuery Mobile framework configurations
 $(document).bind("mobileinit", function() {
@@ -76,18 +76,29 @@ $(document).on('pageshow', '#guide', function() {
         }
     });
     // Give bonus points on correct campus selection
+    /*
     if (selectedCharacter === selectedCampus) {
         Score.count("increase");
         console.log("+1 bonus points (character === campus)");
     }
+    */
 });
 
 $(document).on('pageshow', '#campusview', function() {
     //Nfc.bindEvents();
     // Set header
+
     $('#title').html(data.campuses[selectedCampus].campus);
+    $("#map-img").attr("src","../assets/img/" + data.campuses[selectedCampus].map_image);
 
     CampusView.parseData();
+
+    if (selectedTask == 0) {
+        var task = $('#task-0');
+        var marker = $('#marker-0');
+        marker.addClass('marker-active');
+        task.show();
+    }
 
     $(document).on('click', '.marker', function() {
         var activePage = $.mobile.activePage[0].id,
@@ -112,7 +123,7 @@ $(document).on('pageshow', '#campusview', function() {
             campus = $('#campus-' + markerId);
             campuses = $('.task');
             selectedCampus = markerId;
-            selectedTask = undefined;
+            selectedTask = 0;
             campuses.hide();
             campus.show();
             if (data.campuses[selectedCampus].isComplete) {
@@ -149,8 +160,10 @@ $(document).on('pageshow', '#campusmap', function() {
 $(document).on('pageshow', '#taskview', function() {
     Score.display();
 
-    var correctAnswers = Task.parseData(selectedTask),
+    var answers = Task.parseData(selectedTask),
         submitBtn = $('[type="submit"]');
+
+    console.log(answers);
 
     submitBtn.button('disable');
 
@@ -166,21 +179,37 @@ $(document).on('pageshow', '#taskview', function() {
     // Handle form submit
     $('#taskForm').submit(function() {
         var score = 0,
-            maxScore = correctAnswers.length,
-            answers = $('input[type=checkbox]:checked').map(function() {
+            maxScore = 0,
+            checkedAnswers = $('input[type=checkbox]:checked').map(function() {
+                return $(this).parent().text().trim();
+            }).get(),
+            emptyAnswers = $('input[type=checkbox]:not(:checked)').map(function() {
                 return $(this).parent().text().trim();
             }).get();
 
-        answers.sort();
-        correctAnswers.sort();
+        checkedAnswers.sort();
+        emptyAnswers.sort();
+        answers.correctAnswers.sort();
+        answers.wrongAnswers.sort();
 
-        for (i = 0; i < answers.length; i++) {
-            if ($.inArray(answers[i], correctAnswers) != -1) {
+        for (i = 0; i < checkedAnswers.length; i++) {
+            if ($.inArray(checkedAnswers[i], answers.correctAnswers) > -1) {
                 Score.count("increase");
-                //total += SCORE_INCREASE_BY;
                 score++;
-            } else {
-                Score.count("decrease");
+                //total += SCORE_INCREASE_BY;
+            } else if ($.inArray(checkedAnswers[i], answers.wrongAnswers) > -1) {
+                Score.count("decrease")
+                score--;
+                //total -= SCORE_DECREASE_BY;
+            }
+        }
+
+        for (i = 0; i < emptyAnswers.length; i++) {
+            if ($.inArray(emptyAnswers[i], answers.correctAnswers) > -1) {
+                //total -= SCORE_DECREASE_BY;
+            } else if ($.inArray(emptyAnswers[i], answers.wrongAnswers) > -1) {
+                Score.count("increase")
+                score++;
                 //total -= SCORE_DECREASE_BY;
             }
         }
@@ -232,6 +261,7 @@ $(document).on('pageshow', '#taskview', function() {
 $(document).on('pageshow', '#highscore', function() {
     Highscore.createList();
 });
+
 // Page init 
 $(document).on('pageinit', function() {
 
@@ -248,7 +278,7 @@ $(document).on('pageinit', function() {
 
                 if (score <= SCORE_MIN) {
                     score = SCORE_MIN;
-                    //Game.end();
+                    Game.end();
                 }
             } else {
                 // should not be possible
@@ -256,10 +286,13 @@ $(document).on('pageinit', function() {
             console.log(score);
         },
 
-        // Display score via progressbar
+        // Display score via progressbar and/or text
         display: function() {
+            /*
             var percent = Math.round(score / SCORE_MAX * 100);
             progressBar(percent, $('#progressBar'));
+            */
+            $('#score-text').html("Score: " + score);
         }
     };
 
@@ -267,7 +300,7 @@ $(document).on('pageinit', function() {
         init: function() {
             selectedCharacter = 0,
             selectedCampus = 0,
-            selectedTask = undefined,
+            selectedTask = 0,
             score = 0;
             data = undefined;
             Game.loadData();
@@ -301,7 +334,8 @@ $(document).on('pageinit', function() {
         parseData: function(id) {
             var question = data.campuses[selectedCampus].questions[id].question,
                 index = 0,
-                tasks = [];
+                correctAnswers = [],
+                wrongAnswers = [];
 
             $('#question').html("<b>" + question + "</b>");
 
@@ -312,7 +346,11 @@ $(document).on('pageinit', function() {
                 $('form > fieldset').append(html);
 
                 if (value === true) {
-                    tasks.push(key);
+                    correctAnswers.push(key);
+                }
+
+                if (value === false) {
+                    wrongAnswers.push(key);
                 }
 
                 index++;
@@ -320,7 +358,12 @@ $(document).on('pageinit', function() {
 
             $('#taskview').trigger('create');
 
-            return tasks;
+            var answers = {
+                correctAnswers: correctAnswers,
+                wrongAnswers: wrongAnswers
+            };
+
+            return answers;
         }
     };
 
@@ -381,7 +424,7 @@ $(document).on('pageinit', function() {
                 task = $('#task-' + obj.id);
 
             marker.removeClass().addClass('marker marker-active marker-complete');
-            task.find('li').removeClass('ui-btn-up-c').addClass('ui-btn-hover-c complete');
+            task.find('li').removeClass('ui-btn-up-c').addClass('complete-green complete');
             task.find('span').attr('class', 'ui-icon ui-icon-check ui-icon-shadow');
 
             data.campuses[selectedCampus].questions[obj.id].isComplete = true;
@@ -438,7 +481,7 @@ $(document).on('pageinit', function() {
                 campus = $('#campus-' + id);
 
             marker.removeClass().addClass('marker marker-active marker-complete');
-            campus.find('li').removeClass('ui-btn-up-c').addClass('ui-btn-hover-c complete');
+            campus.find('li').removeClass('ui-btn-up-c').addClass('complete-green complete');
             campus.find('span').attr('class', 'ui-icon ui-icon-check ui-icon-shadow');
 /*
             if (id === selectedCampus) {
@@ -448,6 +491,8 @@ $(document).on('pageinit', function() {
             }
 */
             data.campuses[selectedCampus].isComplete = true;
+
+            selectedTask = undefined;
         },
 
         createMarker: function(obj) {
@@ -565,4 +610,43 @@ $(document).on('pageinit', function() {
         }
         CampusMap.setCampusComplete(selectedCampus);
     });
+});
+
+
+$(function() {
+
+  // At this width, no scaling occurs. Above/below will scale appropriately.
+  var defaultWidth = 480; // 1280
+
+  // This controls how fast the font-size scales. If 1, will scale at the same 
+  // rate as the window (i.e. when the window is 50% of the default width, the 
+  // font-size will be scaled 50%). If I want the font to not shrink as rapidly 
+  // when the page gets smaller, I can set this to a smaller number (e.g. at 0.5,
+  // when the window is 50% of default width, the font-size will be scaled 75%).
+  var scaleFactor = 1.5;
+
+  // choose a maximum and minimum scale factor (e.g. 4 is 400% and 0.5 is 50%)
+  var maxScale = 4;
+  var minScale = 0.5;
+
+  var $html = $("html");
+
+  var setHtmlScale = function() {
+
+    var scale = 1 + scaleFactor * ($html.width() - defaultWidth) / defaultWidth;
+    if (scale > maxScale) {
+      scale = maxScale;
+    }
+    else if (scale < minScale) {
+      scale = minScale;
+    }
+    //$html.css('font-size', scale * 100 + '%');
+    $html.css('zoom', scale * 100 + '%');
+  };
+/*
+  $(window).resize(function() {
+    setHtmlScale();
+  });
+*/
+  setHtmlScale();
 });
