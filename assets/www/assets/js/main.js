@@ -4,11 +4,11 @@ $.ajaxSetup({
 });
 
 /* Globals */
-var Score, Game, data, selectedCharacter, selectedCampus, selectedTask, score;
+var Score, Game, config, data, selectedCharacter, selectedCampus, selectedTask, score, nickname;
 
 /* CONSTANTS */
 var SCORE_MIN = -4,
-    SCORE_MAX = 16,
+    SCORE_MAX = 64, // 4 * 4 * 4
     SCORE_INCREASE_BY = 1,
     SCORE_DECREASE_BY = 1;
 
@@ -158,6 +158,8 @@ $(document).on('pageshow', '#campusmap', function() {
 });
 
 $(document).on('pageshow', '#taskview', function() {
+    var startTime = new Date();
+
     Score.display();
 
     var answers = Task.parseData(selectedTask),
@@ -180,10 +182,16 @@ $(document).on('pageshow', '#taskview', function() {
     $('#taskForm').submit(function() {
         var score = 0,
             maxScore = 0,
-            checkedAnswers = $('input[type=checkbox]:checked').map(function() {
+            endTime = new Date(),
+            flashScore = $('#flashScore');
+
+        var taskTime = (endTime - startTime) / 1000;
+
+        var checkedAnswers = $('input[type=checkbox]:checked').map(function() {
                 return $(this).parent().text().trim();
-            }).get(),
-            emptyAnswers = $('input[type=checkbox]:not(:checked)').map(function() {
+            }).get();
+        
+        var emptyAnswers = $('input[type=checkbox]:not(:checked)').map(function() {
                 return $(this).parent().text().trim();
             }).get();
 
@@ -214,7 +222,6 @@ $(document).on('pageshow', '#taskview', function() {
             }
         }
 
-        // TODO: Implement timeout
         $('input[type=checkbox]').attr("disabled", true);
         submitBtn.button('disable');
         submitBtn.fadeOut(1600, function() {
@@ -226,40 +233,64 @@ $(document).on('pageshow', '#taskview', function() {
         CampusView.setTaskComplete({
             id: selectedTask,
             score: score,
-            maxScore: maxScore
+            maxScore: maxScore,
+            taskTime: taskTime
         });
+
+        if (score >= 0) {
+            flashScore.children().html('+' + score);
+        }
+        else {
+            flashScore.css('color', 'red');
+            flashScore.children().html(score);
+        }
+
+        flashScore.show().addClass('animated fadeInUp');    
+        setTimeout(function () {
+            flashScore.addClass('fadeOutUp');
+        }, 3000);
 
         Score.display();
 
         return false;
     });
-    /* 
-    $(document).on('click', '#next-task-btn', function() {
-        var questions = data.campuses[selectedCampus].questions;
-
-        var hasNext = function () {
-            return !(selectedTask >= questions.length - 1);
-        };
-
-        if (hasNext) {
-            selectedTask++;
-            console.log("Next question");
-        }
-        else {
-            console.log("No more questions");
-        }
-
-        $.mobile.changePage('#taskview', {
-            allowSamePageTransition: true,
-            transition: 'flip',
-            reloadPage: true
-        });
-    });
-*/
 });
 
 $(document).on('pageshow', '#highscore', function() {
     Highscore.createList();
+
+    var total = Score.countTotal();
+
+    $('#total').val(total);
+
+    $('#highscoreForm').submit(function() {
+        var nameInput = $('#nickname').val().trim(),
+            submitBtn = $('#submitBtn'),
+            regexp = /^([A-Za-z0-9]){3,10}$/;
+        
+        if (typeof nameInput != 'undefined' && nameInput != '') {
+            if (regexp.test(nameInput)) {
+                console.log("Nickname OK");
+                $('#highscoreForm').fadeOut();
+                nickname = $('#nickname').val().trim();
+                Highscore.submitScore();
+            }
+            else {
+                console.log("Nickname should be 3-10 characters long and contain letters or numbers");
+            }
+        }
+        else {
+            console.log("Nickname required");
+        }
+
+        return false;
+    });
+
+});
+
+$(document).on('pageshow', '#leaderboard', function() {
+    Leaderboard.getLeaders();
+    Leaderboard.getAroundMe();
 });
 
 // Page init 
@@ -293,6 +324,30 @@ $(document).on('pageinit', function() {
             progressBar(percent, $('#progressBar'));
             */
             $('#score-text').html("Score: " + score);
+        },
+
+        countTotal: function() {
+            var totalTime = 0,
+                totalScore = 0;
+
+            // FOR DEBUGGING
+            if (score == 0) {
+                score = Math.floor(Math.random() * (SCORE_MAX - 0 + 1)) + 0;
+            }
+
+            $.each(data.campuses, function(i, campuses) {
+                $.each(campuses.questions, function(key, value) {
+                    if (value.isComplete) {
+                        totalScore += value.score;
+                        totalTime += value.taskTime;
+                    }
+                });
+            });
+            
+            var total = Math.round((1 / totalTime * totalScore) * 10000);
+
+            console.log("Score: " + totalScore + " Time: " + totalTime + " Total score: " + total)
+            return total;
         }
     };
 
@@ -383,14 +438,15 @@ $(document).on('pageinit', function() {
                     maxScore: value.maxScore,
                     isComplete: value.isComplete
                 });
-                // Set task complete if true
+                // Set task complete if true                
                 if (value.isComplete) {
                     CampusView.setTaskComplete({
                         id: index,
                         score: value.score,
-                        maxScore: value.maxScore
+                        maxScore: value.maxScore,
+                        taskTime: value.taskTime
                     });
-                }                
+                }
             });
         },
         // Create markers
@@ -430,6 +486,7 @@ $(document).on('pageinit', function() {
             data.campuses[selectedCampus].questions[obj.id].isComplete = true;
             data.campuses[selectedCampus].questions[obj.id].score = obj.score;
             data.campuses[selectedCampus].questions[obj.id].maxScore = obj.maxScore;
+            data.campuses[selectedCampus].questions[obj.id].taskTime = obj.taskTime;
         },
 
         checkComplete: function() {
@@ -566,6 +623,61 @@ $(document).on('pageinit', function() {
             console.log(data);
 
             $('#highscore > .content').append(html).trigger('create');
+        },
+
+        submitScore: function() {
+            // Change this to $.ajax
+            $.post(config.server + '/add', $('#highscoreForm').serialize(), function(data) {
+                console.log(data);
+            });
+        }
+    };
+
+    Leaderboard = {
+        getLeaders: function() {
+            $.ajax({
+                url: config.server + '/leaders',
+                dataType: 'json',
+                success: function( json ) {
+                    var template = $('#leaders').html(),
+                    data = { 'leaders': json },
+                    html = Mustache.to_html(template, data);
+
+                    $('#leaderboard > .content > .leaders').append(html).trigger('create');
+
+                    Leaderboard.highlightRow("leaders");
+                },
+                error: function( data ) {
+                  alert( "Error fetching data" );
+                }
+            });
+        },
+
+        getAroundMe: function() {
+            if (typeof nickname != 'undefined') {
+                $.ajax({
+                    url: config.server + '/aroundme?nickname=' + nickname + '',
+                    dataType: 'json',
+                    success: function( json ) {
+                        var template = $('#aroundme').html(),
+                        data = { 'players': json },
+                        html = Mustache.to_html(template, data);
+
+                        $('#leaderboard > .content > .aroundme').append(html).trigger('create');
+
+                        Leaderboard.highlightRow("aroundme");
+                    },
+                    error: function( data ) {
+                      alert( "Error fetching data" );
+                    }
+                });
+            }
+        },
+
+        highlightRow: function(element) {
+            if (typeof nickname != 'undefined') {
+                $('.' + element + '> table td:contains(' + nickname + ')').parent().css("font-weight", "bold"); 
+            }
         }
     };
 
@@ -609,6 +721,12 @@ $(document).on('pageinit', function() {
             });
         }
         CampusMap.setCampusComplete(selectedCampus);
+    });
+});
+
+$(function() {
+    $.getJSON('./assets/fixtures/config.json', function(data) {
+        config = data;
     });
 });
 

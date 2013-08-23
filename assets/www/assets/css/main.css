@@ -1,20 +1,7 @@
-/*body {
-  font-size: 120% !important;
+/*make sure the viewport is 100% height*/
+html, body {
+    height : 100%;
 }
-
-.ui-header h1 {
-  font-size: 2em !important;
-  overflow: visible !important;
-  margin: 0.67em 0 0.67em 0 !important;
-}
-
-.ui-header > .ui-btn,.ui-footer > .ui-btn {
-  top: 25%;
-}
-
-.ui-btn-text {
-  font-size: 2em;
-} */
 
 .ui-header .ui-title {
   overflow: visible;
@@ -42,7 +29,7 @@ img {
   width: 48px;
   margin-top: -48px;
   margin-left: -24px;
-  z-index:100;
+  z-index: 100;
 }
 
 .marker-incomplete {
@@ -54,9 +41,11 @@ img {
 }
 
 .marker-active {
-  transform: scale(1.5,1.5);
-  -ms-transform: scale(1.5,1.5);
   -webkit-transform: scale(1.5,1.5);
+  -moz-transform: scale(1.5,1.5);
+  -o-transform: scale(1.5,1.5);
+  -ms-transform: scale(1.5,1.5);
+  transform: scale(1.5,1.5);
 }
 
 #map { 
@@ -85,8 +74,8 @@ img {
 }
 
 .correct {
- background-color: #abcd14;
- color: white;
+  background-color: #abcd14;
+  color: white;
 }
 
 .complete-green {
@@ -113,6 +102,18 @@ img {
   margin-top: 10px;
   margin-right: 20px;
   position: absolute;
+}
+
+#flashScore {
+  display: none;
+  font-size: 60px;
+  color: rgb(148, 185, 19);
+  right: 0;
+  padding-top: 40px;
+  margin-right: 20%;
+  position: absolute;
+  animation-duration: 3s;
+  -webkit-animation-duration: 3s;
 }
 
 /* Misc */
@@ -159,4 +160,28 @@ img {
   float: left;
   width: 100%;
   position: relative;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+}
+
+.table-stroke thead th {
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+.table-stroke tbody th,
+.table-stroke tbody td {
+  border-bottom: 1px solid rgba(0, 0, 0, .05);
+}
+
+/* Add alternating row stripes */
+.table-stripe tbody tr:nth-child(odd) td,
+.table-stripe tbody tr:nth-child(odd) th {
+  background-color: rgba(0,0,0,0.04);
+}
+/* Add stroke to the header and last item */
+.table-stripe thead th,
+.table-stripe tbody tr:last-child {
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
