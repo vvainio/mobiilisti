@@ -68,14 +68,20 @@ img {
 
 /* Tasks */
 
+.btn-down-reset {
+  border: 1px solid #ccc !important;
+	background: #fff !important;
+	color: #222 !important;
+}
+
 .wrong {
-  background-color: #fb4f4f;
-  color: white;
+  background-color: #fb4f4f !important;
+  color: white !important;
 }
 
 .correct {
-  background-color: #abcd14;
-  color: white;
+  background-color: #abcd14 !important;
+  color: white !important;
 }
 
 .complete-green {

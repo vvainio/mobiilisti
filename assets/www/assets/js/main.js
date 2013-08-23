@@ -4,7 +4,7 @@ $.ajaxSetup({
 });
 
 /* Globals */
-var Score, Game, config, data, selectedCharacter, selectedCampus, selectedTask, score, nickname;
+var config, data, selectedCharacter, selectedCampus, selectedTask, score, nickname;
 
 /* CONSTANTS */
 var SCORE_MIN = -4,
@@ -200,15 +200,19 @@ $(document).on('pageshow', '#taskview', function() {
         answers.correctAnswers.sort();
         answers.wrongAnswers.sort();
 
+        /* TODO 
+        - Flash the correct item
+        - Randomize questions
+        */
         for (i = 0; i < checkedAnswers.length; i++) {
             if ($.inArray(checkedAnswers[i], answers.correctAnswers) > -1) {
                 Score.count("increase");
                 score++;
-                //total += SCORE_INCREASE_BY;
+                flashCorrect(i);
             } else if ($.inArray(checkedAnswers[i], answers.wrongAnswers) > -1) {
-                Score.count("decrease")
+                Score.count("decrease");
                 score--;
-                //total -= SCORE_DECREASE_BY;
+                flashWrong(i);
             }
         }
 
@@ -216,9 +220,8 @@ $(document).on('pageshow', '#taskview', function() {
             if ($.inArray(emptyAnswers[i], answers.correctAnswers) > -1) {
                 //total -= SCORE_DECREASE_BY;
             } else if ($.inArray(emptyAnswers[i], answers.wrongAnswers) > -1) {
-                Score.count("increase")
+                Score.count("increase");
                 score++;
-                //total -= SCORE_DECREASE_BY;
             }
         }
 
@@ -251,7 +254,17 @@ $(document).on('pageshow', '#taskview', function() {
         }, 3000);
 
         Score.display();
+        
+        function flashCorrect(i) {
+          $('#checkbox-' + i).parent().children('label').addClass('correct');
+          $('#checkbox-' + i).parent().addClass('animated flash');
+        }
 
+        function flashWrong(i) {
+          $('#checkbox-' + i).parent().children('label').addClass('wrong');
+          $('#checkbox-' + i).parent().addClass('animated flash').removeClass('wrong');
+        }
+        
         return false;
     });
 });
@@ -396,7 +409,7 @@ $(document).on('pageinit', function() {
 
             $.each(data.campuses[selectedCampus].questions[id].answers, function(key, value) {
                 var html = "<input type='checkbox' name='checkbox-" + index + "' id='checkbox-" + index + "'>" +
-                    "<label for='checkbox-" + index + "'>" + key + "</label>";
+                    "<label class='btn-down-reset' for='checkbox-" + index + "'>" + key + "</label>";
 
                 $('form > fieldset').append(html);
 
