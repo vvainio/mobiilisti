@@ -13,7 +13,6 @@
       "weight": 1,
       "type": "checkbox",
       "score": false,
-      "maxScore": 3,
       "isComplete": false,
       "question": "Valitse metsien kasvuun vaikuttavat keskeiset tekijät",
       "answers": {
@@ -82,7 +81,6 @@
       "weight": 1,
       "type": "checkbox",
       "score": false,
-      "maxScore": 4,
       "isComplete": false,
       "question": "Mitä hiilijalanjälki mielestäsi tarkoittaa?",
       "answers": {

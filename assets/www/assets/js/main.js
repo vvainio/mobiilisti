@@ -86,75 +86,28 @@ $(document).on('pageshow', '#guide', function() {
 
 $(document).on('pageshow', '#campusview', function() {
     //Nfc.bindEvents();
-    // Set header
-
+    
     $('#title').html(data.campuses[selectedCampus].campus);
     $("#map-img").attr("src","../assets/img/" + data.campuses[selectedCampus].map_image);
 
     CampusView.parseData();
-
-    if (selectedTask == 0) {
-        var task = $('#task-0');
-        var marker = $('#marker-0');
-        marker.addClass('marker-active');
-        task.show();
-    }
+    
+    var markers = $('.marker');
+    
+    Helper.removeActiveMarkers();
 
     $(document).on('click', '.marker', function() {
-        var activePage = $.mobile.activePage[0].id,
-            markerId = parseInt($(this).attr('id').replace(/marker-/, ''), 10),
-            markers = $('.marker');
-
-        // Set correct marker icons    
-        $.each(markers, function() {
-            if (!$(this).hasClass('marker-complete')) {
-                $(this).removeClass().addClass('marker marker-incomplete');
-            }
-            $(this).removeClass('marker-active');
-        });
-
-        if (activePage === 'campusview') {
-            task = $('#task-' + markerId),
-            tasks = $('.task'),
-            selectedTask = markerId;
-            tasks.hide();
-            task.show();
-        } else if (activePage === 'campusmap') {
-            campus = $('#campus-' + markerId);
-            campuses = $('.task');
-            selectedCampus = markerId;
-            selectedTask = 0;
-            campuses.hide();
-            campus.show();
-            if (data.campuses[selectedCampus].isComplete) {
-                // TODO
-                console.log('Campus complete!');
-            }
-        } else { }
-
-        $(this).addClass('marker-active');
+        Helper.clickMarker($(this));
     });
-/*
-    if (typeof selectedTask != 'undefined') {
-        var task = $('#task-' + selectedTask);
-        var marker = $('#marker-' + selectedTask);
-        marker.addClass('marker-active');
-        task.show();
-    }
-*/
+    
+    Helper.activateTask();
     CampusView.checkComplete();
 });
 
 $(document).on('pageshow', '#campusmap', function() {
     CampusMap.parseData();
     CampusMap.checkComplete();
-
-    if (typeof selectedCampus != 'undefined') {
-        var campus = $('#campus-' + selectedCampus);
-        var marker = $('#marker-' + selectedCampus);
-        marker.addClass('marker-active');
-        campus.show();
-    }
+    Helper.activateTask();
 });
 
 $(document).on('pageshow', '#taskview', function() {
@@ -163,6 +116,7 @@ $(document).on('pageshow', '#taskview', function() {
     Score.display();
 
     var answers = Task.parseData(selectedTask),
+        maxScore = answers["maxScore"],
         submitBtn = $('[type="submit"]');
 
     console.log(answers);
@@ -181,7 +135,6 @@ $(document).on('pageshow', '#taskview', function() {
     // Handle form submit
     $('#taskForm').submit(function() {
         var score = 0,
-            maxScore = 0,
             endTime = new Date(),
             flashScore = $('#flashScore');
 
@@ -258,11 +211,17 @@ $(document).on('pageshow', '#taskview', function() {
         function flashCorrect(i) {
           $('#checkbox-' + i).parent().children('label').addClass('correct');
           $('#checkbox-' + i).parent().addClass('animated flash');
+          setTimeout(function () {
+            $('#checkbox-' + i).parent().children('label').removeClass('correct');
+          }, 1500);
         }
 
         function flashWrong(i) {
           $('#checkbox-' + i).parent().children('label').addClass('wrong');
-          $('#checkbox-' + i).parent().addClass('animated flash').removeClass('wrong');
+          $('#checkbox-' + i).parent().addClass('animated flash');
+          setTimeout(function () {
+            $('#checkbox-' + i).parent().children('label').removeClass('wrong');
+          }, 1500);
         }
         
         return false;
@@ -423,12 +382,16 @@ $(document).on('pageinit', function() {
 
                 index++;
             });
-
+            
             $('#taskview').trigger('create');
+            
+            // Calculate maxScore by number of questions via index
+            var maxScore = index * SCORE_INCREASE_BY;
 
             var answers = {
                 correctAnswers: correctAnswers,
-                wrongAnswers: wrongAnswers
+                wrongAnswers: wrongAnswers,
+                "maxScore": maxScore
             };
 
             return answers;
@@ -495,6 +458,8 @@ $(document).on('pageinit', function() {
             marker.removeClass().addClass('marker marker-active marker-complete');
             task.find('li').removeClass('ui-btn-up-c').addClass('complete-green complete');
             task.find('span').attr('class', 'ui-icon ui-icon-check ui-icon-shadow');
+            
+            task.addClass('animated tada delay');  
 
             data.campuses[selectedCampus].questions[obj.id].isComplete = true;
             data.campuses[selectedCampus].questions[obj.id].score = obj.score;
@@ -503,9 +468,10 @@ $(document).on('pageinit', function() {
         },
 
         checkComplete: function() {
-            var isComplete = true;
+            var marker = $('.marker'),
+                isComplete = true;
 
-            $.each($('.marker'), function() {
+            $.each(marker, function() {
                 if (!$(this).hasClass('marker-complete')) {
                     isComplete = false;
                 }
@@ -532,14 +498,13 @@ $(document).on('pageinit', function() {
                     x: value.x,
                     y: value.y
                 });
-                ///// NEW /////
                 CampusMap.createTask({
                     id: index,
                     campus: value.campus,
                     description: value.description,
                     isComplete: value.isComplete
                 });
-                // Set task complete if true
+                // Set campus complete if true
                 if (value.isComplete) {
                     CampusMap.setCampusComplete(index);
                 }
@@ -589,16 +554,34 @@ $(document).on('pageinit', function() {
 
         createTask: function(obj) {
             var template = $('#campus').html(),
+                scores = CampusMap.countScore(obj.id),
                 data = {
                     id: obj.id,
                     campus: obj.campus,
                     description: obj.description,
+                    score: scores["score"],
+                    maxScore: scores["maxScore"],
                     isComplete: obj.isComplete
                 },
                 html = Mustache.to_html(template, data);
 
             $('#campusmap > .content').append(html).trigger('create');
         },
+        
+        countScore: function(id) {
+            var score = 0,
+                maxScore = 0;
+                          
+            $.each(data.campuses[id].questions, function(i, questions) {
+              $.each(questions.answers, function(key, value) {     
+                  maxScore++;
+              });
+              score += questions.score;       
+            });
+            
+            return { "score": score, "maxScore": maxScore }
+        },
+        
         selectCampus: function(id) {
             selectedCampus = id;
         },
@@ -691,6 +674,69 @@ $(document).on('pageinit', function() {
             if (typeof nickname != 'undefined') {
                 $('.' + element + '> table td:contains(' + nickname + ')').parent().css("font-weight", "bold"); 
             }
+        }
+    };
+    
+    Helper = {
+        activateTask: function() {                
+            if (typeof selectedTask != 'undefined') {
+                var task = $('#task-' + selectedTask);
+                var marker = $('#marker-' + selectedTask);
+                marker.addClass('marker-active');
+                task.show();
+            }
+        },
+        
+        clickMarker: function(el) {
+            var activePage = $.mobile.activePage[0].id,
+                markers = $('.marker'),
+                markerId = parseInt(el.attr('id').replace(/marker-/, ''), 10);
+
+            // Set correct marker icons    
+            $.each(markers, function() {
+                if (!$(this).hasClass('marker-complete')) {
+                    $(this).removeClass().addClass('marker marker-incomplete');
+                }
+                $(this).removeClass('marker-active');
+            });
+
+            if (activePage === 'campusview') {
+                var task = $('#task-' + markerId),
+                    tasks = $('.task');
+                selectedTask = markerId;
+                tasks.hide();
+                task.show();
+            } else if (activePage === 'campusmap') {
+                var campus = $('#campus-' + markerId),
+                    campuses = $('.task');
+                selectedCampus = markerId;
+                selectedTask = 0;
+                campuses.hide();
+                campus.show();
+                if (data.campuses[selectedCampus].isComplete) {
+                    // TODO
+                    console.log('Campus complete!');
+                }
+            } else { }
+            
+            el.addClass('marker-active');
+        },
+              
+        removeActiveMarkers: function() {
+            var markers = $('.marker');
+            $.each(markers, function() {
+                $(this).removeClass('marker-active');
+            });
+        },
+        
+        shuffleArray: function(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            return array;        
         }
     };
 
