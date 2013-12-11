@@ -1,0 +1,346 @@
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+html, body {
+    height : 100%;
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    margin:0px;
+    padding:0px;
+    width:100%;
+}
+
+.ui-header .ui-title {
+  overflow: visible;
+  white-space: normal;
+}
+
+/* Carousel */
+.position {
+  font-size: 2em;
+}
+
+.on {
+  color: #abcd14;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  display: block; /* Fix over-sized parent div */
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #CCC;
+}
+
+.marker {
+  position: absolute;
+  height: 47px;
+  width: 48px;
+  margin-top: -48px;
+  margin-left: -24px;
+  z-index: 100;
+}
+
+.marker-incomplete {
+  background-image: url('../img/marker-incomplete.png');
+}
+
+.marker-complete {
+  background-image: url('../img/marker-complete.png');
+}
+
+.marker-active {
+  -webkit-transform: scale(1.5,1.5);
+  -moz-transform: scale(1.5,1.5);
+  -o-transform: scale(1.5,1.5);
+  -ms-transform: scale(1.5,1.5);
+  transform: scale(1.5,1.5);
+}
+
+#map { 
+  height: 100%; 
+  position: relative;
+}
+
+.task {
+  display: none;
+}
+
+#task-navbar {
+  display: none;
+}
+
+.complete {
+  cursor: default !important;
+  pointer-events: none;
+}
+
+.flash {
+  -webkit-animation-duration: 1.5s;
+  -moz-animation-duration: 1.5s;
+  -o-animation-duration: 1.5s;
+  animation-duration: 1.5s;
+}
+
+.delay {
+  -webkit-animation-delay: 0.5s;
+  -moz-animation-delay: 0.5s;
+  -o-animation-delay: 0.5s;
+  -ms-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+}
+
+/* Task form */
+
+.btn-down-reset {
+  border: 1px solid #ccc !important;
+	background: #fff !important;
+	color: #222 !important;
+}
+
+.wrong {
+  background-color: #fb4f4f !important;
+  color: white !important;
+}
+
+.correct {
+  background-color: #abcd14 !important;
+  color: white !important;
+}
+
+.complete-green {
+  border: 1px solid     #bbb /*{c-bhover-border}*/;
+  background:       #dfdfdf /*{c-bhover-background-color}*/;
+  font-weight: bold;
+  color:          #fff /*{c-bhover-color}*/;
+  background-image: -webkit-gradient(linear, left top, left bottom, from( #abcd14 /*{c-bhover-background-start}*/), to( #abcd14 /*{c-bhover-background-end}*/)); /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient( #abcd14 /*{c-bhover-background-start}*/, #abcd14 /*{c-bhover-background-end}*/); /* Chrome 10+, Saf5.1+ */
+  background-image:    -moz-linear-gradient( #abcd14 /*{c-bhover-background-start}*/, #abcd14 /*{c-bhover-background-end}*/); /* FF3.6 */
+  background-image:     -ms-linear-gradient( #abcd14 /*{c-bhover-background-start}*/, #abcd14 /*{c-bhover-background-end}*/); /* IE10 */
+  background-image:      -o-linear-gradient( #abcd14 /*{c-bhover-background-start}*/, #abcd14 /*{c-bhover-background-end}*/); /* Opera 11.10+ */
+  background-image:         linear-gradient( #abcd14 /*{c-bhover-background-start}*/, #abcd14 /*{c-bhover-background-end}*/);
+}
+.complete-green:visited,
+.complete-green:hover,
+.complete-green a.ui-link-inherit {
+  color:          #fff /*{c-bhover-color}*/;
+}
+
+#score-text {
+  top: 0;
+  right: 0;
+  margin-top: 10px;
+  margin-right: 20px;
+  position: absolute;
+}
+
+#flashScore {
+  display: none;
+  font-size: 60px;
+  color: rgb(148, 185, 19);
+  right: 0;
+  padding-top: 20px;
+  margin-right: 20%;
+  position: absolute;
+  animation-delay:1s;
+  -webkit-animation-delay:1s;
+  /*animation-duration: 3s;
+  -webkit-animation-duration: 3s;*/
+}
+
+#data-error {
+  display: none;
+}
+
+/* Misc */
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#alert {
+  margin-bottom: 15px;
+}
+
+#alert h3 {
+  float: left;
+  margin-top: 8px;
+}
+
+#alert p {
+  clear: both;
+  font-size: 85%;
+}
+
+#form-success {
+  display: none;
+}
+
+.form-error {
+  font-style: italic;
+  color: red;
+}
+
+.score-bar {
+  height: auto;
+  margin-top: 24px;
+  width: 50%;
+}
+
+/* span */
+/* ui-li-count ui-btn-up-c ui-btn-corner-all */
+
+.score-bubble {
+  position: absolute;
+  font-size: 11px;
+  font-weight: bold;
+  padding: .2em .5em;
+  top: 50%;
+  margin-top: -.9em;
+  right: 40px;
+}
+
+/* Swipe related */
+.swipe {
+  overflow: hidden;
+  visibility: hidden;
+  position: relative;
+}
+
+.swipe-wrap {
+  overflow: hidden;
+  position: relative;
+}
+
+.swipe-wrap > div {
+  float: left;
+  width: 100%;
+  position: relative;
+}
+
+.fixed {
+  position: fixed;
+  top: 20%;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  pointer-events: none;
+}
+
+#campus-complete {
+  display: none;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px 10px;
+  width: 260px;
+  color: #000;
+  margin: 0 auto;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#campus-complete p {
+  margin: 0;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+}
+
+.table-stroke thead th {
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+.table-stroke tbody th,
+.table-stroke tbody td {
+  border-bottom: 1px solid rgba(0, 0, 0, .05);
+}
+
+/* Add alternating row stripes */
+.table-stripe tbody tr:nth-child(odd) td,
+.table-stripe tbody tr:nth-child(odd) th {
+  background-color: rgba(0,0,0,0.04);
+}
+/* Add stroke to the header and last item */
+.table-stripe thead th,
+.table-stripe tbody tr:last-child {
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+
+/* Custom animations */
+
+.hatch{
+  animation-name: hatch;
+  -webkit-animation-name: hatch;  
+
+  animation-duration: 2s; 
+  -webkit-animation-duration: 2s;
+
+  animation-timing-function: ease-in-out; 
+  -webkit-animation-timing-function: ease-in-out;
+
+  transform-origin: 50% 100%;
+  -ms-transform-origin: 50% 100%;
+  -webkit-transform-origin: 50% 100%; 
+
+  visibility: visible !important;   
+}
+
+@keyframes hatch {
+  0% {
+    transform: rotate(0deg) scaleY(0.6);
+  }
+  20% {
+    transform: rotate(-2deg) scaleY(1.05);
+  }
+  35% {
+    transform: rotate(2deg) scaleY(1);
+  }
+  50% {
+    transform: rotate(-2deg);
+  } 
+  65% {
+    transform: rotate(1deg);
+  } 
+  80% {
+    transform: rotate(-1deg);
+  }   
+  100% {
+    transform: rotate(0deg);
+  }                 
+}
+
+@-webkit-keyframes hatch {
+  0% {
+    -webkit-transform: rotate(0deg) scaleY(0.6);
+  }
+  20% {
+    -webkit-transform: rotate(-2deg) scaleY(1.05);
+  }
+  35% {
+    -webkit-transform: rotate(2deg) scaleY(1);
+  }
+  50% {
+    -webkit-transform: rotate(-2deg);
+  } 
+  65% {
+    -webkit-transform: rotate(1deg);
+  } 
+  80% {
+    -webkit-transform: rotate(-1deg);
+  }   
+  100% {
+    -webkit-transform: rotate(0deg);
+  }   
+}

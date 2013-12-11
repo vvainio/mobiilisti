@@ -1,0 +1,29 @@
+<div data-role="page" id="campusmap" data-theme="c">
+  <div data-role="header" data-position="inline" data-theme="b">
+    <h1>Campus Map</h1>
+  </div>
+  <div class="content" data-role="content">
+    <div id="map" class="center">
+      <img src="../../img/campus_map.png">
+    </div>
+    <script id="campus" type="text/template">
+    <div id="campus-{{id}}" class="task">
+      <ul data-role="listview" data-inset="true">
+        <li><a href="campusview.html">
+          <h2>{{campus}}</h2>
+          <p>{{description}}</p>
+          {{#isComplete}}
+            <p>Score: {{score}} / {{maxScore}}</p>
+          {{/isComplete}}
+          </a>
+        </li>
+      </ul>
+    </div>
+    </script>
+    <div class="fixed">
+      <div id="campus-complete">
+        All Complete!
+      </div>
+    </div>
+  </div>
+</div>

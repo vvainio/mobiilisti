@@ -1,0 +1,274 @@
+{
+  "campuses": [{
+    "campus": "Evo",
+    "description": "Forestry",
+    "map_image": "evo_map.jpg",
+    "x": "25%",
+    "y": "25%",
+    "isComplete": false,
+    "questions": [{
+      "area": "The processes of nature, ecology and forests",
+      "x": "30%",
+      "y": "15%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "Choose the key factors that affect forest growth:",
+      "answers": {
+        "Habitat": true,
+        "Amount of carbon dioxide": true,
+        "Time of previous logging": true,
+        "The price of wood/timber": false
+      }
+    }, {
+      "area": "Biofuels",
+      "x": "42%",
+      "y": "42%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "How far do you think it is possible to drive on bio fuel processed from 1m&#179; of wood?",
+      "answers": {
+        "From Helsinki to Hämeenlinna (100 km)": false,
+        "From Helsinki to Oulu (600 km)": false,
+        "From Helsinki to Inari (1150 km)": true,
+        "From Evo to Mustiala (90 km)": false
+      }
+    }, {
+      "area": "Everyman's rights",
+      "x": "53%",
+      "y": "89%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "How do everyman's rights facilitate recreational activities in Finland?",
+      "answers": {
+        "Angling and ice fishing on a calm lake": true,
+        "Hiking and camping in a green forest": true,
+        "Making a camp fire and grilling delicious sausages": false,
+        "Picking tasty berries for selling": true
+      }
+    }, {
+      "area": "Biodiversity",
+      "x": "76%",
+      "y": "88%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "Forestry biodiversity is supported by:",
+      "answers": {
+        "Favouring a single tree species": false,
+        "Long time planning": true,
+        "Diverse forest management": true,
+        "Controlled burning": true
+      }
+    }]
+  }, {
+    "campus": "Forssa",
+    "description": "Sustainable development",
+    "map_image": "forssa_map.jpg",
+    "x": "36%",
+    "y": "85%",
+    "isComplete": false,
+    "questions": [{
+      "area": "Global warming and carbon footprint",
+      "x": "10%",
+      "y": "15%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "What does the term 'carbon footprint' mean?",
+      "answers": {
+        "Soot on shoes leaves a large footprint on the parquet": false,
+        "A foot is drawn around with charcoal": false,
+        "Carbon dioxide emissions caused by products, actions or services": true,
+        "The amount of ash left after burning a product": false
+      }
+    }, {
+      "area": "Natural resources",
+      "x": "42%",
+      "y": "42%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "How would you change the local environment in order to use natural resources in an efficient and sustainable way?",
+      "answers": {
+        "No changes, only more protection so that the environment is preserved as it is": true,
+        "By renewing the generators of the power plant (improving efficiency)": true,
+        "By closing the side ditches so that the power plant gets more water also in the summer": true,
+        "By raising the dam by 2m and making an artificial reservior so that floodwater could also be utilised": false
+      }
+    }, {
+      "area": "Waste disposal",
+      "x": "53%",
+      "y": "89%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "What is the benefit of sorting waste?",
+      "answers": {
+        "None, as it is rumored tell that all waste goes into same bin anyway": false,
+        "Part of the waste can be used again": true,
+        "It gives jobs to environmental designers, for example": true,
+        "None, as the Finnish waste is evenly thickly layered": false
+      }
+    }, {
+      "area": "International solidarity in sustainable development",
+      "x": "76%",
+      "y": "88%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "Which of these international environmental agreements do you know:",
+      "answers": {
+        "Rio Tinto": false,
+        "Rio+20": true,
+        "Kioto": true,
+        "FC Air 2020": false
+      }
+    }]
+  }, {
+    "campus": "Lepaa",
+    "description": "Viherala",
+    "map_image": "lepaa_map.jpg",
+    "x": "66%",
+    "y": "15%",
+    "isComplete": false,
+    "questions": [{
+      "area": "Omenalajike",
+      "x": "10%",
+      "y": "15%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "Name the variety of apple:",
+      "answers": {
+        "Lepaan puikula": false,
+        "Lepaan liereä": true,
+        "Lepaan vireä": true,
+        "Lepaan kireä": false
+      }
+    }, {
+      "area": "Drainage",
+      "x": "42%",
+      "y": "42%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "How can drainage be slowed down?",
+      "answers": {
+        "By green covered roofs": true,
+        "With hard, sloping surfaces": false,
+        "With wider paving joints": true,
+        "With sprinklers": false
+      }
+    }, {
+      "area": "Lepaa greenhouse",
+      "x": "53%",
+      "y": "89%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "What is the carbon footprint of Lepaa greenhouse tomatoes compared to the footprint of Dutch tomatoes",
+      "answers": {
+        "Smaller": true,
+        "Larger": false,
+        "The same": false
+      }
+    }, {
+      "area": "Viini omasta sadosta",
+      "x": "76%",
+      "y": "88%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "Why should apples be processed for own use?",
+      "answers": {
+        "To get drunk from own raw materials": true,
+        "To get a smaller moral hangover": true,
+        "No need to drive to the shop": true,
+        "Euros stay in your own pocket": true
+      }
+    }]
+  }, {
+    "campus": "Mustiala",
+    "description": "Rural industries",
+    "map_image": "mustiala_map.jpg",
+    "x": "22%",
+    "y": "84%",
+    "isComplete": false,
+    "questions": [{
+      "area": "Native breeds",
+      "x": "10%",
+      "y": "15%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "How do we preserve genetic biodiversity? By breeding:",
+      "answers": {
+        "Biodegradable birds": false,
+        "Native breeds": true,
+        "Cultivated breeds": true,
+        "Lappish cows": true
+      }
+    }, {
+      "area": "Bees",
+      "x": "42%",
+      "y": "42%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "Why are bees important?",
+      "answers": {
+        "As pollinators": true,
+        "As teasers of children": false,
+        "As producers of sweeteners": true,
+        "As mosquito repellents": false
+      }
+    }, {
+      "area": "Beer",
+      "x": "53%",
+      "y": "89%",
+      "weight": 4,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "How much barley malt is needed to produce one liter of 4,7% beer?",
+      "answers": {
+        "10 gramms": false,
+        "80 gramms": false,
+        "200 gramms": true,
+        "500 gramms": false
+      }
+    }, {
+      "area": "Rural development",
+      "x": "76%",
+      "y": "88%",
+      "weight": 1,
+      "type": "checkbox",
+      "score": false,
+      "isComplete": false,
+      "question": "It's possible to keep the countryside inhabited, when:",
+      "answers": {
+        "Remote and mobile work are possible": true,
+        "Work is community-based and enterpreneurial": true,
+        "Local services are utilised": true,
+        "Project funding is utilised locally": true
+      }
+    }]
+  }]
+}
