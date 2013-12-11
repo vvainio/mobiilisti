@@ -4,13 +4,14 @@ $.ajaxSetup({
 });
 
 /* Globals */
-var config, data, selectedCharacter, selectedCampus, selectedTask, score, nickname;
+var config, data, language, selectedCharacter, selectedCampus, selectedTask, nickname, isSubmitted;
+var score = 4;
 
 /* CONSTANTS */
-var SCORE_MIN = -4,
+var SCORE_MIN = 0,
     SCORE_MAX = 64, // 4 * 4 * 4
     SCORE_INCREASE_BY = 1,
-    SCORE_DECREASE_BY = 1;
+    SCORE_DECREASE_BY = 3;
 
 // jQuery Mobile framework configurations
 $(document).bind("mobileinit", function() {
@@ -30,23 +31,28 @@ $(document).bind("mobileinit", function() {
     $.mobile.page.prototype.options.footerTheme = "a";
 });
 
+// Page events
 $(document).on('pageshow', '#containerPage', function() {
     Game.init();
+    $('.language').on('click', function() {
+        Game.setLanguage($(this).attr('id'));
+    });
 });
 
 $(document).on('pagebeforecreate', '[data-role="page"]', function() {
+    // Show loading spinner on page creation
     setTimeout(function() {
         $.mobile.loading('show');
     }, 1);
 });
 
 $(document).on('pageshow', '[data-role="page"]', function() {
+    // Hide loading spinner on page show
     setTimeout(function() {
         $.mobile.loading('hide');
     }, 300);
 });
 
-// Sliders
 $(document).on('pageshow', '#characterselect', function() {
     // Initialize slider with selected character
     window.slider = new Swipe(document.getElementById('slider'), {
@@ -75,39 +81,25 @@ $(document).on('pageshow', '#guide', function() {
             selectedCampus = slider.getPos();
         }
     });
-    // Give bonus points on correct campus selection
-    /*
-    if (selectedCharacter === selectedCampus) {
-        Score.count("increase");
-        console.log("+1 bonus points (character === campus)");
-    }
-    */
 });
 
-$(document).on('pageshow', '#campusview', function() {
-    //Nfc.bindEvents();
-    
+$(document).on('pageshow', '#campusview', function() {    
     $('#title').html(data.campuses[selectedCampus].campus);
-    $("#map-img").attr("src","../assets/img/" + data.campuses[selectedCampus].map_image);
+    $("#map-img").attr("src","../../assets/img/" + data.campuses[selectedCampus].map_image);
+    Score.display();
 
     CampusView.parseData();
-    
-    var markers = $('.marker');
-    
     Helper.removeActiveMarkers();
-
-    $(document).on('click', '.marker', function() {
-        Helper.clickMarker($(this));
-    });
-    
     Helper.activateTask();
     CampusView.checkComplete();
+    //Nfc.bindEvents();
 });
 
 $(document).on('pageshow', '#campusmap', function() {
     CampusMap.parseData();
+    Helper.removeActiveMarkers();
+    Helper.activateCampus();
     CampusMap.checkComplete();
-    Helper.activateTask();
 });
 
 $(document).on('pageshow', '#taskview', function() {
@@ -116,13 +108,14 @@ $(document).on('pageshow', '#taskview', function() {
     Score.display();
 
     var answers = Task.parseData(selectedTask),
-        maxScore = answers["maxScore"],
+        maxScore = answers.maxScore,
         submitBtn = $('[type="submit"]');
 
     console.log(answers);
 
     submitBtn.button('disable');
 
+    // Checkbox form
     $('#taskForm').find('input, checkbox').change(function() {
         if ($('input[type=checkbox]:checked').length >= 1) {
             console.log('checkbox checked');
@@ -140,43 +133,70 @@ $(document).on('pageshow', '#taskview', function() {
 
         var taskTime = (endTime - startTime) / 1000;
 
+        var checkedArray = {};
         var checkedAnswers = $('input[type=checkbox]:checked').map(function() {
-                return $(this).parent().text().trim();
-            }).get();
-        
-        var emptyAnswers = $('input[type=checkbox]:not(:checked)').map(function() {
-                return $(this).parent().text().trim();
+                var id = parseInt($(this).attr('id').slice(-1));
+                var text = $(this).parent().text().trim();
+                checkedArray[id] = text;
+                return text;
             }).get();
 
-        checkedAnswers.sort();
-        emptyAnswers.sort();
-        answers.correctAnswers.sort();
-        answers.wrongAnswers.sort();
+        console.log(checkedArray);
+        
+        var notCheckedArray = {};
+        var emptyAnswers = $('input[type=checkbox]:not(:checked)').map(function() {
+                var id = parseInt($(this).attr('id').slice(-1));
+                var text = $(this).parent().text().trim();
+                notCheckedArray[id] = text;
+                return text;
+            }).get();
 
         /* TODO 
-        - Flash the correct item
         - Randomize questions
         */
         for (i = 0; i < checkedAnswers.length; i++) {
             if ($.inArray(checkedAnswers[i], answers.correctAnswers) > -1) {
+                $.each(checkedArray, function( key, value ) {
+                  if (checkedAnswers[i] === value) {
+                    flashCorrect(key);
+                  }
+                });
                 Score.count("increase");
                 score++;
-                flashCorrect(i);
             } else if ($.inArray(checkedAnswers[i], answers.wrongAnswers) > -1) {
+                $.each(checkedArray, function( key, value ) {
+                  if (checkedAnswers[i] === value) {
+                    flashWrong(key);
+                  }
+                });
                 Score.count("decrease");
                 score--;
-                flashWrong(i);
             }
         }
 
         for (i = 0; i < emptyAnswers.length; i++) {
             if ($.inArray(emptyAnswers[i], answers.correctAnswers) > -1) {
-                //total -= SCORE_DECREASE_BY;
+                /*
+                $.each(notCheckedArray, function( key, value ) {
+                  if (emptyAnswers[i] === value) {
+                    flashWrong(key);
+                  }
+                });
+                */
             } else if ($.inArray(emptyAnswers[i], answers.wrongAnswers) > -1) {
+                /*
+                $.each(notCheckedArray, function( key, value ) {
+                  if (emptyAnswers[i] === value) {
+                    flashCorrect(key);
+                  }
+                });
+                */
                 Score.count("increase");
                 score++;
             }
         }
+
+        
 
         $('input[type=checkbox]').attr("disabled", true);
         submitBtn.button('disable');
@@ -207,6 +227,7 @@ $(document).on('pageshow', '#taskview', function() {
         }, 3000);
 
         Score.display();
+        $('#score-text').addClass('animated flash');
         
         function flashCorrect(i) {
           $('#checkbox-' + i).parent().children('label').addClass('correct');
@@ -228,36 +249,52 @@ $(document).on('pageshow', '#taskview', function() {
     });
 });
 
+$(document).on('pageshow', '#complete', function() {
+    var total = Score.countTotal();
+    $('#score').html(total);
+});
+
 $(document).on('pageshow', '#highscore', function() {
     Highscore.createList();
+
+    var html = "<span class='score-bubble ui-li-count ui-btn-up-c ui-btn-corner-all'>7 / 16</span>";
+    $('#result-list').find('.ui-btn-inner').append(html);
 
     var total = Score.countTotal();
 
     $('#total').val(total);
+    $('#displayScore').html(total);
+
+    if (isSubmitted) {
+        $('#highscoreForm').remove();
+        $('#form-success').show();
+    }
 
     $('#highscoreForm').submit(function() {
         var nameInput = $('#nickname').val().trim(),
             submitBtn = $('#submitBtn'),
-            regexp = /^([A-Za-z0-9]){3,10}$/;
+            regexp = /^([A-Za-z0-9]){3,10}$/,
+            formError = $('.form-error');
         
-        if (typeof nameInput != 'undefined' && nameInput != '') {
+        if (typeof nameInput != 'undefined' && nameInput !== '') {
             if (regexp.test(nameInput)) {
                 console.log("Nickname OK");
-                $('#highscoreForm').fadeOut();
+                formError.hide();
                 nickname = $('#nickname').val().trim();
                 Highscore.submitScore();
             }
             else {
+                formError.html("Nickname should be 3-10 characters long and contain letters or numbers");
                 console.log("Nickname should be 3-10 characters long and contain letters or numbers");
             }
         }
         else {
+            formError.html("Nickname is required");
             console.log("Nickname required");
         }
 
         return false;
     });
-
 });
 
 $(document).on('pageshow', '#leaderboard', function() {
@@ -265,10 +302,59 @@ $(document).on('pageshow', '#leaderboard', function() {
     Leaderboard.getAroundMe();
 });
 
-// Page init 
+// MAIN - Page init (runned once)
 $(document).on('pageinit', function() {
 
+    Game = {
+        // Initialize default values
+        init: function() {
+            selectedCharacter = 0;
+            selectedCampus = 0;
+            selectedTask = 0;
+            score = 0;
+            data = undefined;
+            isSubmitted = false;
+            Game.loadData();
+        },
+        // Load dynamic content via JSON
+        loadData: function() {
+            if (typeof data == 'undefined') {
+                console.log('No previous data found - loading JSON');
+                $.getJSON('./assets/fixtures/questions_fi.json', function(jsonData) {
+                    data = jsonData;
+                });
+            }
+        },
+        // Trigger game ending
+        end: function() {
+            $.mobile.changePage("end.html", {
+                transition: "slidedown"
+            });
+        },
+        // Trigger game completion
+        complete: function() {
+            $.mobile.changePage("complete.html", {
+                transition: "slidedown"
+            });
+        },
+        // Set game language
+        setLanguage: function(lang) {
+            // Set language or default to 'fi'
+            language = lang || 'fi';
+        }
+    };
+
     Score = {
+        // Give bonus points on correct campus & character selection
+        checkBonus: function() {
+            if (selectedCharacter === selectedCampus) {
+                for (var i = 0; i < 4; i++) {
+                    Score.count("increase");
+                }
+                console.log("+4 bonus points (character === campus)");
+            }
+        },
+        // Increment or decrement score
         count: function(action) {
             if (action === "increase") {
                 score += SCORE_INCREASE_BY;
@@ -286,24 +372,27 @@ $(document).on('pageinit', function() {
             } else {
                 // should not be possible
             }
-            console.log(score);
         },
-
         // Display score via progressbar and/or text
         display: function() {
             /*
             var percent = Math.round(score / SCORE_MAX * 100);
             progressBar(percent, $('#progressBar'));
             */
-            $('#score-text').html("Score: " + score);
+            if (language === 'en') {
+                $('#score-text').html("Score: " + score);               
+            }
+            else if (language === 'fi') {
+                $('#score-text').html("Pisteet: " + score); 
+            }
         },
-
+        // Count and return total score
         countTotal: function() {
             var totalTime = 0,
                 totalScore = 0;
 
             // FOR DEBUGGING
-            if (score == 0) {
+            if (score === 0) {
                 score = Math.floor(Math.random() * (SCORE_MAX - 0 + 1)) + 0;
             }
 
@@ -318,75 +407,64 @@ $(document).on('pageinit', function() {
             
             var total = Math.round((1 / totalTime * totalScore) * 10000);
 
-            console.log("Score: " + totalScore + " Time: " + totalTime + " Total score: " + total)
+            console.log("Score: " + totalScore + " Time: " + totalTime + " Total score: " + total);
             return total;
         }
     };
 
-    Game = {
-        init: function() {
-            selectedCharacter = 0,
-            selectedCampus = 0,
-            selectedTask = 0,
-            score = 0;
-            data = undefined;
-            Game.loadData();
-        },
-
-        // Load JSON data
-        loadData: function() {
-            if (typeof data == 'undefined') {
-                console.log('No previous data found - loading JSON');
-                $.getJSON('./assets/fixtures/questions_fi.json', function(jsonData) {
-                    data = jsonData;
-                });
-            }
-        },
-
-        // Trigger game end
-        end: function() {
-            $.mobile.changePage("end.html", {
-                transition: "slidedown"
-            });
-        },
-
-        complete: function() {
-            $.mobile.changePage("complete.html", {
-                transition: "slidedown"
-            });
-        }
-    };
-
     Task = {
+        // Parse data for taskview
         parseData: function(id) {
-            var question = data.campuses[selectedCampus].questions[id].question,
+            var type = data.campuses[selectedCampus].questions[id].type,
+                question = data.campuses[selectedCampus].questions[id].question,
                 index = 0,
                 correctAnswers = [],
                 wrongAnswers = [];
 
             $('#question').html("<b>" + question + "</b>");
 
-            $.each(data.campuses[selectedCampus].questions[id].answers, function(key, value) {
-                var html = "<input type='checkbox' name='checkbox-" + index + "' id='checkbox-" + index + "'>" +
-                    "<label class='btn-down-reset' for='checkbox-" + index + "'>" + key + "</label>";
+            if (type == 'checkbox' || typeof type == 'undefined') {
+                $.each(data.campuses[selectedCampus].questions[id].answers, function(key, value) {
+                    var html = "<input type='checkbox' name='checkbox-" + index + "' id='checkbox-" + index + "'>" +
+                        "<label class='btn-down-reset' for='checkbox-" + index + "'>" + key + "</label>";
 
-                $('form > fieldset').append(html);
+                    $('form > fieldset').append(html);
 
-                if (value === true) {
-                    correctAnswers.push(key);
-                }
+                    if (value === true) {
+                        correctAnswers.push(key);
+                    }
 
-                if (value === false) {
-                    wrongAnswers.push(key);
-                }
+                    if (value === false) {
+                        wrongAnswers.push(key);
+                    }
 
-                index++;
-            });
+                    index++;
+                });
+            }
+            else if (type == 'slider') {
+               $.each(data.campuses[selectedCampus].questions[id].answers, function(key, value) {
+                    var html = "<br><input type='range' name='slider-fill' id='slider-fill' value='0' min='0' max='500' step='50' data-highlight='true' /><br>";
+
+                    $('form > fieldset').append(html);
+
+                    correctAnswers.push(value);
+                }); 
+            }
+            else if (type == 'image') {
+
+            }
+
+            
             
             $('#taskview').trigger('create');
             
             // Calculate maxScore by number of questions via index
             var maxScore = index * SCORE_INCREASE_BY;
+
+            // Override maxScore when task type is other than checkbox
+            if (maxScore === 0) {
+                maxScore = 1 * data.campuses[selectedCampus].questions[id].weight;
+            }
 
             var answers = {
                 correctAnswers: correctAnswers,
@@ -399,7 +477,7 @@ $(document).on('pageinit', function() {
     };
 
     CampusView = {
-        // Parse data for view
+        // Parse data for campusview
         parseData: function() {
             $.each(data.campuses[selectedCampus].questions, function(index, value) {
                 CampusView.createMarker({
@@ -425,7 +503,7 @@ $(document).on('pageinit', function() {
                 }
             });
         },
-        // Create markers
+        // Create markers for campusview
         createMarker: function(obj) {
             $('<div/>', {
                 id: 'marker-' + obj.id,
@@ -436,7 +514,7 @@ $(document).on('pageinit', function() {
                 }
             }).appendTo('#map');
         },
-        // Create tasks
+        // Create tasks for campusview
         createTask: function(obj) {
             var template = $('#task').html(),
                 data = {
@@ -459,38 +537,38 @@ $(document).on('pageinit', function() {
             task.find('li').removeClass('ui-btn-up-c').addClass('complete-green complete');
             task.find('span').attr('class', 'ui-icon ui-icon-check ui-icon-shadow');
             
-            task.addClass('animated tada delay');  
+            task.addClass('animated pulse delay');  
 
             data.campuses[selectedCampus].questions[obj.id].isComplete = true;
             data.campuses[selectedCampus].questions[obj.id].score = obj.score;
             data.campuses[selectedCampus].questions[obj.id].maxScore = obj.maxScore;
             data.campuses[selectedCampus].questions[obj.id].taskTime = obj.taskTime;
         },
-
+        // Check completed tasks
         checkComplete: function() {
             var marker = $('.marker'),
-                isComplete = true;
+                allComplete = true;
 
             $.each(marker, function() {
                 if (!$(this).hasClass('marker-complete')) {
-                    isComplete = false;
+                    allComplete = false;
                 }
             });
 
-            if (isComplete === true) {
+            if (allComplete) {
                 data.campuses[selectedCampus].isComplete = true;
-                $.mobile.changePage("campusmap.html");
+                setTimeout(function () {
+                    $('#campus-complete').show().addClass('animated bounceInDown');
+                }, 2000);  
+                setTimeout(function () {
+                    $.mobile.changePage("campusmap.html");
+                }, 5000);                
             }
         }
     };
 
-    Markers = {
-        createMarker: function() {
-
-        }
-    };
-
     CampusMap = {
+        // Parse data for campusmap
         parseData: function() {
             $.each(data.campuses, function(index, value) {
                 CampusMap.createMarker({
@@ -510,7 +588,7 @@ $(document).on('pageinit', function() {
                 }
             });
         },
-
+        // Set campus complete
         setCampusComplete: function(id) {
             var marker = $('#marker-' + id),
                 campus = $('#campus-' + id);
@@ -518,18 +596,14 @@ $(document).on('pageinit', function() {
             marker.removeClass().addClass('marker marker-active marker-complete');
             campus.find('li').removeClass('ui-btn-up-c').addClass('complete-green complete');
             campus.find('span').attr('class', 'ui-icon ui-icon-check ui-icon-shadow');
-/*
-            if (id === selectedCampus) {
-                marker.removeClass().addClass('marker marker-active marker-complete');
-            } else {
-                marker.removeClass().addClass('marker marker-complete');
-            }
-*/
-            data.campuses[selectedCampus].isComplete = true;
+
+            campus.addClass('animated tada delay');
+
+            //data.campuses[selectedCampus].isComplete = true;
 
             selectedTask = undefined;
         },
-
+        // Create markers for campusmap
         createMarker: function(obj) {
             if (obj.id === selectedCampus) {
                 $('<div/>', {
@@ -551,7 +625,7 @@ $(document).on('pageinit', function() {
                 }).appendTo('#map');
             }
         },
-
+        // Create tasks for campusmap
         createTask: function(obj) {
             var template = $('#campus').html(),
                 scores = CampusMap.countScore(obj.id),
@@ -559,15 +633,15 @@ $(document).on('pageinit', function() {
                     id: obj.id,
                     campus: obj.campus,
                     description: obj.description,
-                    score: scores["score"],
-                    maxScore: scores["maxScore"],
+                    score: scores.score,
+                    maxScore: scores.maxScore,
                     isComplete: obj.isComplete
                 },
                 html = Mustache.to_html(template, data);
 
             $('#campusmap > .content').append(html).trigger('create');
         },
-        
+        // Count score for each campus
         countScore: function(id) {
             var score = 0,
                 maxScore = 0;
@@ -579,13 +653,13 @@ $(document).on('pageinit', function() {
               score += questions.score;       
             });
             
-            return { "score": score, "maxScore": maxScore }
+            return { "score": score, "maxScore": maxScore };
         },
-        
+        // Set active campus
         selectCampus: function(id) {
             selectedCampus = id;
         },
-
+        // Check if all campuses are complete
         checkComplete: function() {
             var allComplete = true;
 
@@ -596,12 +670,18 @@ $(document).on('pageinit', function() {
             });
 
             if (allComplete) {
-                Game.complete();
+                setTimeout(function () {
+                    $('#campus-complete').show().addClass('animated bounceInDown');
+                }, 2000);  
+                setTimeout(function () {
+                    Game.complete();
+                }, 5000);   
             }
         }
     };
 
     Highscore = {
+        // Parse data for highscore listing
         parseData: function() {
             $.each(data.campuses, function(index, value) {
                 Highscore.createList({
@@ -611,25 +691,61 @@ $(document).on('pageinit', function() {
                 });
             });
         },
-
+        // Render highscores
         createList: function(obj) {
             var template = $('#highscorelist').html(),
                 html = Mustache.to_html(template, data);
 
             console.log(data);
 
-            $('#highscore > .content').append(html).trigger('create');
+            $('#highscore > .content > #listcontainer').append(html).trigger('create');
         },
+        // Count scores for each task and campus
+        countScore: function() {
+            var maxScore = 0,
+                score = 0,
+                campusObj = {},
+                taskObj = {};
 
+            $.each(data.campuses, function(i, campuses) {
+                var campusScore = 0;
+                $.each(campuses.questions, function(j, questions) {
+                    var taskScore = 0;
+                    $.each(questions.answers, function(key, value) {     
+                        maxScore++;
+                        campusScore++;
+                        taskScore++;
+                    });
+                    taskObj[questions.area] = taskScore;
+                });
+                campusObj[campuses.campus] = campusScore;
+            });
+            console.log(campusObj);
+            console.log(taskObj);
+            console.log(maxScore);
+
+            //campusObj[campuses.campus] = { questions.area: taskScore }
+        },
+        // POST highscore to server
         submitScore: function() {
-            // Change this to $.ajax
-            $.post(config.server + '/add', $('#highscoreForm').serialize(), function(data) {
-                console.log(data);
+            $.ajax({
+                url: config.server + '/add',
+                type: 'POST',
+                data: $('#highscoreForm').serialize(),
+                success: function( data ) {
+                    isSubmitted = true;
+                    $('#highscoreForm').remove();
+                    $('#form-success').fadeIn('slow');
+                },
+                error: function( data ) {
+                  alert( "Error sending data." );
+                }
             });
         }
     };
 
     Leaderboard = {
+        // GET highscores
         getLeaders: function() {
             $.ajax({
                 url: config.server + '/leaders',
@@ -648,7 +764,7 @@ $(document).on('pageinit', function() {
                 }
             });
         },
-
+        // GET nearest highscores
         getAroundMe: function() {
             if (typeof nickname != 'undefined') {
                 $.ajax({
@@ -669,7 +785,11 @@ $(document).on('pageinit', function() {
                 });
             }
         },
-
+        // Display errors
+        showError: function() {
+            $('#data-error').fadeIn();
+        },
+        // Highlight rows
         highlightRow: function(element) {
             if (typeof nickname != 'undefined') {
                 $('.' + element + '> table td:contains(' + nickname + ')').parent().css("font-weight", "bold"); 
@@ -678,6 +798,7 @@ $(document).on('pageinit', function() {
     };
     
     Helper = {
+        // Activate selected task
         activateTask: function() {                
             if (typeof selectedTask != 'undefined') {
                 var task = $('#task-' + selectedTask);
@@ -686,7 +807,16 @@ $(document).on('pageinit', function() {
                 task.show();
             }
         },
-        
+        // Activate selected campus
+        activateCampus: function() {                
+            if (typeof selectedCampus != 'undefined') {
+                var campus = $('#campus-' + selectedCampus);
+                var marker = $('#marker-' + selectedCampus);
+                marker.addClass('marker-active');
+                campus.show();
+            }
+        },
+        // Handle marker clicks
         clickMarker: function(el) {
             var activePage = $.mobile.activePage[0].id,
                 markers = $('.marker'),
@@ -713,22 +843,23 @@ $(document).on('pageinit', function() {
                 selectedTask = 0;
                 campuses.hide();
                 campus.show();
-                if (data.campuses[selectedCampus].isComplete) {
+                /*if (data.campuses[selectedCampus].isComplete) {
                     // TODO
                     console.log('Campus complete!');
                 }
+                */
             } else { }
             
             el.addClass('marker-active');
         },
-              
+        // Remove all active markers      
         removeActiveMarkers: function() {
             var markers = $('.marker');
             $.each(markers, function() {
                 $(this).removeClass('marker-active');
             });
         },
-        
+        // Shuffle arrays using Fisher–Yates algorithm
         shuffleArray: function(array) {
             for (var i = array.length - 1; i > 0; i--) {
                 var j = Math.floor(Math.random() * (i + 1));
@@ -736,16 +867,21 @@ $(document).on('pageinit', function() {
                 array[i] = array[j];
                 array[j] = temp;
             }
-            return array;        
+            return array;  
         }
     };
 
     Nfc = {
+        // Bind NFC-events to page
         bindEvents: function() {
             function onNfc(nfcEvent) {
-                alert("NFC detected");
+                navigator.notification.vibrate(100);
+                var some_value = nfcEvent.tag.ndefMessage[0].payload;
+                var string_value = nfc.bytesToString(some_value);
+                alert(string_value);
             }
-            nfc.addTagDiscoveredListener(onNfc);
+            //nfc.addTagDiscoveredListener(onNfc);
+            nfc.addNdefListener(onNfc);
         }
     };
 
@@ -754,42 +890,20 @@ $(document).on('pageinit', function() {
     $('#alert').on('click', function() {
         $('#alert').fadeOut();
     });
-
-    // Increase score
-    $('#increaseScore').on('click', function() {
-        Score.count("increase");
-    });
-
-    // Decrease score
-    $('#decreaseScore').on('click', function() {
-        Score.count("decrease");
-    });
-
-    /* DEBUGGING */
-    
-    $('#setTaskComplete').on('click', function() {
-        CampusView.setTaskComplete({
-            id: selectedTask
-            });
-        });
-
-    $('#setCampusComplete').on('click', function() {
-        for (var i = 0; i < 4; i++) {
-            CampusView.setTaskComplete({
-                id: i
-            });
-        }
-        CampusMap.setCampusComplete(selectedCampus);
+    // Handle marker clicks
+    $(document).on('click', '.marker', function() {
+        Helper.clickMarker($(this));
     });
 });
 
 $(function() {
+    // Set Config Data
     $.getJSON('./assets/fixtures/config.json', function(data) {
         config = data;
     });
 });
 
-
+/*
 $(function() {
 
   // At this width, no scaling occurs. Above/below will scale appropriately.
@@ -820,10 +934,7 @@ $(function() {
     //$html.css('font-size', scale * 100 + '%');
     $html.css('zoom', scale * 100 + '%');
   };
-/*
-  $(window).resize(function() {
-    setHtmlScale();
-  });
-*/
+
   setHtmlScale();
 });
+*/

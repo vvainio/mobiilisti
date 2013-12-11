@@ -8,13 +8,13 @@
     "isComplete": false,
     "questions": [{
       "area": "Luonnonprosessit, ekologia ja metsät",
-      "x": "10%",
+      "x": "30%",
       "y": "15%",
       "weight": 1,
       "type": "checkbox",
       "score": false,
       "isComplete": false,
-      "question": "Valitse metsien kasvuun vaikuttavat keskeiset tekijät",
+      "question": "Valitse metsien kasvuun vaikuttavat keskeiset tekijät:",
       "answers": {
         "Kasvupaikka": true,
         "Hiilidioksidin määrä": true,
@@ -150,7 +150,7 @@
       "type": "checkbox",
       "score": false,
       "isComplete": false,
-      "question": "Mitä omenalajike kuvassa on kyseessä?",
+      "question": "Mikä omenalajike kuvassa on kyseessä?",
       "answers": {
         "Lepaan puikula": false,
         "Lepaan liereä": true,
@@ -182,8 +182,8 @@
       "isComplete": false,
       "question": "Mikä on Lepaan kasvihuoneen tomaatin hiilijalanjälki suhteessa hollantilaiseen tomaattiin?",
       "answers": {
-        "Parempi": true,
-        "Huonompi": false,
+        "Pienempi": true,
+        "Suurempi": false,
         "Sama": false
       }
     }, {
@@ -243,13 +243,16 @@
       "area": "Olut",
       "x": "53%",
       "y": "89%",
-      "weight": 1,
-      "type": "slider",
+      "weight": 4,
+      "type": "checkbox",
       "score": false,
       "isComplete": false,
       "question": "Kuinka monta ohramallaskiloa tarvitset 4,7 %-olutlitran tuottamiseksi?",
       "answers": {
-        "Insert a slider between 10g-500g (correct answer 200g)": true
+        "10 grammaa": false,
+        "80 grammaa": false,
+        "200 grammaa": true,
+        "500 grammaa": false
       }
     }, {
       "area": "Maaseudun kehittäminen",

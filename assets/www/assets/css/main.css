@@ -23,6 +23,12 @@ img {
   display: block; /* Fix over-sized parent div */
 }
 
+hr {
+  border: 0;
+  height: 1px;
+  background: #CCC;
+}
+
 .marker {
   position: absolute;
   height: 47px;
@@ -130,11 +136,17 @@ img {
   font-size: 60px;
   color: rgb(148, 185, 19);
   right: 0;
-  padding-top: 40px;
+  padding-top: 20px;
   margin-right: 20%;
   position: absolute;
-  animation-duration: 3s;
-  -webkit-animation-duration: 3s;
+  animation-delay:1s;
+  -webkit-animation-delay:1s;
+  /*animation-duration: 3s;
+  -webkit-animation-duration: 3s;*/
+}
+
+#data-error {
+  display: none;
 }
 
 /* Misc */
@@ -159,10 +171,32 @@ img {
   font-size: 85%;
 }
 
+#form-success {
+  display: none;
+}
+
+.form-error {
+  font-style: italic;
+  color: red;
+}
+
 .score-bar {
   height: auto;
   margin-top: 24px;
   width: 50%;
+}
+
+/* span */
+/* ui-li-count ui-btn-up-c ui-btn-corner-all */
+
+.score-bubble {
+  position: absolute;
+  font-size: 11px;
+  font-weight: bold;
+  padding: .2em .5em;
+  top: 50%;
+  margin-top: -.9em;
+  right: 40px;
 }
 
 /* Swipe related */
@@ -181,6 +215,31 @@ img {
   float: left;
   width: 100%;
   position: relative;
+}
+
+.fixed {
+  position: fixed;
+  top: 20%;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  pointer-events: none;
+}
+
+#campus-complete {
+  display: none;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px 10px;
+  width: 260px;
+  color: #000;
+  margin: 0 auto;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+#campus-complete p {
+  margin: 0;
 }
 
 /* Table styling */
@@ -205,4 +264,71 @@ table {
 .table-stripe thead th,
 .table-stripe tbody tr:last-child {
   border-bottom: 1px solid rgba(0, 0, 0, .1);
+}
+
+/* Custom animations */
+
+.hatch{
+  animation-name: hatch;
+  -webkit-animation-name: hatch;  
+
+  animation-duration: 2s; 
+  -webkit-animation-duration: 2s;
+
+  animation-timing-function: ease-in-out; 
+  -webkit-animation-timing-function: ease-in-out;
+
+  transform-origin: 50% 100%;
+  -ms-transform-origin: 50% 100%;
+  -webkit-transform-origin: 50% 100%; 
+
+  visibility: visible !important;   
+}
+
+@keyframes hatch {
+  0% {
+    transform: rotate(0deg) scaleY(0.6);
+  }
+  20% {
+    transform: rotate(-2deg) scaleY(1.05);
+  }
+  35% {
+    transform: rotate(2deg) scaleY(1);
+  }
+  50% {
+    transform: rotate(-2deg);
+  } 
+  65% {
+    transform: rotate(1deg);
+  } 
+  80% {
+    transform: rotate(-1deg);
+  }   
+  100% {
+    transform: rotate(0deg);
+  }                 
+}
+
+@-webkit-keyframes hatch {
+  0% {
+    -webkit-transform: rotate(0deg) scaleY(0.6);
+  }
+  20% {
+    -webkit-transform: rotate(-2deg) scaleY(1.05);
+  }
+  35% {
+    -webkit-transform: rotate(2deg) scaleY(1);
+  }
+  50% {
+    -webkit-transform: rotate(-2deg);
+  } 
+  65% {
+    -webkit-transform: rotate(1deg);
+  } 
+  80% {
+    -webkit-transform: rotate(-1deg);
+  }   
+  100% {
+    -webkit-transform: rotate(0deg);
+  }   
 }

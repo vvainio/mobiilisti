@@ -38,7 +38,13 @@ var app = {
                 navigator.app.backHistory();
             } else {
                 e.preventDefault();
-                alert("Not allowed!");
+                navigator.notification.confirm(
+                    'Exit Mobiilisti?', function(button) {
+                        if (button == 2) {
+                          navigator.app.exitApp();
+                        } 
+                      }, 'Exit', 'No,Yes'
+                );
             }
         }, false);
     },
