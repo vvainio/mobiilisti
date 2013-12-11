@@ -15,7 +15,11 @@ body {
     width:100%;
 }
 
+/*
+For fixing animations
+DISABLED: seems to break modal views
 .ui-page { -webkit-backface-visibility: hidden; }
+*/ 
 
 .ui-header .ui-title {
   overflow: visible;
