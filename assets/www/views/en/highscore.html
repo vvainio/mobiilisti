@@ -1,0 +1,44 @@
+<div data-role="page" id="highscore">
+  <div data-role="header" data-position="inline">
+      <h1 id="title">Highscores</h1>
+  </div>
+  <div class="content" data-role="content">
+    <div id="listcontainer">
+    <script id="highscorelist" type="text/template">
+      <h3>Final results</h3>
+      <div id="result-list" data-role="collapsible-set" data-theme="c" data-content-theme="d" data-iconpos="right">
+        {{#campuses}}
+          <div data-role="collapsible">
+            <h3>{{campus}}</h3>
+            <ul data-role="listview" data-count-theme="c" data-inset="true">
+              {{#questions}}
+                <li>{{area}} <span class="ui-li-count">{{score}}</span></li>
+              {{/questions}}
+            </ul>
+          </div>
+        {{/campuses}}
+      </div>
+    </script>
+    </div>
+    <div>      
+        <h3>Total score: <span id="displayScore"></h3>
+        <hr>
+        <h3>Online Leaderboard</h3>
+        <form id="highscoreForm">
+        <p>Submit your score online and see how you rank among other players!</p>
+        <input type="text" name="nickname" id="nickname" placeholder="Enter your nickname"/>
+        <input type="hidden" name="score" id="total"> 
+        <input type="submit" value="Submit" id="submitBtn">
+      </form>
+      <span class="form-error"></span>
+      <div id="form-success">Your score has been successfully submitted.<br>See the Leaderboard for results!</div>
+    </div>
+  </div>
+  <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#" data-icon="grid" class="ui-btn-active">Highscores</a></li>
+        <li><a href="leaderboard.html" data-icon="star">Leaderboard</a></li>
+      </ul>
+    </div>
+</div>
