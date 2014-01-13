@@ -103,16 +103,12 @@ $(document).on('pageshow', '#campusmap', function() {
 });
 
 $(document).on('pageshow', '#taskview', function() {
-    var startTime = new Date();
-
-    Score.display();
-
-    var answers = Task.parseData(selectedTask),
+    var startTime = new Date(),
+        answers = Task.parseData(selectedTask),
         maxScore = answers.maxScore,
         submitBtn = $('[type="submit"]');
 
-    console.log(answers);
-
+    Score.display();
     submitBtn.button('disable');
 
     // Checkbox form
@@ -128,24 +124,20 @@ $(document).on('pageshow', '#taskview', function() {
     // Handle form submit
     $('#taskForm').submit(function() {
         var score = 0,
-            endTime = new Date(),
-            flashScore = $('#flashScore');
+            flashScore = $('#flashScore'),
+            checkedArray = {},
+            notCheckedArray = {},
+            taskTime = (new Date() - startTime) / 1000;
 
-        var taskTime = (endTime - startTime) / 1000;
-
-        var checkedArray = {};
         var checkedAnswers = $('input[type=checkbox]:checked').map(function() {
-                var id = parseInt($(this).attr('id').slice(-1));
+                var id = parseInt($(this).attr('id').slice(-1, 10));
                 var text = $(this).parent().text().trim();
                 checkedArray[id] = text;
                 return text;
             }).get();
-
-        console.log(checkedArray);
         
-        var notCheckedArray = {};
         var emptyAnswers = $('input[type=checkbox]:not(:checked)').map(function() {
-                var id = parseInt($(this).attr('id').slice(-1));
+                var id = parseInt($(this).attr('id').slice(-1, 10));
                 var text = $(this).parent().text().trim();
                 notCheckedArray[id] = text;
                 return text;
@@ -154,7 +146,7 @@ $(document).on('pageshow', '#taskview', function() {
         /* TODO 
         - Randomize questions
         */
-        for (i = 0; i < checkedAnswers.length; i++) {
+        for (var i = 0; i < checkedAnswers.length; i++) {
             if ($.inArray(checkedAnswers[i], answers.correctAnswers) > -1) {
                 $.each(checkedArray, function( key, value ) {
                   if (checkedAnswers[i] === value) {
@@ -174,7 +166,7 @@ $(document).on('pageshow', '#taskview', function() {
             }
         }
 
-        for (i = 0; i < emptyAnswers.length; i++) {
+        for (var i = 0; i < emptyAnswers.length; i++) {
             if ($.inArray(emptyAnswers[i], answers.correctAnswers) > -1) {
                 /*
                 $.each(notCheckedArray, function( key, value ) {
@@ -194,9 +186,7 @@ $(document).on('pageshow', '#taskview', function() {
                 Score.count("increase");
                 score++;
             }
-        }
-
-        
+        }    
 
         $('input[type=checkbox]').attr("disabled", true);
         submitBtn.button('disable');
@@ -265,6 +255,10 @@ $(document).on('pageshow', '#highscore', function() {
     $('#total').val(total);
     $('#displayScore').html(total);
 
+    if (nickname) {
+        $('#nickname').val(nickame);
+    }
+
     if (isSubmitted) {
         $('#highscoreForm').remove();
         $('#form-success').show();
@@ -320,7 +314,7 @@ $(document).on('pageinit', function() {
         loadData: function() {
             if (typeof data == 'undefined') {
                 console.log('No previous data found - loading JSON');
-                $.getJSON('./fixtures/questions_fi.json', function(jsonData) {
+                $.getJSON('./fixtures/debug.json', function(jsonData) {
                     data = jsonData;
                 });
             }
@@ -417,6 +411,7 @@ $(document).on('pageinit', function() {
         parseData: function(id) {
             var type = data.campuses[selectedCampus].questions[id].type,
                 question = data.campuses[selectedCampus].questions[id].question,
+                img = data.campuses[selectedCampus].questions[id].backdrop,
                 index = 0,
                 correctAnswers = [],
                 wrongAnswers = [];
@@ -454,8 +449,8 @@ $(document).on('pageinit', function() {
 
             }
 
-            
-            
+            $('#taskview').css('background', 'url(../../img/' + img + ') no-repeat center center fixed');
+               
             $('#taskview').trigger('create');
             
             // Calculate maxScore by number of questions via index
@@ -739,6 +734,13 @@ $(document).on('pageinit', function() {
                 },
                 error: function( data ) {
                   alert( "Error sending data." );
+                },
+                timeout: 5000,
+                beforeSend: function() {
+                    $.mobile.loading('show');
+                },
+                complete: function() {
+                    $.mobile.loading('hide');
                 }
             });
         }
@@ -761,6 +763,13 @@ $(document).on('pageinit', function() {
                 },
                 error: function( data ) {
                   alert( "Error fetching data" );
+                },
+                timeout: 5000,
+                beforeSend: function() {
+                    $.mobile.loading('show');
+                },
+                complete: function() {
+                    $.mobile.loading('hide');
                 }
             });
         },
@@ -781,6 +790,13 @@ $(document).on('pageinit', function() {
                     },
                     error: function( data ) {
                       alert( "Error fetching data" );
+                    },
+                    timeout: 5000,
+                    beforeSend: function() {
+                        $.mobile.loading('show');
+                    },
+                    complete: function() {
+                        $.mobile.loading('hide');
                     }
                 });
             }

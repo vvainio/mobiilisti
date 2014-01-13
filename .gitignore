@@ -55,3 +55,7 @@ IOS/www/
 
 # Node.js
 node_modules/
+
+# Images
+*.png
+*.jpg

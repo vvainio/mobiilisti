@@ -21,6 +21,33 @@ DISABLED: seems to break modal views
 .ui-page { -webkit-backface-visibility: hidden; }
 */ 
 
+#containerPage { 
+  background: url(../img/splash.png) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.main-container {
+  position: absolute;
+  width: 100%;
+  bottom: 10%;
+}
+
+.main-buttons {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.content {
+  z-index: 10;
+}
+
+.header {
+  z-index: 10;
+}
+
 .ui-header .ui-title {
   overflow: visible;
   white-space: normal;
@@ -53,6 +80,8 @@ hr {
   height: 1px;
   background: #CCC;
 }
+
+/* Campusview */
 
 .marker {
   position: absolute;
@@ -113,6 +142,17 @@ hr {
 }
 
 /* Task form */
+
+#taskview {
+  -webkit-background-size: cover !important;
+  -moz-background-size: cover !important;
+  -o-background-size: cover !important;
+  background-size: cover !important;
+}
+
+#taskview .content {
+  background: rgba(238,238,238,0.9);
+}
 
 .btn-down-reset {
   border: 1px solid #ccc !important;
