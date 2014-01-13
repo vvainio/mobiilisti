@@ -397,3 +397,8 @@ table {
     -webkit-transform: rotate(0deg);
   }   
 }
+
+/* Fix animation issues on android 4.x */
+.in, .out {
+    -webkit-animation-fill-mode: none !important;
+}
