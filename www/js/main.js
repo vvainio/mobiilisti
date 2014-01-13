@@ -17,7 +17,7 @@ var SCORE_MIN = 0,
 $(document).bind("mobileinit", function() {
     $.support.cors = true;
     $.mobile.allowCrossDomainPages = true;
-    $.mobile.pushStateEnabled = false;
+    //$.mobile.pushStateEnabled = false;
     $.mobile.defaultPageTransition = 'slide';
 });
 

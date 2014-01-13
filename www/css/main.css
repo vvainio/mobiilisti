@@ -204,7 +204,7 @@ background-image: -webkit-gradient(linear, left top, left bottom, from( #abcd14 
   c-bhover-background-end}
 
 */
-background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
+  background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
 
   background-image: -moz-linear-gradient( #abcd14 , #abcd14 );
   background-image: -o-linear-gradient( #abcd14 , #abcd14 );
@@ -218,7 +218,7 @@ background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
   c-bhover-background-end}
 
 */
-background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
+  background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
 
   background-image: -moz-linear-gradient( #abcd14 , #abcd14 );
   background-image: -o-linear-gradient( #abcd14 , #abcd14 );
@@ -232,7 +232,7 @@ background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
   c-bhover-background-end}
 
 */
-background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
+  background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
 
   background-image: -moz-linear-gradient( #abcd14 , #abcd14 );
   background-image: -o-linear-gradient( #abcd14 , #abcd14 );
@@ -246,7 +246,7 @@ background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
   c-bhover-background-end}
 
 */
-background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
+  background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
 
   background-image: -moz-linear-gradient( #abcd14 , #abcd14 );
   background-image: -o-linear-gradient( #abcd14 , #abcd14 );
@@ -260,7 +260,7 @@ background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
   c-bhover-background-end}
 
 */
-background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
+  background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
 
   background-image: -moz-linear-gradient( #abcd14 , #abcd14 );
   background-image: -o-linear-gradient( #abcd14 , #abcd14 );
@@ -271,9 +271,8 @@ background-image: -webkit-linear-gradient( #abcd14 , #abcd14 );
 .complete-green:visited,.complete-green:hover,.complete-green a.ui-link-inherit {
   /* {
   c-bhover-color}
-
-*/
-color: #fff;
+  */
+  color: #fff;
 }
 
 #score-text {

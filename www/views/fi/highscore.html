@@ -6,11 +6,11 @@
     <div id="listcontainer">
     <script id="highscorelist" type="text/template">
       <h3>Lopulliset tulokset</h3>
-      <div id="result-list" data-role="collapsible-set" data-theme="c" data-content-theme="d" data-iconpos="right">
+      <div id="result-list" data-role="collapsible-set" data-iconpos="right">
         {{#campuses}}
           <div data-role="collapsible">
             <h3>{{campus}}</h3>
-            <ul data-role="listview" data-count-theme="c" data-inset="true">
+            <ul data-role="listview" data-inset="true">
               {{#questions}}
                 <li>{{area}} <span class="ui-li-count">{{score}}</span></li>
               {{/questions}}
