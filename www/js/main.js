@@ -19,16 +19,6 @@ $(document).bind("mobileinit", function() {
     $.mobile.allowCrossDomainPages = true;
     $.mobile.pushStateEnabled = false;
     $.mobile.defaultPageTransition = 'slide';
-    // Loader settings
-    $.mobile.loader.prototype.options.text = "loading";
-    $.mobile.loader.prototype.options.textVisible = false;
-    $.mobile.loader.prototype.options.theme = "a";
-    $.mobile.loader.prototype.options.html = "";
-    /* Theme settings */
-    // Page
-    $.mobile.page.prototype.options.headerTheme = "a";
-    $.mobile.page.prototype.options.contentTheme = "c";
-    $.mobile.page.prototype.options.footerTheme = "a";
 });
 
 // Page events
@@ -39,23 +29,8 @@ $(document).on('pageshow', '#containerPage', function() {
     });
 });
 
-$(document).on('pagebeforecreate', '[data-role="page"]', function() {
-    // Show loading spinner on page creation
-    setTimeout(function() {
-        $.mobile.loading('show');
-    }, 1);
-});
-
-$(document).on('pageshow', '[data-role="page"]', function() {
-    // Hide loading spinner on page show
-    setTimeout(function() {
-        $.mobile.loading('hide');
-    }, 300);
-});
-
 $(document).on('pageshow', '#about', function() {
-        Nfc.bindEvents();
-    });
+    Nfc.bindEvents();
 });
 
 $(document).on('pageshow', '#characterselect', function() {
@@ -454,7 +429,7 @@ $(document).on('pageinit', function() {
 
             }
 
-            $('#taskview').css('background', 'url(../../img/' + img + ') no-repeat center center fixed');
+            $('#taskview').css('background', 'url(../../img/' + img + ')');
                
             $('#taskview').trigger('create');
             
@@ -889,6 +864,9 @@ $(document).on('pageinit', function() {
                 array[j] = temp;
             }
             return array;  
+        },
+        exitApp: function() {
+            navigator.app.exitApp();
         }
     };
 
@@ -901,8 +879,7 @@ $(document).on('pageinit', function() {
                 var string_value = nfc.bytesToString(some_value);
                 alert(string_value);
             }
-            //nfc.addTagDiscoveredListener(onNfc);
-            nfc.addNdefListener(onNfc);
+            //nfc.addNdefListener(onNfc);
         }
     };
 
