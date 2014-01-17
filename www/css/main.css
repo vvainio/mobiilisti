@@ -18,19 +18,19 @@ body {
   padding: 0px;
   width: 100%;
 }
-
+/**
 .ui-bar-inherit {
 border: 1px solid #648100 !important;
 background: #abcd14 !important;
-color: #fff !important;
 font-weight: bold;
-background-image: -webkit-gradient(linear, left top, left bottom, from( #abcd14 /*{a-bar-background-start}*/), to( #94b913 /*{a-bar-background-end}*/) !important);
-background-image: -webkit-linear-gradient( #abcd14 /*{a-bar-background-start}*/, #94b913 /*{a-bar-background-end}*/ )!important;
-background-image: -moz-linear-gradient( #abcd14 /*{a-bar-background-start}*/, #94b913 /*{a-bar-background-end}*/) !important;
-background-image: -ms-linear-gradient( #abcd14 /*{a-bar-background-start}*/, #94b913 /*{a-bar-background-end}*/) !important;
-background-image: -o-linear-gradient( #abcd14 /*{a-bar-background-start}*/, #94b913 /*{a-bar-background-end}*/) !important;
-background-image: linear-gradient( #abcd14 /*{a-bar-background-start}*/, #94b913 /*{a-bar-background-end}*/) !important;
+background-image: -webkit-gradient(linear, left top, left bottom, from( #abcd14 ), to( #94b913 ) !important);
+background-image: -webkit-linear-gradient( #abcd14, #94b913 )!important;
+background-image: -moz-linear-gradient( #abcd14, #94b913 ) !important;
+background-image: -ms-linear-gradient( #abcd14, #94b913 ) !important;
+background-image: -o-linear-gradient( #abcd14, #94b913 ) !important;
+background-image: linear-gradient( #abcd14, #94b913 ) !important;
 }
+**/
 
 .ui-header > .ui-btn {
   color: #fff /*{a-bup-color}*/ !important;
@@ -40,6 +40,10 @@ background-image: linear-gradient( #abcd14 /*{a-bar-background-start}*/, #94b913
 
 .ui-checkbox > .ui-btn:hover {
   text-shadow: none !important;
+}
+
+.ui-navbar li:last-child .ui-btn {
+  margin-right: 0px !important;
 }
 /*
 For fixing animations
