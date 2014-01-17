@@ -17,7 +17,7 @@ var SCORE_MIN = 0,
 $(document).bind("mobileinit", function() {
     $.support.cors = true;
     $.mobile.allowCrossDomainPages = true;
-    //$.mobile.pushStateEnabled = false;
+    $.mobile.pushStateEnabled = false;
     $.mobile.defaultPageTransition = 'slide';
 });
 
@@ -509,8 +509,7 @@ $(document).on('pageinit', function() {
                 task = $('#task-' + obj.id);
 
             marker.removeClass().addClass('marker marker-active marker-complete');
-            task.find('li').removeClass('ui-btn-up-c').addClass('complete-green complete');
-            task.find('span').attr('class', 'ui-icon ui-icon-check ui-icon-shadow');
+            task.find('a').removeClass().addClass('ui-btn complete ui-btn-icon-right ui-icon-check');
             
             task.addClass('animated pulse delay');  
 
