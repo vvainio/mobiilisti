@@ -47,6 +47,24 @@ var app = {
                 );
             }
         }, false);
+
+        function onNfc(nfcEvent) {
+            var tag = nfcEvent.tag;
+            var tagId = nfc.bytesToHexString(tag.id);
+            var uri = "http://tagglem.com/id/" + tagId;
+            var ref = window.open(uri, '_blank', 'location=yes');
+        }
+
+        function nfcOk() {
+            console.log("Listening for NFC Tags");
+        }
+
+        function nfcFail(error) {
+            console.log("Error adding NFC listener");
+        }
+
+        nfc.addTagDiscoveredListener(onNfc, nfcOk, nfcFail);
+
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {

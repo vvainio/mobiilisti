@@ -29,10 +29,6 @@ $(document).on('pageshow', '#containerPage', function() {
     });
 });
 
-$(document).on('pageshow', '#about', function() {
-    Nfc.bindEvents();
-});
-
 $(document).on('pageshow', '#characterselect', function() {
     // Initialize slider with selected character
     window.slider = new Swipe(document.getElementById('slider'), {
@@ -72,7 +68,6 @@ $(document).on('pageshow', '#campusview', function() {
     Helper.removeActiveMarkers();
     Helper.activateTask();
     CampusView.checkComplete();
-    Nfc.bindEvents();
 });
 
 $(document).on('pageshow', '#campusmap', function() {
@@ -866,19 +861,6 @@ $(document).on('pageinit', function() {
         },
         exitApp: function() {
             navigator.app.exitApp();
-        }
-    };
-
-    Nfc = {
-        // Bind NFC-events to page
-        bindEvents: function() {
-            function onNfc(nfcEvent) {
-                //navigator.notification.vibrate(100);
-                var some_value = nfcEvent.tag.ndefMessage[0].payload;
-                var string_value = nfc.bytesToString(some_value);
-                alert(string_value);
-            }
-            //nfc.addNdefListener(onNfc);
         }
     };
 
