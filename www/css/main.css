@@ -92,6 +92,15 @@ DISABLED:  seems to break modal views
   bottom: 0;
 }
 
+.ui-dialog {
+  background: #F9F9F9 !important;
+}
+
+/* Character select */
+#characterselect {
+  background: #eee;
+}
+
 /* Carousel */
 .position {
   font-size: 2em;
