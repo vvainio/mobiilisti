@@ -3,8 +3,6 @@
     "campus": "Evo",
     "description": "Forestry",
     "map_image": "map_1.png",
-    "x": "25%",
-    "y": "25%",
     "isComplete": false,
     "questions": [{
       "area": "The processes of nature, ecology and forests",
@@ -75,8 +73,6 @@
     "campus": "Forssa",
     "description": "Sustainable development",
     "map_image": "map_2.png",
-    "x": "36%",
-    "y": "85%",
     "backdrop": "c2-t1.jpg",
     "isComplete": false,
     "questions": [{
@@ -147,8 +143,6 @@
     "campus": "Lepaa",
     "description": "Green sector",
     "map_image": "map_3.png",
-    "x": "66%",
-    "y": "15%",
     "isComplete": false,
     "questions": [{
       "area": "Apple variety",
@@ -218,8 +212,6 @@
     "campus": "Mustiala",
     "description": "Rural industries",
     "map_image": "map_4.png",
-    "x": "22%",
-    "y": "84%",
     "isComplete": false,
     "questions": [{
       "area": "Native breeds",

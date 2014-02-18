@@ -1,29 +1,17 @@
 <div data-role="page" id="campusmap">
   <div data-role="header" data-position="inline">
-    <h1>Kampuskartta</h1>
+    <h1>Kampukset</h1>
   </div>
   <div class="content" data-role="content">
-    <div id="map" class="center">
-      <img src="../../img/map_all.png">
-    </div>
-    <script id="campus" type="text/template">
-    <div id="campus-{{id}}" class="task">
-      <ul data-role="listview" data-inset="true">
-        <li><a href="campusview.html">
-          <h2>{{campus}}</h2>
-          <p>{{description}}</p>
-          {{#isComplete}}
-            <p>Tulos: {{score}} / {{maxScore}}</p>
-          {{/isComplete}}
-          </a>
-        </li>
-      </ul>
-    </div>
-    </script>
+    <div class="ui-grid-a">          
+    </div> 
     <div class="fixed">
       <div id="campus-complete">
         Kampukset suoritettu!
       </div>
     </div>
   </div>
+  <div data-role="footer" data-position="fixed" data-tap-toggle="false"> 
+    <h4>Suoritettu 76%</h4> 
+  </div> 
 </div>

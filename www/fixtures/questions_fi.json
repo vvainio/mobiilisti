@@ -3,8 +3,6 @@
     "campus": "Evo",
     "description": "Metsätalous",
     "map_image": "map_1.png",
-    "x": "25%",
-    "y": "25%",
     "isComplete": false,
     "questions": [{
       "area": "Luonnonprosessit, ekologia ja metsät",
@@ -75,8 +73,6 @@
     "campus": "Forssa",
     "description": "Kestävä kehitys",
     "map_image": "map_2.png",
-    "x": "36%",
-    "y": "85%",
     "isComplete": false,
     "questions": [{
       "area": "Ilmaston lämpeneminen ja hiilijalanjälki",
@@ -147,8 +143,6 @@
     "campus": "Lepaa",
     "description": "Viherala",
     "map_image": "map_3.png",
-    "x": "66%",
-    "y": "15%",
     "isComplete": false,
     "questions": [{
       "area": "Omenalajike",
@@ -218,8 +212,6 @@
     "campus": "Mustiala",
     "description": "Maaseutuelinkeinot",
     "map_image": "map_4.png",
-    "x": "22%",
-    "y": "84%",
     "isComplete": false,
     "questions": [{
       "area": "Maatiaiseläin",
