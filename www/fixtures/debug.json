@@ -1,75 +1,75 @@
 {
-  "campuses": [{
-    "campus": "Evo",
-    "description": "Metsätalous",
-    "map_image": "map_1.png",
-    "x": "25%",
-    "y": "25%",
-    "isComplete": false,
-    "questions": [{
-      "area": "Luonnonprosessit, ekologia ja metsät",
-      "x": "30%",
-      "y": "15%",
-      "backdrop": "c1-t1.jpg",
-      "weight": 1,
-      "type": "checkbox",
-      "score": false,
-      "isComplete": false,
-      "question": "Valitse metsien kasvuun vaikuttavat keskeiset tekijät:",
-      "answers": {
-        "Kasvupaikka": true,
-        "Hiilidioksidin määrä": true,
-        "Edellisen hakkuun ajankohta": true,
-        "Puun hinta": false
-      }
-    }, {
-      "area": "Biopolttoaine",
-      "x": "42%",
-      "y": "42%",
-      "backdrop": "c1-t2.jpg",
-      "weight": 1,
-      "type": "checkbox",
-      "score": false,
-      "isComplete": false,
-      "question": "Kuinka pitkälle 1m&#179; kokoisesta puusta jalostetulla biopolttoaineella voidaan ajaa?",
-      "answers": {
-        "Helsingistä Hämeenlinnaan": false,
-        "Helsingistä Ouluun": false,
-        "Helsingistä Inariin": true,
-        "Evolta Mustialaan": false
-      }
-    }, {
-      "area": "Jokamiehenoikeudet",
-      "x": "53%",
-      "y": "89%",
-      "backdrop": "c1-t3.jpg",
-      "weight": 1,
-      "type": "checkbox",
-      "score": false,
-      "isComplete": false,
-      "question": "Millä tavoilla jokamiehenoikeudet mahdollistavat luonnossa virkistäytymisen?",
-      "answers": {
-        "Onkia ja pilkkiä tyynellä järvellä": true,
-        "Retkeillä ja telttailla vehreässä metsässä": true,
-        "Tehdä tulet ja paistaa maistuvaa makkaraa": false,
-        "Kerätä makoisia marjoja myyntiin": true
-      }
-    }, {
-      "area": "Luonnon monimuotoisuus",
-      "x": "76%",
-      "y": "88%",
-      "backdrop": "c1-t4.jpg",
-      "weight": 1,
-      "type": "checkbox",
-      "score": false,
-      "isComplete": false,
-      "question": "Metsätaloudessa luonnon monimuotoisuutta tuetaan:",
-      "answers": {
-        "Suosimalla vain yhtä puulajia": false,
-        "Pitkäjänteisellä suunnittelulla": true,
-        "Monipuolisilla metsänkäsittelytavoilla": true,
-        "Kulottamalla": true
-      }
+    "campuses": [{
+        "campus": "Evo",
+        "description": "Metsätalous",
+        "map_image": "map_1.png",
+        "x": "25%",
+        "y": "25%",
+        "isComplete": false,
+        "questions": [{
+            "area": "Luonnonprosessit, ekologia ja metsät",
+            "x": "30%",
+            "y": "15%",
+            "backdrop": "c1-t1.jpg",
+            "weight": 1,
+            "type": "checkbox",
+            "score": false,
+            "isComplete": false,
+            "question": "Valitse metsien kasvuun vaikuttavat keskeiset tekijät:",
+            "answers": {
+                "Kasvupaikka": true,
+                "Hiilidioksidin määrä": true,
+                "Edellisen hakkuun ajankohta": true,
+                "Puun hinta": false
+            }
+        }, {
+            "area": "Biopolttoaine",
+            "x": "42%",
+            "y": "42%",
+            "backdrop": "c1-t2.jpg",
+            "weight": 1,
+            "type": "checkbox",
+            "score": false,
+            "isComplete": false,
+            "question": "Kuinka pitkälle 1m&#179; kokoisesta puusta jalostetulla biopolttoaineella voidaan ajaa?",
+            "answers": {
+                "Helsingistä Hämeenlinnaan": false,
+                "Helsingistä Ouluun": false,
+                "Helsingistä Inariin": true,
+                "Evolta Mustialaan": false
+            }
+        }, {
+            "area": "Jokamiehenoikeudet",
+            "x": "53%",
+            "y": "89%",
+            "backdrop": "c1-t3.jpg",
+            "weight": 1,
+            "type": "checkbox",
+            "score": false,
+            "isComplete": false,
+            "question": "Millä tavoilla jokamiehenoikeudet mahdollistavat luonnossa virkistäytymisen?",
+            "answers": {
+                "Onkia ja pilkkiä tyynellä järvellä": true,
+                "Retkeillä ja telttailla vehreässä metsässä": true,
+                "Tehdä tulet ja paistaa maistuvaa makkaraa": false,
+                "Kerätä makoisia marjoja myyntiin": true
+            }
+        }, {
+            "area": "Luonnon monimuotoisuus",
+            "x": "76%",
+            "y": "88%",
+            "backdrop": "c1-t4.jpg",
+            "weight": 1,
+            "type": "checkbox",
+            "score": false,
+            "isComplete": false,
+            "question": "Metsätaloudessa luonnon monimuotoisuutta tuetaan:",
+            "answers": {
+                "Suosimalla vain yhtä puulajia": false,
+                "Pitkäjänteisellä suunnittelulla": true,
+                "Monipuolisilla metsänkäsittelytavoilla": true,
+                "Kulottamalla": true
+            }
+        }]
     }]
-  }]
 }
