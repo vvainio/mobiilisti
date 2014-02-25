@@ -4,8 +4,7 @@ $.ajaxSetup({
 });
 
 /* Globals */
-var config, data, language, selectedCharacter, selectedCampus, selectedTask, nickname, isSubmitted;
-var score = 4;
+var config;
 
 /* CONSTANTS */
 var SCORE_MIN = 0,
@@ -17,24 +16,25 @@ var SCORE_MIN = 0,
 $(document).bind("mobileinit", function() {
     $.support.cors = true;
     $.mobile.allowCrossDomainPages = true;
-    $.mobile.pushStateEnabled = false;
+    $.mobile.pushStateEnabled = true;
     $.mobile.defaultPageTransition = 'slide';
 });
 
 // Page events
 $(document).on('pageshow', '#containerPage', function() {
-    Game.init();
     $('.language').on('click', function() {
-        Game.setLanguage($(this).attr('id'));
+        var lang = $(this).attr('id');
+        Game.setLanguage(lang);
+        Game.loadData(lang);
     });
 });
 
 $(document).on('pageshow', '#characterselect', function() {
     // Initialize slider with selected character
     window.slider = new Swipe(document.getElementById('slider'), {
-        startSlide: selectedCharacter,
+        startSlide: Game.selectedCharacter,
         callback: function(index, elem) {
-            selectedCharacter = slider.getPos();
+            Game.selectedCharacter = slider.getPos();
         }
     });
 });
@@ -42,26 +42,16 @@ $(document).on('pageshow', '#characterselect', function() {
 $(document).on('pageshow', '#campusselect', function() {
     // Initialize slider with selected campus
     window.slider = new Swipe(document.getElementById('slider'), {
-        startSlide: selectedCampus,
+        startSlide: Game.selectedCampus,
         callback: function(index, elem) {
-            selectedCampus = slider.getPos();
-        }
-    });
-});
-
-$(document).on('pageshow', '#guide', function() {
-    // Initialize slider with selected campus
-    window.slider = new Swipe(document.getElementById('slider'), {
-        startSlide: selectedCampus,
-        callback: function(index, elem) {
-            selectedCampus = slider.getPos();
+            Game.selectedCampus = slider.getPos();
         }
     });
 });
 
 $(document).on('pageshow', '#campusview', function() {
-    $('#title').html(data.campuses[selectedCampus].campus);
-    $("#map-img").attr("src", "../../img/" + data.campuses[selectedCampus].map_image);
+    $('#title').html(Game.data.campuses[Game.selectedCampus].campus);
+    $("#map-img").attr("src", "../../img/" + Game.data.campuses[Game.selectedCampus].map_image);
     Score.display();
 
     CampusView.parseData();
@@ -79,13 +69,13 @@ $(document).on('pageshow', '#campusmap', function() {
 
     $('.ui-grid-a .ui-btn').on('click', function() {
         var id = parseInt($(this).parent().attr('id').slice(-1, 10));
-        selectedCampus = id;
+        Game.selectedCampus = id;
     });
 });
 
 $(document).on('pageshow', '#taskview', function() {
     var startTime = new Date(),
-        answers = Task.parseData(selectedTask),
+        answers = Task.parseData(Game.selectedTask),
         maxScore = answers.maxScore,
         submitBtn = $('[type="submit"]');
 
@@ -148,22 +138,7 @@ $(document).on('pageshow', '#taskview', function() {
         }
 
         for (var i = 0; i < emptyAnswers.length; i++) {
-            if ($.inArray(emptyAnswers[i], answers.correctAnswers) > -1) {
-                /*
-                $.each(notCheckedArray, function( key, value ) {
-                  if (emptyAnswers[i] === value) {
-                    flashWrong(key);
-                  }
-                });
-                */
-            } else if ($.inArray(emptyAnswers[i], answers.wrongAnswers) > -1) {
-                /*
-                $.each(notCheckedArray, function( key, value ) {
-                  if (emptyAnswers[i] === value) {
-                    flashCorrect(key);
-                  }
-                });
-                */
+            if ($.inArray(emptyAnswers[i], answers.wrongAnswers) > -1) {
                 Score.count("increase");
                 score++;
             }
@@ -178,7 +153,7 @@ $(document).on('pageshow', '#taskview', function() {
         });
 
         CampusView.setTaskComplete({
-            id: selectedTask,
+            id: Game.selectedTask,
             score: score,
             maxScore: maxScore,
             taskTime: taskTime
@@ -235,11 +210,11 @@ $(document).on('pageshow', '#highscore', function() {
     $('#total').val(total);
     $('#displayScore').html(total);
 
-    if (nickname) {
-        $('#nickname').val(nickame);
+    if (Game.nickname) {
+        $('#nickname').val(Game.nickame);
     }
 
-    if (isSubmitted) {
+    if (Game.isSubmitted) {
         $('#highscoreForm').remove();
         $('#form-success').show();
     }
@@ -254,7 +229,7 @@ $(document).on('pageshow', '#highscore', function() {
             if (regexp.test(nameInput)) {
                 console.log("Nickname OK");
                 formError.hide();
-                nickname = $('#nickname').val().trim();
+                Game.nickname = $('#nickname').val().trim();
                 Highscore.submitScore();
             } else {
                 formError.html("Nickname should be 3-10 characters long and contain letters or numbers");
@@ -274,27 +249,35 @@ $(document).on('pageshow', '#leaderboard', function() {
     Leaderboard.getAroundMe();
 });
 
-// MAIN - Page init (runned once)
-$(document).on('pageinit', function() {
+// MAIN - Page init
+$(document).on('pageinit', '#containerPage', function() {
 
     Game = {
-        // Initialize default values
-        init: function() {
-            selectedCharacter = 0;
-            selectedCampus = 0;
-            selectedTask = 0;
-            score = 0;
-            data = undefined;
-            isSubmitted = false;
-            Game.loadData();
-        },
+        selectedCharacter: 0,
+        selectedCampus: 0,
+        selectedTask: 0,
+        score: 0,
+        language: undefined,
+        data: undefined,
+        nickname: undefined,
+        isSubmitted: false,
+
         // Load dynamic content via JSON
-        loadData: function() {
+        loadData: function(lang) {
             if (typeof data == 'undefined') {
-                console.log('No previous data found - loading JSON');
-                $.getJSON('./fixtures/questions_fi.json', function(jsonData) {
-                    data = jsonData;
-                });
+                console.log('No previous data found - loading JSON (' + lang + ')');
+
+                if (lang == 'fi') {
+                    $.getJSON('./fixtures/questions_fi.json', function(jsonData) {
+                        Game.data = jsonData;
+                    });
+                }
+
+                if (lang == 'en') {
+                    $.getJSON('./fixtures/questions_en.json', function(jsonData) {
+                        Game.data = jsonData;
+                    });
+                }
             }
         },
         // Trigger game ending
@@ -312,62 +295,58 @@ $(document).on('pageinit', function() {
         // Set game language
         setLanguage: function(lang) {
             // Set language or default to 'fi'
-            language = lang || 'fi';
+            Game.language = lang || 'fi';
         }
     };
 
     Score = {
         // Give bonus points on correct campus & character selection
         checkBonus: function() {
-            if (selectedCharacter === selectedCampus) {
+            if (Game.selectedCharacter === Game.selectedCampus) {
                 for (var i = 0; i < 4; i++) {
                     Score.count("increase");
                 }
                 console.log("+4 bonus points (character === campus)");
             }
         },
-        // Increment or decrement score
+
         count: function(action) {
             if (action === "increase") {
-                score += SCORE_INCREASE_BY;
+                Game.score += SCORE_INCREASE_BY;
 
-                if (score >= SCORE_MAX) {
-                    score = SCORE_MAX;
+                if (Game.score >= SCORE_MAX) {
+                    Game.score = SCORE_MAX;
                 }
-            } else if (action === "decrease") {
-                score -= SCORE_DECREASE_BY;
+            }
+            if (action === "decrease") {
+                Game.score -= SCORE_DECREASE_BY;
 
-                if (score <= SCORE_MIN) {
-                    score = SCORE_MIN;
+                if (Game.score <= SCORE_MIN) {
+                    Game.score = SCORE_MIN;
                     Game.end();
                 }
-            } else {
-                // should not be possible
             }
         },
-        // Display score via progressbar and/or text
+
         display: function() {
-            /*
-            var percent = Math.round(score / SCORE_MAX * 100);
-            progressBar(percent, $('#progressBar'));
-            */
-            if (language === 'en') {
-                $('#score-text').html("Score: " + score);
-            } else if (language === 'fi') {
-                $('#score-text').html("Pisteet: " + score);
+            if (Game.language === 'en') {
+                $('#score-text').html("Score: " + Game.score);
+            }
+            if (Game.language === 'fi') {
+                $('#score-text').html("Pisteet: " + Game.score);
             }
         },
-        // Count and return total score
+
         countTotal: function() {
             var totalTime = 0,
                 totalScore = 0;
 
             // FOR DEBUGGING
-            if (score === 0) {
-                score = Math.floor(Math.random() * (SCORE_MAX - 0 + 1)) + 0;
+            if (Game.score === 0) {
+                Game.score = Math.floor(Math.random() * (SCORE_MAX - 0 + 1)) + 0;
             }
 
-            $.each(data.campuses, function(i, campuses) {
+            $.each(Game.data.campuses, function(i, campuses) {
                 $.each(campuses.questions, function(key, value) {
                     if (value.isComplete) {
                         totalScore += value.score;
@@ -386,9 +365,9 @@ $(document).on('pageinit', function() {
     Task = {
         // Parse data for taskview
         parseData: function(id) {
-            var type = data.campuses[selectedCampus].questions[id].type,
-                question = data.campuses[selectedCampus].questions[id].question,
-                img = data.campuses[selectedCampus].questions[id].backdrop,
+            var type = Game.data.campuses[Game.selectedCampus].questions[id].type,
+                question = Game.data.campuses[Game.selectedCampus].questions[id].question,
+                img = Game.data.campuses[Game.selectedCampus].questions[id].backdrop,
                 index = 0,
                 correctAnswers = [],
                 wrongAnswers = [];
@@ -396,7 +375,7 @@ $(document).on('pageinit', function() {
             $('#question').html("<b>" + question + "</b>");
 
             if (type == 'checkbox' || typeof type == 'undefined') {
-                $.each(data.campuses[selectedCampus].questions[id].answers, function(key, value) {
+                $.each(Game.data.campuses[Game.selectedCampus].questions[id].answers, function(key, value) {
                     var html = "<input type='checkbox' name='checkbox-" + index + "' id='checkbox-" + index + "'>" +
                         "<label class='btn-down-reset' for='checkbox-" + index + "'>" + key + "</label>";
 
@@ -413,7 +392,7 @@ $(document).on('pageinit', function() {
                     index++;
                 });
             } else if (type == 'slider') {
-                $.each(data.campuses[selectedCampus].questions[id].answers, function(key, value) {
+                $.each(Game.data.campuses[Game.selectedCampus].questions[id].answers, function(key, value) {
                     var html = "<br><input type='range' name='slider-fill' id='slider-fill' value='0' min='0' max='500' step='50' data-highlight='true' /><br>";
 
                     $('form > fieldset').append(html);
@@ -433,7 +412,7 @@ $(document).on('pageinit', function() {
 
             // Override maxScore when task type is other than checkbox
             if (maxScore === 0) {
-                maxScore = 1 * data.campuses[selectedCampus].questions[id].weight;
+                maxScore = 1 * Game.data.campuses[Game.selectedCampus].questions[id].weight;
             }
 
             var answers = {
@@ -449,7 +428,7 @@ $(document).on('pageinit', function() {
     CampusView = {
         // Parse data for campusview
         parseData: function() {
-            $.each(data.campuses[selectedCampus].questions, function(index, value) {
+            $.each(Game.data.campuses[Game.selectedCampus].questions, function(index, value) {
                 CampusView.createMarker({
                     id: index,
                     x: value.x,
@@ -508,10 +487,10 @@ $(document).on('pageinit', function() {
 
             task.addClass('animated pulse delay');
 
-            data.campuses[selectedCampus].questions[obj.id].isComplete = true;
-            data.campuses[selectedCampus].questions[obj.id].score = obj.score;
-            data.campuses[selectedCampus].questions[obj.id].maxScore = obj.maxScore;
-            data.campuses[selectedCampus].questions[obj.id].taskTime = obj.taskTime;
+            Game.data.campuses[Game.selectedCampus].questions[obj.id].isComplete = true;
+            Game.data.campuses[Game.selectedCampus].questions[obj.id].score = obj.score;
+            Game.data.campuses[Game.selectedCampus].questions[obj.id].maxScore = obj.maxScore;
+            Game.data.campuses[Game.selectedCampus].questions[obj.id].taskTime = obj.taskTime;
         },
         // Check completed tasks
         checkComplete: function() {
@@ -525,7 +504,7 @@ $(document).on('pageinit', function() {
             });
 
             if (allComplete) {
-                data.campuses[selectedCampus].isComplete = true;
+                Game.data.campuses[Game.selectedCampus].isComplete = true;
                 setTimeout(function() {
                     $('#campus-complete').show().addClass('animated bounceInDown');
                 }, 2000);
@@ -539,7 +518,7 @@ $(document).on('pageinit', function() {
     CampusMap = {
         // Parse data for campusmap
         parseData: function() {
-            $.each(data.campuses, function(index, value) {
+            $.each(Game.data.campuses, function(index, value) {
                 var style = (index % 2 === 0) ? "ui-block-a" : "ui-block-b";
                 CampusMap.createTask({
                     id: index,
@@ -552,20 +531,23 @@ $(document).on('pageinit', function() {
                 if (value.isComplete) {
                     CampusMap.setCampusComplete(index);
                 }
-                if (index === selectedCampus) {
+                if (index === Game.selectedCampus) {
                     CampusMap.setActiveTask(index);
                 }
             });
         },
         // Set campus complete
         setCampusComplete: function(id) {
-            var campus = $('#campus-' + id);
+            var campus = $('#campus-' + id),
+                scores = CampusMap.countScore(id);
 
+            campus.find('a').append("<small>Pisteet: " + scores.score + " / " + scores.maxScore + "</small>");
             campus.find('a').removeClass().addClass('ui-btn ui-shadow complete');
             campus.find('span').attr('class', 'ui-icon-check ui-btn-icon-left icon-top');
             campus.addClass('animated tada delay');
-            selectedCampus = undefined;
-            selectedTask = undefined;
+
+            Game.selectedCampus = undefined;
+            Game.selectedTask = 1;
         },
         setActiveTask: function(id) {
             var campus = $('#campus-' + id);
@@ -588,7 +570,7 @@ $(document).on('pageinit', function() {
                 html = Mustache.to_html(template, data);
 
             $('#campusmap > .content').append(html).trigger('create');*/
-            var part1 = "<div id='campus-" + obj.id + "' class='" + obj.style + "'>",
+            var part1 = "<div id='campus-" + obj.id + "' class='" + obj.style + " campus-btn'>",
                 part2 = "<a href='campusview.html' class='ui-btn ui-shadow'>",
                 part3 = "<span class='ui-icon-star ui-btn-icon-left icon-top' />",
                 part4 = "<h2>" + obj.campus + "</h2>",
@@ -603,7 +585,7 @@ $(document).on('pageinit', function() {
             var score = 0,
                 maxScore = 0;
 
-            $.each(data.campuses[id].questions, function(i, questions) {
+            $.each(Game.data.campuses[id].questions, function(i, questions) {
                 $.each(questions.answers, function(key, value) {
                     maxScore++;
                 });
@@ -617,13 +599,13 @@ $(document).on('pageinit', function() {
         },
         // Set active campus
         selectCampus: function(id) {
-            selectedCampus = id;
+            Game.selectedCampus = id;
         },
         // Check if all campuses are complete
         checkComplete: function() {
             var allComplete = true;
 
-            $.each(data.campuses, function(index, value) {
+            $.each(Game.data.campuses, function(index, value) {
                 if (!value.isComplete) {
                     allComplete = false;
                 }
@@ -643,7 +625,7 @@ $(document).on('pageinit', function() {
     Highscore = {
         // Parse data for highscore listing
         parseData: function() {
-            $.each(data.campuses, function(index, value) {
+            $.each(Game.data.campuses, function(index, value) {
                 Highscore.createList({
                     campus: value.campus,
                     description: value.description,
@@ -667,7 +649,7 @@ $(document).on('pageinit', function() {
                 campusObj = {},
                 taskObj = {};
 
-            $.each(data.campuses, function(i, campuses) {
+            $.each(Game.data.campuses, function(i, campuses) {
                 var campusScore = 0;
                 $.each(campuses.questions, function(j, questions) {
                     var taskScore = 0;
@@ -742,9 +724,9 @@ $(document).on('pageinit', function() {
         },
         // GET nearest highscores
         getAroundMe: function() {
-            if (typeof nickname != 'undefined') {
+            if (typeof Game.nickname != 'undefined') {
                 $.ajax({
-                    url: config.server + '/aroundme?nickname=' + nickname + '',
+                    url: config.server + '/aroundme?nickname=' + Game.nickname + '',
                     dataType: 'json',
                     success: function(json) {
                         var template = $('#aroundme').html(),
@@ -776,8 +758,8 @@ $(document).on('pageinit', function() {
         },
         // Highlight rows
         highlightRow: function(element) {
-            if (typeof nickname != 'undefined') {
-                $('.' + element + '> table td:contains(' + nickname + ')').parent().css("font-weight", "bold");
+            if (typeof Game.nickname != 'undefined') {
+                $('.' + element + '> table td:contains(' + Game.nickname + ')').parent().css("font-weight", "bold");
             }
         }
     };
@@ -785,18 +767,18 @@ $(document).on('pageinit', function() {
     Helper = {
         // Activate selected task
         activateTask: function() {
-            if (typeof selectedTask != 'undefined') {
-                var task = $('#task-' + selectedTask);
-                var marker = $('#marker-' + selectedTask);
+            if (typeof Game.selectedTask != 'undefined') {
+                var task = $('#task-' + Game.selectedTask);
+                var marker = $('#marker-' + Game.selectedTask);
                 marker.addClass('marker-active');
                 task.show();
             }
         },
         // Activate selected campus
         activateCampus: function() {
-            if (typeof selectedCampus != 'undefined') {
-                var campus = $('#campus-' + selectedCampus);
-                var marker = $('#marker-' + selectedCampus);
+            if (typeof Game.selectedCampus != 'undefined') {
+                var campus = $('#campus-' + Game.selectedCampus);
+                var marker = $('#marker-' + Game.selectedCampus);
                 marker.addClass('marker-active');
                 campus.show();
             }
@@ -818,7 +800,8 @@ $(document).on('pageinit', function() {
             if (activePage === 'campusview') {
                 var task = $('#task-' + markerId),
                     tasks = $('.task');
-                selectedTask = markerId;
+
+                Game.selectedTask = markerId;
                 tasks.hide();
                 task.show();
             }
@@ -826,8 +809,9 @@ $(document).on('pageinit', function() {
             if (activePage === 'campusmap') {
                 var campus = $('#campus-' + markerId),
                     campuses = $('.task');
-                selectedCampus = markerId;
-                selectedTask = 0;
+
+                Game.selectedCampus = markerId;
+                Game.selectedTask = 0;
                 campuses.hide();
                 campus.show();
             }
@@ -837,18 +821,21 @@ $(document).on('pageinit', function() {
         // Remove all active markers      
         removeActiveMarkers: function() {
             var markers = $('.marker');
+
             $.each(markers, function() {
                 $(this).removeClass('marker-active');
             });
         },
         setDivHeight: function() {
             var tallest = 0;
+
             $('.ui-grid-a > div').each(function() {
                 var thisHeight = $(this).height();
                 if (thisHeight > tallest) {
                     tallest = thisHeight;
                 }
             });
+
             $('.ui-grid-a .ui-btn').height(tallest);
         },
         // Shuffle arrays using Fisher–Yates algorithm
@@ -883,39 +870,3 @@ $(function() {
         config = data;
     });
 });
-
-/*
-$(function() {
-
-  // At this width, no scaling occurs. Above/below will scale appropriately.
-  var defaultWidth = 480; // 1280
-
-  // This controls how fast the font-size scales. If 1, will scale at the same 
-  // rate as the window (i.e. when the window is 50% of the default width, the 
-  // font-size will be scaled 50%). If I want the font to not shrink as rapidly 
-  // when the page gets smaller, I can set this to a smaller number (e.g. at 0.5,
-  // when the window is 50% of default width, the font-size will be scaled 75%).
-  var scaleFactor = 1.5;
-
-  // choose a maximum and minimum scale factor (e.g. 4 is 400% and 0.5 is 50%)
-  var maxScale = 4;
-  var minScale = 0.5;
-
-  var $html = $("html");
-
-  var setHtmlScale = function() {
-
-    var scale = 1 + scaleFactor * ($html.width() - defaultWidth) / defaultWidth;
-    if (scale > maxScale) {
-      scale = maxScale;
-    }
-    else if (scale < minScale) {
-      scale = minScale;
-    }
-    //$html.css('font-size', scale * 100 + '%');
-    $html.css('zoom', scale * 100 + '%');
-  };
-
-  setHtmlScale();
-});
-*/
