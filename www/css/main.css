@@ -19,20 +19,14 @@ body {
     padding: 0px;
     width: 100%;
 }
-/**
-.ui-bar-inherit {
-border: 1px solid #648100 !important;
-background: #abcd14 !important;
-font-weight: bold;
-background-image: -webkit-gradient(linear, left top, left bottom, from( #abcd14 ), to( #94b913 ) !important);
-background-image: -webkit-linear-gradient( #abcd14, #94b913 )!important;
-background-image: -moz-linear-gradient( #abcd14, #94b913 ) !important;
-background-image: -ms-linear-gradient( #abcd14, #94b913 ) !important;
-background-image: -o-linear-gradient( #abcd14, #94b913 ) !important;
-background-image: linear-gradient( #abcd14, #94b913 ) !important;
+#about, #guide, #campusview, #campusmap, #complete, #end {
+    background-size: 50px 50px !important;
+    background-color: #eee !important;
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) !important;
+    background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) !important;
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) !important;
 }
-**/
- .ui-header > .ui-btn {
+.ui-header > .ui-btn {
     color: #fff
     /*{a-bup-color}*/
     !important;
@@ -58,15 +52,10 @@ background-image: linear-gradient( #abcd14, #94b913 ) !important;
     position: absolute;
     width: 100%;
 }
-/*
-For fixing animations
-DISABLED:  seems to break modal views
-.ui-page  {
-   -webkit-backface-visibility:  hidden;
-   }
-
- */
- #containerPage {
+.ui-page {
+    -webkit-backface-visibility: hidden;
+}
+#containerPage {
     background: url(../img/splash.png);
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -97,11 +86,7 @@ DISABLED:  seems to break modal views
     right: 0;
     bottom: 0;
 }
-.ui-dialog {
-    background: #F9F9F9 !important;
-}
-/* Character select */
- #characterselect {
+ #characterselect, #campusselect {
     background: #eee;
 }
 /* Carousel */
@@ -171,7 +156,7 @@ hr {
     text-shadow: 0 1px 0 #1c1c1c !important;
 }
 /* todo: dont override unless on #campusmap */
-.ui-btn-icon-left:after {
+ .ui-btn-icon-left:after {
     top: .5625em !important;
     margin-top: 0px !important;
 }

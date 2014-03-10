@@ -6,17 +6,11 @@ $.ajaxSetup({
 /* Globals */
 var config;
 
-/* CONSTANTS */
-var SCORE_MIN = 0,
-    SCORE_MAX = 64, // 4 * 4 * 4
-    SCORE_INCREASE_BY = 1,
-    SCORE_DECREASE_BY = 3;
-
 // jQuery Mobile framework configurations
 $(document).bind("mobileinit", function() {
     $.support.cors = true;
     $.mobile.allowCrossDomainPages = true;
-    $.mobile.pushStateEnabled = true;
+    $.mobile.pushStateEnabled = false;
     $.mobile.defaultPageTransition = 'slide';
 });
 
@@ -300,6 +294,10 @@ $(document).on('pageinit', '#containerPage', function() {
     };
 
     Score = {
+        MIN: 0,
+        MAX: 64, // 4 * 4 * 4
+        INCREASE_BY: 1,
+        DECREASE_BY: 3,
         // Give bonus points on correct campus & character selection
         checkBonus: function() {
             if (Game.selectedCharacter === Game.selectedCampus) {
@@ -312,17 +310,17 @@ $(document).on('pageinit', '#containerPage', function() {
 
         count: function(action) {
             if (action === "increase") {
-                Game.score += SCORE_INCREASE_BY;
+                Game.score += Score.INCREASE_BY;
 
-                if (Game.score >= SCORE_MAX) {
-                    Game.score = SCORE_MAX;
+                if (Game.score >= Score.MAX) {
+                    Game.score = Score.MAX;
                 }
             }
             if (action === "decrease") {
-                Game.score -= SCORE_DECREASE_BY;
+                Game.score -= Score.DECREASE_BY;
 
-                if (Game.score <= SCORE_MIN) {
-                    Game.score = SCORE_MIN;
+                if (Game.score <= Score.MIN) {
+                    Game.score = Score.MIN;
                     Game.end();
                 }
             }
@@ -343,7 +341,7 @@ $(document).on('pageinit', '#containerPage', function() {
 
             // FOR DEBUGGING
             if (Game.score === 0) {
-                Game.score = Math.floor(Math.random() * (SCORE_MAX - 0 + 1)) + 0;
+                Game.score = Math.floor(Math.random() * (Score.MAX - 0 + 1)) + 0;
             }
 
             $.each(Game.data.campuses, function(i, campuses) {
@@ -408,7 +406,7 @@ $(document).on('pageinit', '#containerPage', function() {
             $('#taskview').trigger('create');
 
             // Calculate maxScore by number of questions via index
-            var maxScore = index * SCORE_INCREASE_BY;
+            var maxScore = index * Score.INCREASE_BY;
 
             // Override maxScore when task type is other than checkbox
             if (maxScore === 0) {
