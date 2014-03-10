@@ -3,6 +3,8 @@ $.ajaxSetup({
     cache: false
 });
 
+var debug = true;
+
 /* Globals */
 var config;
 
@@ -59,6 +61,7 @@ $(document).on('pageshow', '#campusmap', function() {
     //Helper.removeActiveMarkers();
     //Helper.activateCampus();
     CampusMap.checkComplete();
+    CampusMap.completionProgress();
     Helper.setDivHeight();
 
     $('.ui-grid-a .ui-btn').on('click', function() {
@@ -79,7 +82,6 @@ $(document).on('pageshow', '#taskview', function() {
     // Checkbox form
     $('#taskForm').find('input, checkbox').change(function() {
         if ($('input[type=checkbox]:checked').length >= 1) {
-            console.log('checkbox checked');
             submitBtn.button('enable');
         } else {
             submitBtn.button('disable');
@@ -132,7 +134,22 @@ $(document).on('pageshow', '#taskview', function() {
         }
 
         for (var i = 0; i < emptyAnswers.length; i++) {
-            if ($.inArray(emptyAnswers[i], answers.wrongAnswers) > -1) {
+            if ($.inArray(emptyAnswers[i], answers.correctAnswers) > -1) {
+                /*
+                $.each(notCheckedArray, function( key, value ) {
+                  if (emptyAnswers[i] === value) {
+                    flashWrong(key);
+                  }
+                });
+                */
+            } else if ($.inArray(emptyAnswers[i], answers.wrongAnswers) > -1) {
+                /*
+                $.each(notCheckedArray, function( key, value ) {
+                  if (emptyAnswers[i] === value) {
+                    flashCorrect(key);
+                  }
+                });
+                */
                 Score.count("increase");
                 score++;
             }
@@ -195,18 +212,10 @@ $(document).on('pageshow', '#complete', function() {
 
 $(document).on('pageshow', '#highscore', function() {
     Highscore.createList();
-
-    var html = "<span class='score-bubble ui-li-count ui-btn-up-c ui-btn-corner-all'>7 / 16</span>";
-    $('#result-list').find('.ui-btn-inner').append(html);
-
     var total = Score.countTotal();
 
     $('#total').val(total);
     $('#displayScore').html(total);
-
-    if (Game.nickname) {
-        $('#nickname').val(Game.nickame);
-    }
 
     if (Game.isSubmitted) {
         $('#highscoreForm').remove();
@@ -216,22 +225,20 @@ $(document).on('pageshow', '#highscore', function() {
     $('#highscoreForm').submit(function() {
         var nameInput = $('#nickname').val().trim(),
             submitBtn = $('#submitBtn'),
-            regexp = /^([A-Za-z0-9]){3,10}$/,
+            regexp = /^([A-Za-z0-9]){2,16}$/,
             formError = $('.form-error');
+
+        formError.hide();
 
         if (typeof nameInput != 'undefined' && nameInput !== '') {
             if (regexp.test(nameInput)) {
-                console.log("Nickname OK");
-                formError.hide();
                 Game.nickname = $('#nickname').val().trim();
                 Highscore.submitScore();
             } else {
-                formError.html("Nickname should be 3-10 characters long and contain letters or numbers");
-                console.log("Nickname should be 3-10 characters long and contain letters or numbers");
+                $('#nickname-content-error').show();
             }
         } else {
-            formError.html("Nickname is required");
-            console.log("Nickname required");
+            $('#nickname-required-error').show();
         }
 
         return false;
@@ -261,14 +268,20 @@ $(document).on('pageinit', '#containerPage', function() {
             if (typeof data == 'undefined') {
                 console.log('No previous data found - loading JSON (' + lang + ')');
 
-                if (lang == 'fi') {
-                    $.getJSON('./fixtures/questions_fi.json', function(jsonData) {
-                        Game.data = jsonData;
-                    });
-                }
+                if (!debug) {
+                    if (lang == 'fi') {
+                        $.getJSON('./fixtures/questions_fi.json', function(jsonData) {
+                            Game.data = jsonData;
+                        });
+                    }
 
-                if (lang == 'en') {
-                    $.getJSON('./fixtures/questions_en.json', function(jsonData) {
+                    if (lang == 'en') {
+                        $.getJSON('./fixtures/questions_en.json', function(jsonData) {
+                            Game.data = jsonData;
+                        });
+                    }
+                } else {
+                    $.getJSON('./fixtures/debug.json', function(jsonData) {
                         Game.data = jsonData;
                     });
                 }
@@ -321,7 +334,7 @@ $(document).on('pageinit', '#containerPage', function() {
 
                 if (Game.score <= Score.MIN) {
                     Game.score = Score.MIN;
-                    Game.end();
+                    Task.animateEnd();
                 }
             }
         },
@@ -420,6 +433,12 @@ $(document).on('pageinit', '#containerPage', function() {
             };
 
             return answers;
+        },
+        animateEnd: function() {
+            $('.content').addClass('animated hinge');
+            setTimeout(function() {
+                Game.end();
+            }, 3000);
         }
     };
 
@@ -456,8 +475,8 @@ $(document).on('pageinit', '#containerPage', function() {
                 id: 'marker-' + obj.id,
                 class: 'marker marker-incomplete',
                 css: {
-                    top: obj.x,
-                    left: obj.y
+                    top: obj.y,
+                    left: obj.x
                 }
             }).appendTo('#map');
         },
@@ -569,7 +588,7 @@ $(document).on('pageinit', '#containerPage', function() {
 
             $('#campusmap > .content').append(html).trigger('create');*/
             var part1 = "<div id='campus-" + obj.id + "' class='" + obj.style + " campus-btn'>",
-                part2 = "<a href='campusview.html' class='ui-btn ui-shadow'>",
+                part2 = "<a href='campusview.html' class='ui-btn ui-shadow default'>",
                 part3 = "<span class='ui-icon-star ui-btn-icon-left icon-top' />",
                 part4 = "<h2>" + obj.campus + "</h2>",
                 part5 = "<p>" + obj.description + "</p>",
@@ -617,6 +636,24 @@ $(document).on('pageinit', '#containerPage', function() {
                     Game.complete();
                 }, 5000);
             }
+        },
+        completionProgress: function() {
+            var numOfTasks = 0,
+                numOfCompletedTasks = 0,
+                percentage = 0;
+
+            $.each(Game.data.campuses, function(i, campuses) {
+                $.each(campuses.questions, function(j, questions) {
+                    numOfTasks++;
+                    if (questions.isComplete) {
+                        numOfCompletedTasks++;
+                    }
+                });
+            });
+
+            percentage = Math.floor((numOfCompletedTasks / numOfTasks) * 100);
+
+            $('#completion-progress').html(percentage);
         }
     };
 
@@ -624,19 +661,13 @@ $(document).on('pageinit', '#containerPage', function() {
         // Parse data for highscore listing
         parseData: function() {
             $.each(Game.data.campuses, function(index, value) {
-                Highscore.createList({
-                    campus: value.campus,
-                    description: value.description,
-                    isComplete: value.isComplete
-                });
+                Highscore.createList();
             });
         },
         // Render highscores
-        createList: function(obj) {
+        createList: function() {
             var template = $('#highscorelist').html(),
-                html = Mustache.to_html(template, data);
-
-            console.log(data);
+                html = Mustache.to_html(template, Game.data);
 
             $('#highscore > .content > #listcontainer').append(html).trigger('create');
         },
@@ -660,11 +691,6 @@ $(document).on('pageinit', '#containerPage', function() {
                 });
                 campusObj[campuses.campus] = campusScore;
             });
-            console.log(campusObj);
-            console.log(taskObj);
-            console.log(maxScore);
-
-            //campusObj[campuses.campus] = { questions.area: taskScore }
         },
         // POST highscore to server
         submitScore: function() {
@@ -673,16 +699,17 @@ $(document).on('pageinit', '#containerPage', function() {
                 type: 'POST',
                 data: $('#highscoreForm').serialize(),
                 success: function(data) {
-                    isSubmitted = true;
+                    Game.isSubmitted = true;
                     $('#highscoreForm').remove();
                     $('#form-success').fadeIn('slow');
                 },
                 error: function(data) {
-                    alert("Error sending data.");
+                    $('#data-error').show();
                 },
                 timeout: 5000,
                 beforeSend: function() {
                     $.mobile.loading('show');
+                    $('#data-error').hide();
                 },
                 complete: function() {
                     $.mobile.loading('hide');
@@ -698,22 +725,29 @@ $(document).on('pageinit', '#containerPage', function() {
                 url: config.server + '/leaders',
                 dataType: 'json',
                 success: function(json) {
-                    var template = $('#leaders').html(),
-                        data = {
-                            'leaders': json
-                        },
-                        html = Mustache.to_html(template, data);
+                    if (json.length > 0) {
+                        var template = $('#leaders').html(),
+                            data = {
+                                'leaders': json
+                            },
+                            html = Mustache.to_html(template, data);
 
-                    $('#leaderboard > .content > .leaders').append(html).trigger('create');
+                        $('#leaderboard > .content > .leaders').append(html).trigger('create');
 
-                    Leaderboard.highlightRow("leaders");
+                        Leaderboard.highlightRow("leaders");
+                    } else {
+                        $('#no-results').show();
+                    }
                 },
                 error: function(data) {
+                    $('#data-error').show();
                     alert("Error fetching data");
                 },
                 timeout: 5000,
                 beforeSend: function() {
                     $.mobile.loading('show');
+                    $('#data-error').hide();
+                    $('#no-results').hide();
                 },
                 complete: function() {
                     $.mobile.loading('hide');
@@ -738,11 +772,12 @@ $(document).on('pageinit', '#containerPage', function() {
                         Leaderboard.highlightRow("aroundme");
                     },
                     error: function(data) {
-                        alert("Error fetching data");
+                        $('#data-error').show();
                     },
                     timeout: 5000,
                     beforeSend: function() {
                         $.mobile.loading('show');
+                        $('#data-error').hide();
                     },
                     complete: function() {
                         $.mobile.loading('hide');

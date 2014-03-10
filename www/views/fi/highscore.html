@@ -5,7 +5,6 @@
     <div class="content" data-role="content">
         <div id="listcontainer">
             <script id="highscorelist" type="text/template">
-                <h3>Lopulliset tulokset</h3>
                 <div id="result-list" data-role="collapsible-set" data-iconpos="right">
                   {{#campuses}}
                     <div data-role="collapsible">
@@ -32,8 +31,10 @@
                 <input type="hidden" name="score" id="total">
                 <input type="submit" value="Lähetä" id="submitBtn">
             </form>
-            <span class="form-error"></span>
-            <div id="form-success">Tuloksesi on lähetetty onnistuneesti.<br>Katso pistetilastosta tulokset!</div>
+            <span id="data-error"><strong>Palvelimeen ei saatu yhteyttä.</strong></span>
+            <span class="form-error" id="nickname-required-error">Nimimerkki on pakollinen.</span>
+            <span class="form-error" id="nickname-content-error">Nimimerkin tulee olla 2-16 merkin pituinen ja sisältää vain kirjaimia ja numeroita.</span>
+            <div id="form-success">Tuloksesi on lähetetty onnistuneesti!<br>Katso tulokset pistetilastosta.</div>
         </div>
     </div>
     <div data-role="footer" data-position="fixed" data-tap-toggle="false">

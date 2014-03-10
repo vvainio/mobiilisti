@@ -1,496 +1,366 @@
-*{
--webkit-tap-highlight-color:rgba(0, 0, 0, 0);
-/* make transparent link selection, adjust last value opacity 0 to 1.0 */
-:;
+* {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-backface-visibility: hidden;
 }
-html, body{
-height:100%;
+@font-face{
+    font-family: Baveuse; 
+    src: url('../fonts/baveuse.ttf') format('truetype');
+    src: url('../fonts/baveuse.otf') format('opentype');
 }
-body{
--webkit-touch-callout:none;
-/* prevent callout to copy image, etc when tap to hold */
--webkit-text-size-adjust:none;
-/* prevent webkit from resizing text to fit */
--webkit-user-select:none;
--moz-user-select:none;
--ms-user-select:none;
-user-select:none;
-/* prevent copy paste, to allow, change 'none' to 'text' */
-margin:0px;
-padding:0px;
-width:100%;
+html, body {
+    height: 100%;
 }
-#about, #guide, #campusview, #campusmap, #complete, #end{
-/*background-size*/
--webkit-background-size:50px 50px !important;
-   -moz-background-size:50px 50px !important;
-     -o-background-size:50px 50px !important;
-        background-size:50px 50px !important;
-background-color:#eee !important;
-background-image:-webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) !important;
-background-image:-moz-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) !important;
-background-image:linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) !important;
+body {
+    -webkit-touch-callout: none;
+    -webkit-text-size-adjust: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
 }
-.ui-header > .ui-btn{
-/**/
-lor:#fff    /*{a-bup-color;
+em {
+    font-style: normal;
 }
-*/
-    !important;
-    text-shadow: 0
-    /*{
-:-bup-shadow-x;
+#about, #guide, #campusview, #campusmap, #complete, #end, #highscore, #leaderboard {
+    background-size: 50px 50px !important;
+    background-color: #eee !important;
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) !important;
+    background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) !important;
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) !important;
 }
-*/
-    1px
-    /*{
-:-bup-shadow-y;
+#characterselect h2, #campusselect h2 {
+    font-family: Baveuse, sans-serif;
 }
-*/
-    0
-    /*{
-:-bup-shadow-radius;
-}
-*/
-    #1c1c1c
-    /*{
-:-bup-shadow-color;
-}
-*/
-    !important;
+.ui-header > .ui-btn {
+    color: #fff !important;
+    text-shadow: 0 1px 0 #1c1c1c !important;
     background: #abcd14 !important;
 }
-.ui-checkbox > .ui-btn:hover{
-text-shadow:none !important;
+.ui-checkbox > .ui-btn:hover {
+    text-shadow: none !important;
 }
-.ui-navbar li:last-child .ui-btn{
-margin-right:0px !important;
+.ui-navbar li:last-child .ui-btn {
+    margin-right: 0px !important;
 }
-.ui-footer{
-bottom:0;
-position:absolute;
-width:100%;
+.ui-footer {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
 }
-.ui-page{
-/*backface-visibility*/
--webkit-backface-visibility:hidden;
-   -moz-backface-visibility:hidden;
-    -ms-backface-visibility:hidden;
-     -o-backface-visibility:hidden;
-        backface-visibility:hidden;
+.ui-page {
 }
-#containerPage{
-background:url(../img/splash.png);
-/*background-size*/
--webkit-background-size:/*@@prefixmycss->No equivalent*/;
-   -moz-background-size:cover;
-     -o-background-size:/*@@prefixmycss->No equivalent*/;
-        background-size:cover;
+#containerPage {
+    background: url(../img/splash.png);
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
 }
-.main-container{
-position:absolute;
-width:100%;
-bottom:10%;
+.main-container {
+    position: absolute;
+    width: 100%;
+    bottom: 10%;
 }
-.main-buttons{
-width:85%;
-margin:0 auto;
+.main-buttons {
+    width: 85%;
+    margin: 0 auto;
 }
-.content{
-z-index:10;
+.content {
+    z-index: 10;
 }
-.header{
-z-index:10;
+.header {
+    z-index: 10;
 }
-.ui-header .ui-title{
-overflow:visible;
-white-space:normal;
+.ui-header .ui-title {
+    overflow: visible;
+    white-space: normal;
 }
-.about{
-position:absolute;
-margin:0 10px 0 0;
-right:0;
-bottom:0;
+.about {
+    position: absolute;
+    margin: 0 10px 0 0;
+    right: 0;
+    bottom: 0;
 }
-#characterselect, #campusselect{
-background:#eee;
+ #characterselect, #campusselect {
+    background: #eee;
 }
 /* Carousel */
- .position{
-font-size:2em;
+ .position {
+    font-size: 2em;
 }
-.on{
-color:#abcd14;
+.on {
+    color: #abcd14;
 }
-img{
-width:100%;
-height:auto;
-display:block;
-/* Fix over-sized parent div */
-:;
+img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
-hr{
-border:0;
-height:1px;
-background:#CCC;
+hr {
+    border: 0;
+    height: 1px;
+    background: #CCC;
 }
 /* Campusview */
- .marker{
-position:absolute;
-height:47px;
-width:48px;
-margin-top:-48px;
-margin-left:-24px;
-z-index:100;
+ .marker {
+    position: absolute;
+    height: 47px;
+    width: 48px;
+    margin-top: -48px;
+    margin-left: -24px;
+    z-index: 100;
 }
-.marker-incomplete{
-background-image:url('../img/marker-incomplete.png');
+.marker-incomplete {
+    background-image: url('../img/marker-incomplete.png');
 }
-.marker-complete{
-background-image:url('../img/marker-complete.png');
+.marker-complete {
+    background-image: url('../img/marker-complete.png');
 }
-.marker-active{
-/*transform*/
--webkit-transform:scale(1.5, 1.5);
-   -moz-transform:scale(1.5, 1.5);
-    -ms-transform:scale(1.5, 1.5);
-     -o-transform:scale(1.5, 1.5);
-        transform:scale(1.5, 1.5);
+.marker-active {
+    -webkit-transform: scale(1.5, 1.5);
+    -moz-transform: scale(1.5, 1.5);
+    -o-transform: scale(1.5, 1.5);
+    -ms-transform: scale(1.5, 1.5);
+    transform: scale(1.5, 1.5);
 }
-#map{
-height:100%;
-position:relative;
+#map {
+    height: 100%;
+    position: relative;
 }
-.task{
-display:none;
+.task {
+    display: none;
 }
-#task-navbar{
-display:none;
+#task-navbar {
+    display: none;
 }
 /* Campus screen */
- #campusmap .ui-content{
-padding:0 !important;
+ #campusmap .ui-content {
+    padding: 0 !important;
 }
-.complete{
-cursor:default !important;
-pointer-events:none;
-color:#fff !important;
-background:#ABCD14 !important;
-text-shadow:0 1px 0 #1c1c1c !important;
+.default {
+    color: #fff !important;
+    background: #FF9C1F !important;
+    text-shadow: 0 1px 0 #1c1c1c !important;
 }
-.active{
-color:#fff !important;
-background:#1474CD !important;
-text-shadow:0 1px 0 #1c1c1c !important;
+.complete {
+    cursor: default !important;
+    pointer-events: none;
+    color: #fff !important;
+    background: #ABCD14 !important;
+    text-shadow: 0 1px 0 #1c1c1c !important;
 }
-/* todo: dont override unless on #campusmap */
- .ui-btn-icon-left:after{
-top:.5625em !important;
-margin-top:0px !important;
+.active {
+    color: #fff !important;
+    background: #1474CD !important;
+    text-shadow: none !important;
 }
-.flash{
-/*animation-duration*/
--webkit-animation-duration:1.5s;
-   -moz-animation-duration:1.5s;
-    -ms-animation-duration:1.5s;
-     -o-animation-duration:1.5s;
-        animation-duration:1.5s;
+ .ui-btn-icon-left:after {
+    top: .5625em !important;
+    margin-top: 0px !important;
 }
-.delay{
-/*animation-delay*/
--webkit-animation-delay:0.5s;
-   -moz-animation-delay:0.5s;
-    -ms-animation-delay:0.5s;
-     -o-animation-delay:0.5s;
-        animation-delay:0.5s;
+.flash {
+    -webkit-animation-duration: 1.5s;
+    -moz-animation-duration: 1.5s;
+    -o-animation-duration: 1.5s;
+    animation-duration: 1.5s;
+}
+.delay {
+    -webkit-animation-delay: 0.5s;
+    -moz-animation-delay: 0.5s;
+    -ms-animation-delay: 0.5s;
+    -o-animation-delay: 0.5s;
+    animation-delay: 0.5s;
 }
 /* Task form */
- #taskview{
-/*background-size*/
--webkit-background-size:/*@@prefixmycss->No equivalent*/ !important;
-   -moz-background-size:cover !important;
-     -o-background-size:/*@@prefixmycss->No equivalent*/ !important;
-        background-size:cover !important;
+ #taskview {
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    background-size: cover !important;
 }
-#taskview .content{
-background:rgba(238, 238, 238, 0.9);
+#taskview .content {
+    background: rgba(238, 238, 238, 0.9);
 }
-.btn-down-reset{
-border:1px solid #ccc !important;
-background:#fff !important;
-color:#222 !important;
+.btn-down-reset {
+    border: 1px solid #ccc !important;
+    background: #fff !important;
+    color: #222 !important;
+    text-shadow: none !important;
 }
-.taskform-back-btn{
-display:none;
+.taskform-back-btn {
+    display: none;
 }
-.wrong{
-background-color:#fb4f4f !important;
-color:white !important;
+.wrong {
+    background-color: #fb4f4f !important;
+    color: white !important;
 }
-.correct{
-background-color:#abcd14 !important;
-color:white !important;
+.correct {
+    background-color: #abcd14 !important;
+    color: white !important;
 }
-.complete-green{
-background:#abcd14 !important;
-font-weight:bold;
-/* {
-  c-bhove*/
-:/* {  c-bhover-color;
-}
-*/
+.complete-green {
+    background: #abcd14 !important;
+    font-weight:bold;
     color:#fff;
-    /*{
-:-bhover-background-start;
-}
-*/
-    /*{
-:-bhover-background-end;
-}
-*/
     background-image: -webkit-gradient(linear, left top, left bottom, from(#abcd14), to(#abcd14));
-    /* Saf4+, Chrome */
-    /*{
-:-bhover-background-start;
-}
-*/
-    /*{
-:-bhover-background-end;
-}
-*/
-    background-image: -webkit-linear-gradient(#abcd14, #abcd14);
-    background-image: -moz-linear-gradient(#abcd14, #abcd14);
-    background-image: -o-linear-gradient(#abcd14, #abcd14);
-    background-image: -ms-linear-gradient(#abcd14, #abcd14);
-    background-image: linear-gradient(#abcd14, #abcd14);
-    /* Chrome 10+, Saf5.1+ */
-    /*{
-:-bhover-background-start;
-}
-*/
-    /*{
-:-bhover-background-end;
-}
-*/
-    background-image: -webkit-linear-gradient(#abcd14, #abcd14);
-    background-image: -moz-linear-gradient(#abcd14, #abcd14);
-    background-image: -o-linear-gradient(#abcd14, #abcd14);
-    background-image: -ms-linear-gradient(#abcd14, #abcd14);
-    background-image: linear-gradient(#abcd14, #abcd14);
-    /* FF3.6 */
-    /*{
-:-bhover-background-start;
-}
-*/
-    /*{
-:-bhover-background-end;
-}
-*/
-    background-image: -webkit-linear-gradient(#abcd14, #abcd14);
-    background-image: -moz-linear-gradient(#abcd14, #abcd14);
-    background-image: -o-linear-gradient(#abcd14, #abcd14);
-    background-image: -ms-linear-gradient(#abcd14, #abcd14);
-    background-image: linear-gradient(#abcd14, #abcd14);
-    /* IE10 */
-    /*{
-:-bhover-background-start;
-}
-*/
-    /*{
-:-bhover-background-end;
-}
-*/
-    background-image: -webkit-linear-gradient(#abcd14, #abcd14);
-    background-image: -moz-linear-gradient(#abcd14, #abcd14);
-    background-image: -o-linear-gradient(#abcd14, #abcd14);
-    background-image: -ms-linear-gradient(#abcd14, #abcd14);
-    background-image: linear-gradient(#abcd14, #abcd14);
-    /* Opera 11.10+ */
-    /*{
-:-bhover-background-start;
-}
-*/
-    /*{
-:-bhover-background-end;
-}
-*/
     background-image: -webkit-linear-gradient(#abcd14, #abcd14);
     background-image: -moz-linear-gradient(#abcd14, #abcd14);
     background-image: -o-linear-gradient(#abcd14, #abcd14);
     background-image: -ms-linear-gradient(#abcd14, #abcd14);
     background-image: linear-gradient(#abcd14, #abcd14);
 }
-.complete-green:visited, .complete-green:hover, .complete-green a.ui-link-inherit{
-/* {
-  c-bhover-col*/
-:{  c-bhover-color;
-}
-*/
+.complete-green:visited, .complete-green:hover, .complete-green a.ui-link-inherit {
     color: #fff;
 }
-#score-text{
-top:0;
-right:0;
-margin-top:10px;
-margin-right:20px;
-position:absolute;
+#score {
+    font-weight: bold;
 }
-#flashScore{
-display:none;
-font-size:60px;
-color:rgb(148, 185, 19);
-right:0;
-padding-top:20px;
-margin-right:20%;
-position:absolute;
-/*animation-delay*/
--webkit-animation-delay:1s;
-   -moz-animation-delay:1s;
-    -ms-animation-delay:1s;
-     -o-animation-delay:1s;
-        animation-delay:1s;
-/*animation-durati*/
-/*animation-duration:3s;
-/*animation-duration*/
--webkit-animation-duration:3s;
-   -moz-animation-duration:3s;
-    -ms-animation-duration:3s;
-     -o-animation-duration:3s;
-        animation-duration:3s;
-:*/;
+#score-text {
+    top: 0;
+    right: 0;
+    margin-top: 10px;
+    margin-right: 20px;
+    position: absolute;
 }
-#data-error{
-display:none;
+#flashScore {
+    display: none;
+    font-size: 6em;
+    color: rgb(148, 185, 19);
+    right: 0;
+    bottom: -70px;
+    margin-right: 20%;
+    position: absolute;
+    -webkit-animation-delay: 1s;
+    -moz-animation-delay: 1s;
+    -ms-animation-delay: 1s;
+    -o-animation-delay: 1s;
+    animation-delay: 1s;
+}
+#data-error {
+    color: red;
+    display: none;
 }
 /* Misc */
- .center{
-margin-left:auto;
-margin-right:auto;
-text-align:center;
+ .center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
-#alert{
-margin-bottom:15px;
+#alert {
+    margin-bottom: 15px;
 }
-#alert h3{
-float:left;
-margin-top:8px;
+#alert h3 {
+    float: left;
+    margin-top: 8px;
 }
-#alert p{
-clear:both;
-font-size:85%;
+#alert p {
+    clear: both;
+    font-size: 85%;
 }
-#form-success{
-display:none;
+#form-success {
+    display: none;
 }
-.form-error{
-font-style:italic;
-color:red;
+.form-error {
+    display: none;
+    font-style: italic;
+    color: red;
 }
-.score-bar{
-height:auto;
-margin-top:24px;
-width:50%;
+.score-bar {
+    height: auto;
+    margin-top: 24px;
+    width: 50%;
 }
-/* span */
-
-/* ui-li-count ui-btn-up-c ui-btn-corner-all */
- .score-bubble{
-position:absolute;
-font-size:11px;
-font-weight:bold;
-padding:.2em .5em;
-top:50%;
-margin-top:-.9em;
-right:40px;
+ .score-bubble {
+    position: absolute;
+    font-size: 11px;
+    font-weight: bold;
+    padding: .2em .5em;
+    top: 50%;
+    margin-top: -.9em;
+    right: 40px;
 }
 /* Swipe related */
- .swipe{
-overflow:hidden;
-visibility:hidden;
-position:relative;
+ .swipe {
+    overflow: hidden;
+    visibility: hidden;
+    position: relative;
 }
-.swipe-wrap{
-overflow:hidden;
-position:relative;
+.swipe-wrap {
+    overflow: hidden;
+    position: relative;
 }
-.swipe-wrap > div{
-float:left;
-width:100%;
-position:relative;
+.swipe-wrap > div {
+    float: left;
+    width: 100%;
+    position: relative;
 }
-.fixed{
-position:fixed;
-top:20%;
-left:0;
-right:0;
-z-index:999;
-pointer-events:none;
+.fixed {
+    position: fixed;
+    top: 20%;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    pointer-events: none;
 }
-#campus-complete{
-display:none;
-text-align:center;
-background:rgba(255, 255, 255, 0.9);
-padding:20px 10px;
-width:260px;
-color:#000;
-margin:0 auto;
-/*border-radius*/
--webkit-border-radius:5px;
-   -moz-border-radius:5px;
-        border-radius:5px;
-font-weight:bold;
+#campus-complete {
+    display: none;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px 10px;
+    width: 260px;
+    color: #000;
+    margin: 0 auto;
+    border-radius: 5px;
+    font-weight: bold;
 }
-#campus-complete p{
-margin:0;
+#campus-complete p {
+    margin: 0;
+}
+#no-results {
+    display: none;
 }
 /* Table styling */
- table{
-width:100%;
+ table {
+    width: 100%;
 }
-.table-stroke thead th{
-border-bottom:1px solid rgba(0, 0, 0, .1);
+.table-stroke thead th {
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
-.table-stroke tbody th, .table-stroke tbody td{
-border-bottom:1px solid rgba(0, 0, 0, .05);
+.table-stroke tbody th, .table-stroke tbody td {
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
 }
 /* Add alternating row stripes */
- .table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th{
-background-color:rgba(0, 0, 0, 0.04);
+ .table-stripe tbody tr:nth-child(odd) td, .table-stripe tbody tr:nth-child(odd) th {
+    background-color: rgba(0, 0, 0, 0.04);
 }
 /* Add stroke to the header and last item */
- .table-stripe thead th, .table-stripe tbody tr:last-child{
-border-bottom:1px solid rgba(0, 0, 0, .1);
+ .table-stripe thead th, .table-stripe tbody tr:last-child {
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
 /* Custom animations */
- .hatch{
-/*animation-name*/
--webkit-animation-name:hatch;
-   -moz-animation-name:hatch;
-    -ms-animation-name:hatch;
-     -o-animation-name:hatch;
-        animation-name:hatch;
-/*animation-duration*/
--webkit-animation-duration:2s;
-   -moz-animation-duration:2s;
-    -ms-animation-duration:2s;
-     -o-animation-duration:2s;
-        animation-duration:2s;
-/*animation-timing-function*/
--webkit-animation-timing-function:ease-in-out;
-   -moz-animation-timing-function:ease-in-out;
-    -ms-animation-timing-function:ease-in-out;
-     -o-animation-timing-function:ease-in-out;
-        animation-timing-function:ease-in-out;
-/*transform-origin*/
--webkit-transform-origin:50% 100%;
-   -moz-transform-origin:50% 100%;
-    -ms-transform-origin:50% 100%;
-     -o-transform-origin:50% 100%;
-        transform-origin:50% 100%;
-visibility:visible !important;
+ .hatch {
+    -webkit-animation-name: hatch;
+    -moz-animation-name: hatch;
+    -ms-animation-name: hatch;
+    -o-animation-name: hatch;
+    animation-name: hatch;
+    animation-duration: 2s;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-timing-function: ease-in-out;
+    -moz-animation-timing-function: ease-in-out;
+    -ms-animation-timing-function: ease-in-out;
+    -o-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+    -webkit-transform-origin: 50% 100%;
+    -moz-transform-origin: 50% 100%;
+    -o-transform-origin: 50% 100%;
+    -ms-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
+    visibility: visible !important;
 }
-@keyframes"hatch"{
-0% {
+@keyframes"hatch" {
+    0% {
         -webkit-transform: rotate(0deg) scaleY(0.6);
         -moz-transform: rotate(0deg) scaleY(0.6);
         -o-transform: rotate(0deg) scaleY(0.6);
@@ -540,8 +410,8 @@ visibility:visible !important;
         transform: rotate(0deg);
     }
 }
-@-moz-keyframes hatch{
-0% {
+@-moz-keyframes hatch {
+    0% {
         -moz-transform: rotate(0deg) scaleY(0.6);
         transform: rotate(0deg) scaleY(0.6);
     }
@@ -570,8 +440,8 @@ visibility:visible !important;
         transform: rotate(0deg);
     }
 }
-@-webkit-keyframes"hatch"{
-0% {
+@-webkit-keyframes"hatch" {
+    0% {
         -webkit-transform: rotate(0deg) scaleY(0.6);
         transform: rotate(0deg) scaleY(0.6);
     }
@@ -600,8 +470,8 @@ visibility:visible !important;
         transform: rotate(0deg);
     }
 }
-@-ms-keyframes"hatch"{
-0% {
+@-ms-keyframes"hatch" {
+    0% {
         -ms-transform: rotate(0deg) scaleY(0.6);
         transform: rotate(0deg) scaleY(0.6);
     }
@@ -630,8 +500,8 @@ visibility:visible !important;
         transform: rotate(0deg);
     }
 }
-@-o-keyframes"hatch"{
-0% {
+@-o-keyframes"hatch" {
+    0% {
         -o-transform: rotate(0deg) scaleY(0.6);
         transform: rotate(0deg) scaleY(0.6);
     }
@@ -661,10 +531,10 @@ visibility:visible !important;
     }
 }
 /* Fix animation issues on android 4.x */
- .in, .out{
--webkit-animation-fill-mode:none !important;
--moz-animation-fill-mode:none !important;
--ms-animation-fill-mode:none !important;
--o-animation-fill-mode:none !important;
-animation-fill-mode:none !important;
+ .in, .out {
+    -webkit-animation-fill-mode: none !important;
+    -moz-animation-fill-mode: none !important;
+    -ms-animation-fill-mode: none !important;
+    -o-animation-fill-mode: none !important;
+    animation-fill-mode: none !important;
 }
