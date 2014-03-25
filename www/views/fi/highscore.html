@@ -1,47 +1,48 @@
 <div data-role="page" id="highscore">
-    <div data-role="header" data-position="inline">
-        <h1 id="title">Huippupisteet</h1>
-    </div>
-    <div class="content" data-role="content">
-        <div id="listcontainer">
-            <script id="highscorelist" type="text/template">
-                <div id="result-list" data-role="collapsible-set" data-iconpos="right">
-                  {{#campuses}}
-                    <div data-role="collapsible">
-                      <h3>{{campus}}</h3>
-                      <ul data-role="listview" data-inset="true">
-                        {{#questions}}
-                          <li>{{area}} <span class="ui-li-count">{{score}}</span></li>
-                        {{/questions}}
-                      </ul>
-                    </div>
-                  {{/campuses}}
-                </div>
-            </script>
+  <div data-role="header" data-position="inline">
+    <h1 id="title">Huippupisteet</h1>
+  </div>
+  <div class="content" data-role="content">
+    <div id="listcontainer">
+      <script id="highscorelist" type="text/template">
+        <div id="result-list" data-role="collapsible-set" data-iconpos="right">
+          {{#campuses}}
+            <div data-role="collapsible">
+              <h3>{{campus}}</h3>
+              <ul data-role="listview" data-inset="true">
+                {{#questions}}
+                  <li>{{area}} <span class="ui-li-count">{{score}}</span></li>
+                {{/questions}}
+              </ul>
+            </div>
+          {{/campuses}}
         </div>
-        <div>
-            <h3>Lopputulos:
-                <span id="displayScore">
-            </h3>
-            <hr>
-            <h3>Online Pistetilasto</h3>
-            <form id="highscoreForm">
-                <p>Lähetä tuloksesi ja katso kuinka hyvin pärjäsit!</p>
-                <input type="text" name="nickname" id="nickname" placeholder="Anna nimimerkkisi" />
-                <input type="hidden" name="score" id="total">
-                <input type="submit" value="Lähetä" id="submitBtn">
-            </form>
-            <span id="data-error"><strong>Palvelimeen ei saatu yhteyttä.</strong></span>
-            <span class="form-error" id="nickname-required-error">Nimimerkki on pakollinen.</span>
-            <span class="form-error" id="nickname-content-error">Nimimerkin tulee olla 2-16 merkin pituinen ja sisältää vain kirjaimia ja numeroita.</span>
-            <div id="form-success">Tuloksesi on lähetetty onnistuneesti!<br>Katso tulokset pistetilastosta.</div>
-        </div>
+      </script>
     </div>
-    <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-        <div data-role="navbar">
-            <ul>
-                <li><a href="#" data-icon="grid" class="ui-btn-active">Huippupisteet</a></li>
-                <li><a href="leaderboard.html" data-icon="star">Pistetilasto</a></li>
-            </ul>
-        </div>
+    <div>
+      <h3>Lopputulos:
+          <span id="displayScore"></span>
+      </h3>
+      <hr>
+      <h3>Online Pistetilasto</h3>
+      <form id="highscoreForm">
+          <p>Lähetä tuloksesi ja katso kuinka hyvin pärjäsit!</p>
+          <input type="text" name="nickname" id="nickname" placeholder="Anna nimimerkkisi" />
+          <input type="hidden" name="score" id="total">
+          <input type="submit" value="Lähetä" id="submitBtn">
+      </form>
+      <span id="data-error"><strong>Palvelimeen ei saatu yhteyttä.</strong></span>
+      <span class="form-error" id="nickname-required-error">Nimimerkki on pakollinen.</span>
+      <span class="form-error" id="nickname-content-error">Nimimerkin tulee olla 2-16 merkin pituinen ja sisältää vain kirjaimia ja numeroita.</span>
+      <div id="form-success">Tuloksesi on lähetetty onnistuneesti!<br>Katso tulokset pistetilastosta.</div>
     </div>
+  </div>
+  <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+    <div data-role="navbar">
+      <ul>
+        <li><a href="#" data-icon="grid" class="ui-btn-active">Huippupisteet</a></li>
+        <li><a href="leaderboard.html" data-icon="star">Pistetilasto</a></li>
+      </ul>
+    </div>
+  </div>
+</div>

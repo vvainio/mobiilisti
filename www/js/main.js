@@ -110,7 +110,7 @@ $(document).on('pageshow', '#taskview', function() {
             return text;
         }).get();
 
-        /* TODO 
+        /* TODO
         - Randomize questions
         */
         for (var i = 0; i < checkedAnswers.length; i++) {
@@ -136,7 +136,7 @@ $(document).on('pageshow', '#taskview', function() {
         for (var i = 0; i < emptyAnswers.length; i++) {
             if ($.inArray(emptyAnswers[i], answers.correctAnswers) > -1) {
                 /*
-                $.each(notCheckedArray, function( key, value ) {
+                $.each(notCheckedArray, function ( key, value ) {
                   if (emptyAnswers[i] === value) {
                     flashWrong(key);
                   }
@@ -144,7 +144,7 @@ $(document).on('pageshow', '#taskview', function() {
                 */
             } else if ($.inArray(emptyAnswers[i], answers.wrongAnswers) > -1) {
                 /*
-                $.each(notCheckedArray, function( key, value ) {
+                $.each(notCheckedArray, function ( key, value ) {
                   if (emptyAnswers[i] === value) {
                     flashCorrect(key);
                   }
@@ -252,6 +252,10 @@ $(document).on('pageshow', '#leaderboard', function() {
 
 // MAIN - Page init
 $(document).on('pageinit', '#containerPage', function() {
+
+    var conf = {
+        animationEnd: "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend"
+    };
 
     Game = {
         selectedCharacter: 0,
@@ -436,9 +440,7 @@ $(document).on('pageinit', '#containerPage', function() {
         },
         animateEnd: function() {
             $('.content').addClass('animated hinge');
-            setTimeout(function() {
-                Game.end();
-            }, 3000);
+            $('.content').one(conf.animationEnd, Game.end());
         }
     };
 
@@ -458,7 +460,7 @@ $(document).on('pageinit', '#containerPage', function() {
                     maxScore: value.maxScore,
                     isComplete: value.isComplete
                 });
-                // Set task complete if true                
+                // Set task complete if true
                 if (value.isComplete) {
                     CampusView.setTaskComplete({
                         id: index,
@@ -741,7 +743,6 @@ $(document).on('pageinit', '#containerPage', function() {
                 },
                 error: function(data) {
                     $('#data-error').show();
-                    alert("Error fetching data");
                 },
                 timeout: 5000,
                 beforeSend: function() {
@@ -822,7 +823,7 @@ $(document).on('pageinit', '#containerPage', function() {
                 markers = $('.marker'),
                 markerId = parseInt(el.attr('id').replace(/marker-/, ''), 10);
 
-            // Set correct marker icons    
+            // Set correct marker icons
             $.each(markers, function() {
                 if (!$(this).hasClass('marker-complete')) {
                     $(this).removeClass().addClass('marker marker-incomplete');
@@ -851,7 +852,7 @@ $(document).on('pageinit', '#containerPage', function() {
 
             el.addClass('marker-active');
         },
-        // Remove all active markers      
+        // Remove all active markers
         removeActiveMarkers: function() {
             var markers = $('.marker');
 

@@ -1,6 +1,6 @@
 <div data-role="page" id="campusview">
- <div data-role="header" class="header" data-position="inline">
-    <a href="campusmap.html" data-icon="arrow-l">Kampuskartta</a>
+  <div data-role="header" class="header" data-position="inline">
+    <a href="campusmap.html" data-icon="arrow-l">Kampusvalinta</a>
     <h1 id="title"></h1>
     <div id="score-text"></div>
   </div>
@@ -8,29 +8,29 @@
     <div id="map" class="center">
       <img id="map-img" src="">
     </div>
-      <script id="task" type="text/template">
-      <div id="task-{{id}}" class="task">
-        <ul data-role="listview" data-inset="true">
-          <li><a href="taskview.html">
-            <h2>{{area}}</h2>
-            {{#isComplete}}
-              <p>Tulos: {{score}} / {{maxScore}}</p>
-            {{/isComplete}}
-            </a>
-          </li>
-        </ul>
+    <script id="task" type="text/template">
+    <div id="task-{{id}}" class="task">
+      <ul data-role="listview" data-inset="true">
+        <li><a href="taskview.html">
+          <h2>{{area}}</h2>
+          {{#isComplete}}
+            <p>Tulos: {{score}} / {{maxScore}}</p>
+          {{/isComplete}}
+          </a>
+        </li>
+      </ul>
+    </div>
+    </script>
+    <script id="taskComplete" type="text/template">
+      {{#isCampusComplete}}
+      <div id="campusComplete" class="center">
+        <h1>Kampus läpi!</h1>
+        <b>Kokonaispisteet: {{totalScore}} / {{maxTotalScore}}</b>
       </div>
-      </script>
-      <script id="taskComplete" type="text/template">
-        {{#isCampusComplete}}
-        <div id="campusComplete" class="center">
-          <h1>Kampus läpi!</h1>
-          <b>Kokonaispisteet: {{totalScore}} / {{maxTotalScore}}</b>
-        </div>
-        {{#isComplete}}
-      </script>
-      <div class="fixed">
-        <div id="campus-complete">Kampus suoritettu!</div>
-      </div>
+      {{#isComplete}}
+    </script>
+    <div class="fixed">
+      <div id="campus-complete">Kampus suoritettu!</div>
+    </div>
   </div>
 </div>
