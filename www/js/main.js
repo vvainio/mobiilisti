@@ -25,12 +25,25 @@ $(document).on('pageshow', '#containerPage', function() {
     });
 });
 
+$(document).on('pageshow', '#resume', function() {
+    $('#continue').on('click', function() {
+        Game.continue();
+    });
+
+    $('#reset').on('click', function() {
+        Storage.clear();
+        $.mobile.changePage("characterselect.html", {
+            transition: "slide"
+        });
+    });
+});
+
 $(document).on('pageshow', '#characterselect', function() {
     // Initialize slider with selected character
     window.slider = new Swipe(document.getElementById('slider'), {
-        startSlide: Game.selectedCharacter,
+        startSlide: Player.selectedCharacter,
         callback: function(index, elem) {
-            Game.selectedCharacter = slider.getPos();
+            Player.selectedCharacter = slider.getPos();
         }
     });
 });
@@ -38,16 +51,16 @@ $(document).on('pageshow', '#characterselect', function() {
 $(document).on('pageshow', '#campusselect', function() {
     // Initialize slider with selected campus
     window.slider = new Swipe(document.getElementById('slider'), {
-        startSlide: Game.selectedCampus,
+        startSlide: Player.selectedCampus,
         callback: function(index, elem) {
-            Game.selectedCampus = slider.getPos();
+            Player.selectedCampus = slider.getPos();
         }
     });
 });
 
 $(document).on('pageshow', '#campusview', function() {
-    $('#title').html(Game.data.campuses[Game.selectedCampus].campus);
-    $("#map-img").attr("src", "../../img/" + Game.data.campuses[Game.selectedCampus].map_image);
+    $('#title').html(Game.data.campuses[Player.selectedCampus].campus);
+    $("#map-img").attr("src", "../../img/" + Game.data.campuses[Player.selectedCampus].map_image);
     Score.display();
 
     CampusView.parseData();
@@ -66,13 +79,13 @@ $(document).on('pageshow', '#campusmap', function() {
 
     $('.ui-grid-a .ui-btn').on('click', function() {
         var id = parseInt($(this).parent().attr('id').slice(-1, 10));
-        Game.selectedCampus = id;
+        Player.selectedCampus = id;
     });
 });
 
 $(document).on('pageshow', '#taskview', function() {
     var startTime = new Date(),
-        answers = Task.parseData(Game.selectedTask),
+        answers = Task.parseData(Player.selectedTask),
         maxScore = answers.maxScore,
         submitBtn = $('[type="submit"]');
 
@@ -164,7 +177,7 @@ $(document).on('pageshow', '#taskview', function() {
         });
 
         CampusView.setTaskComplete({
-            id: Game.selectedTask,
+            id: Player.selectedTask,
             score: score,
             maxScore: maxScore,
             taskTime: taskTime
@@ -217,7 +230,7 @@ $(document).on('pageshow', '#highscore', function() {
     $('#total').val(total);
     $('#displayScore').html(total);
 
-    if (Game.isSubmitted) {
+    if (Player.hasSubmittedHighscore) {
         $('#highscoreForm').remove();
         $('#form-success').show();
     }
@@ -232,7 +245,7 @@ $(document).on('pageshow', '#highscore', function() {
 
         if (typeof nameInput != 'undefined' && nameInput !== '') {
             if (regexp.test(nameInput)) {
-                Game.nickname = $('#nickname').val().trim();
+                Player.nickname = $('#nickname').val().trim();
                 Highscore.submitScore();
             } else {
                 $('#nickname-content-error').show();
@@ -257,52 +270,117 @@ $(document).on('pageinit', '#containerPage', function() {
         animationEnd: "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend"
     };
 
-    Game = {
+    Player = {
         selectedCharacter: 0,
         selectedCampus: 0,
         selectedTask: 0,
         score: 0,
+        nickname: undefined,
+        hasSubmittedHighscore: false
+    };
+
+    Storage = {
+        getData: function () {
+            return JSON.parse(localStorage.getItem('data'));
+        },
+
+        setData: function (data) {
+            localStorage.setItem('data', data);
+        },
+
+        clear: function () {
+            localStorage.clear();
+        }
+    };
+
+    Game = {
         language: undefined,
         data: undefined,
-        nickname: undefined,
-        isSubmitted: false,
-
         // Load dynamic content via JSON
         loadData: function(lang) {
-            if (typeof data == 'undefined') {
-                console.log('No previous data found - loading JSON (' + lang + ')');
+            var localData = Storage.getData();
 
-                if (!debug) {
-                    if (lang == 'fi') {
-                        $.getJSON('./fixtures/questions_fi.json', function(jsonData) {
+            if (localData !== null) {
+                Player = localData;
+                Game.language = lang;
+                Game.data = localData.data;
+
+                $.mobile.changePage("/views/" + lang + "/resume.html", {
+                    transition: "slidedown",
+                    role: "dialog"
+                });
+            } else {
+                if (typeof Game.data === 'undefined') {
+                    console.log('No previous data found - loading JSON (' + lang + ')');
+
+                    if (!debug) {
+                        if (lang == 'fi') {
+                            $.getJSON('./fixtures/questions_fi.json', function(jsonData) {
+                                Game.data = jsonData;
+                                $.mobile.changePage("/views/fi/characterselect.html");
+                            });
+                        }
+
+                        if (lang == 'en') {
+                            $.getJSON('./fixtures/questions_en.json', function(jsonData) {
+                                Game.data = jsonData;
+                                $.mobile.changePage("/views/en/characterselect.html");
+                            });
+                        }
+                    } else {
+                        $.getJSON('./fixtures/debug.json', function(jsonData) {
                             Game.data = jsonData;
+                            $.mobile.changePage("/views/fi/characterselect.html");
                         });
                     }
-
-                    if (lang == 'en') {
-                        $.getJSON('./fixtures/questions_en.json', function(jsonData) {
-                            Game.data = jsonData;
-                        });
-                    }
-                } else {
-                    $.getJSON('./fixtures/debug.json', function(jsonData) {
-                        Game.data = jsonData;
-                    });
                 }
             }
         },
+
+        continue: function() {
+            var allComplete = true;
+
+            $.each(Game.data.campuses, function(index, value) {
+                if (!value.isComplete) {
+                    allComplete = false;
+                }
+            });
+
+            if (!allComplete) {
+                $.mobile.changePage("campusmap.html", {
+                    transition: "slide"
+                });
+            } else {
+                $.mobile.changePage("complete.html", {
+                    transition: "slide"
+                });
+            }
+        },
+
         // Trigger game ending
         end: function() {
+            Storage.clear();
             $.mobile.changePage("end.html", {
                 transition: "slidedown"
             });
         },
         // Trigger game completion
         complete: function() {
+            Game.save();
             $.mobile.changePage("complete.html", {
                 transition: "slidedown"
             });
         },
+
+        load: function() {
+            Storage.getData();
+        },
+
+        save: function() {
+            Player.data = Game.data;
+            Storage.setData(JSON.stringify(Player));
+        },
+
         // Set game language
         setLanguage: function(lang) {
             // Set language or default to 'fi'
@@ -317,7 +395,7 @@ $(document).on('pageinit', '#containerPage', function() {
         DECREASE_BY: 3,
         // Give bonus points on correct campus & character selection
         checkBonus: function() {
-            if (Game.selectedCharacter === Game.selectedCampus) {
+            if (Player.selectedCharacter === Player.selectedCampus) {
                 for (var i = 0; i < 4; i++) {
                     Score.count("increase");
                 }
@@ -327,17 +405,17 @@ $(document).on('pageinit', '#containerPage', function() {
 
         count: function(action) {
             if (action === "increase") {
-                Game.score += Score.INCREASE_BY;
+                Player.score += Score.INCREASE_BY;
 
-                if (Game.score >= Score.MAX) {
-                    Game.score = Score.MAX;
+                if (Player.score >= Score.MAX) {
+                    Player.score = Score.MAX;
                 }
             }
             if (action === "decrease") {
-                Game.score -= Score.DECREASE_BY;
+                Player.score -= Score.DECREASE_BY;
 
-                if (Game.score <= Score.MIN) {
-                    Game.score = Score.MIN;
+                if (Player.score <= Score.MIN) {
+                    Player.score = Score.MIN;
                     Task.animateEnd();
                 }
             }
@@ -345,10 +423,10 @@ $(document).on('pageinit', '#containerPage', function() {
 
         display: function() {
             if (Game.language === 'en') {
-                $('#score-text').html("Score: " + Game.score);
+                $('#score-text').html("Score: " + Player.score);
             }
             if (Game.language === 'fi') {
-                $('#score-text').html("Pisteet: " + Game.score);
+                $('#score-text').html("Pisteet: " + Player.score);
             }
         },
 
@@ -357,8 +435,8 @@ $(document).on('pageinit', '#containerPage', function() {
                 totalScore = 0;
 
             // FOR DEBUGGING
-            if (Game.score === 0) {
-                Game.score = Math.floor(Math.random() * (Score.MAX - 0 + 1)) + 0;
+            if (Player.score === 0) {
+                Player.score = Math.floor(Math.random() * (Score.MAX - 0 + 1)) + 0;
             }
 
             $.each(Game.data.campuses, function(i, campuses) {
@@ -380,9 +458,9 @@ $(document).on('pageinit', '#containerPage', function() {
     Task = {
         // Parse data for taskview
         parseData: function(id) {
-            var type = Game.data.campuses[Game.selectedCampus].questions[id].type,
-                question = Game.data.campuses[Game.selectedCampus].questions[id].question,
-                img = Game.data.campuses[Game.selectedCampus].questions[id].backdrop,
+            var type = Game.data.campuses[Player.selectedCampus].questions[id].type,
+                question = Game.data.campuses[Player.selectedCampus].questions[id].question,
+                img = Game.data.campuses[Player.selectedCampus].questions[id].backdrop,
                 index = 0,
                 correctAnswers = [],
                 wrongAnswers = [];
@@ -390,7 +468,7 @@ $(document).on('pageinit', '#containerPage', function() {
             $('#question').html("<b>" + question + "</b>");
 
             if (type == 'checkbox' || typeof type == 'undefined') {
-                $.each(Game.data.campuses[Game.selectedCampus].questions[id].answers, function(key, value) {
+                $.each(Game.data.campuses[Player.selectedCampus].questions[id].answers, function(key, value) {
                     var html = "<input type='checkbox' name='checkbox-" + index + "' id='checkbox-" + index + "'>" +
                         "<label class='btn-down-reset' for='checkbox-" + index + "'>" + key + "</label>";
 
@@ -407,7 +485,7 @@ $(document).on('pageinit', '#containerPage', function() {
                     index++;
                 });
             } else if (type == 'slider') {
-                $.each(Game.data.campuses[Game.selectedCampus].questions[id].answers, function(key, value) {
+                $.each(Game.data.campuses[Player.selectedCampus].questions[id].answers, function(key, value) {
                     var html = "<br><input type='range' name='slider-fill' id='slider-fill' value='0' min='0' max='500' step='50' data-highlight='true' /><br>";
 
                     $('form > fieldset').append(html);
@@ -427,7 +505,7 @@ $(document).on('pageinit', '#containerPage', function() {
 
             // Override maxScore when task type is other than checkbox
             if (maxScore === 0) {
-                maxScore = 1 * Game.data.campuses[Game.selectedCampus].questions[id].weight;
+                maxScore = 1 * Game.data.campuses[Player.selectedCampus].questions[id].weight;
             }
 
             var answers = {
@@ -447,7 +525,7 @@ $(document).on('pageinit', '#containerPage', function() {
     CampusView = {
         // Parse data for campusview
         parseData: function() {
-            $.each(Game.data.campuses[Game.selectedCampus].questions, function(index, value) {
+            $.each(Game.data.campuses[Player.selectedCampus].questions, function(index, value) {
                 CampusView.createMarker({
                     id: index,
                     x: value.x,
@@ -506,10 +584,12 @@ $(document).on('pageinit', '#containerPage', function() {
 
             task.addClass('animated pulse delay');
 
-            Game.data.campuses[Game.selectedCampus].questions[obj.id].isComplete = true;
-            Game.data.campuses[Game.selectedCampus].questions[obj.id].score = obj.score;
-            Game.data.campuses[Game.selectedCampus].questions[obj.id].maxScore = obj.maxScore;
-            Game.data.campuses[Game.selectedCampus].questions[obj.id].taskTime = obj.taskTime;
+            Game.data.campuses[Player.selectedCampus].questions[obj.id].isComplete = true;
+            Game.data.campuses[Player.selectedCampus].questions[obj.id].score = obj.score;
+            Game.data.campuses[Player.selectedCampus].questions[obj.id].maxScore = obj.maxScore;
+            Game.data.campuses[Player.selectedCampus].questions[obj.id].taskTime = obj.taskTime;
+
+            Game.save();
         },
         // Check completed tasks
         checkComplete: function() {
@@ -523,7 +603,7 @@ $(document).on('pageinit', '#containerPage', function() {
             });
 
             if (allComplete) {
-                Game.data.campuses[Game.selectedCampus].isComplete = true;
+                Game.data.campuses[Player.selectedCampus].isComplete = true;
                 setTimeout(function() {
                     $('#campus-complete').show().addClass('animated bounceInDown');
                 }, 2000);
@@ -550,7 +630,7 @@ $(document).on('pageinit', '#containerPage', function() {
                 if (value.isComplete) {
                     CampusMap.setCampusComplete(index);
                 }
-                if (index === Game.selectedCampus) {
+                if (index === Player.selectedCampus) {
                     CampusMap.setActiveTask(index);
                 }
             });
@@ -565,8 +645,8 @@ $(document).on('pageinit', '#containerPage', function() {
             campus.find('span').attr('class', 'ui-icon-check ui-btn-icon-left icon-top');
             campus.addClass('animated tada delay');
 
-            Game.selectedCampus = undefined;
-            Game.selectedTask = 1;
+            Player.selectedCampus = undefined;
+            Player.selectedTask = 1;
         },
         setActiveTask: function(id) {
             var campus = $('#campus-' + id);
@@ -618,7 +698,7 @@ $(document).on('pageinit', '#containerPage', function() {
         },
         // Set active campus
         selectCampus: function(id) {
-            Game.selectedCampus = id;
+            Player.selectedCampus = id;
         },
         // Check if all campuses are complete
         checkComplete: function() {
@@ -701,7 +781,7 @@ $(document).on('pageinit', '#containerPage', function() {
                 type: 'POST',
                 data: $('#highscoreForm').serialize(),
                 success: function(data) {
-                    Game.isSubmitted = true;
+                    Player.hasSubmittedHighscore = true;
                     $('#highscoreForm').remove();
                     $('#form-success').fadeIn('slow');
                 },
@@ -757,14 +837,14 @@ $(document).on('pageinit', '#containerPage', function() {
         },
         // GET nearest highscores
         getAroundMe: function() {
-            if (typeof Game.nickname != 'undefined') {
+            if (typeof Player.nickname != 'undefined') {
                 $.ajax({
-                    url: config.server + '/aroundme?nickname=' + Game.nickname + '',
+                    url: config.server + '/aroundme?nickname=' + Player.nickname + '',
                     dataType: 'json',
                     success: function(json) {
                         var template = $('#aroundme').html(),
                             data = {
-                                'players': json
+                                'Players': json
                             },
                             html = Mustache.to_html(template, data);
 
@@ -792,8 +872,8 @@ $(document).on('pageinit', '#containerPage', function() {
         },
         // Highlight rows
         highlightRow: function(element) {
-            if (typeof Game.nickname != 'undefined') {
-                $('.' + element + '> table td:contains(' + Game.nickname + ')').parent().css("font-weight", "bold");
+            if (typeof Player.nickname != 'undefined') {
+                $('.' + element + '> table td:contains(' + Player.nickname + ')').parent().css("font-weight", "bold");
             }
         }
     };
@@ -801,18 +881,18 @@ $(document).on('pageinit', '#containerPage', function() {
     Helper = {
         // Activate selected task
         activateTask: function() {
-            if (typeof Game.selectedTask != 'undefined') {
-                var task = $('#task-' + Game.selectedTask);
-                var marker = $('#marker-' + Game.selectedTask);
+            if (typeof Player.selectedTask != 'undefined') {
+                var task = $('#task-' + Player.selectedTask);
+                var marker = $('#marker-' + Player.selectedTask);
                 marker.addClass('marker-active');
                 task.show();
             }
         },
         // Activate selected campus
         activateCampus: function() {
-            if (typeof Game.selectedCampus != 'undefined') {
-                var campus = $('#campus-' + Game.selectedCampus);
-                var marker = $('#marker-' + Game.selectedCampus);
+            if (typeof Player.selectedCampus != 'undefined') {
+                var campus = $('#campus-' + Player.selectedCampus);
+                var marker = $('#marker-' + Player.selectedCampus);
                 marker.addClass('marker-active');
                 campus.show();
             }
@@ -835,7 +915,7 @@ $(document).on('pageinit', '#containerPage', function() {
                 var task = $('#task-' + markerId),
                     tasks = $('.task');
 
-                Game.selectedTask = markerId;
+                Player.selectedTask = markerId;
                 tasks.hide();
                 task.show();
             }
@@ -844,8 +924,8 @@ $(document).on('pageinit', '#containerPage', function() {
                 var campus = $('#campus-' + markerId),
                     campuses = $('.task');
 
-                Game.selectedCampus = markerId;
-                Game.selectedTask = 0;
+                Player.selectedCampus = markerId;
+                Player.selectedTask = 0;
                 campuses.hide();
                 campus.show();
             }

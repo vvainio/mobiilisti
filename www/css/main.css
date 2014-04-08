@@ -24,7 +24,7 @@ body {
 em {
     font-style: normal;
 }
-#about, #guide, #campusview, #campusmap, #complete, #end, #highscore, #leaderboard {
+#about, #resume, #guide, #campusview, #campusmap, #complete, #end, #highscore, #leaderboard {
     background-size: 50px 50px !important;
     background-color: #eee !important;
     background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) !important;
