@@ -528,8 +528,8 @@ $(document).on('pageinit', '#containerPage', function() {
             $.each(Game.data.campuses[Player.selectedCampus].questions, function(index, value) {
                 CampusView.createMarker({
                     id: index,
-                    x: value.x,
-                    y: value.y
+                    top: value.top,
+                    left: value.left
                 });
                 CampusView.createTask({
                     id: index,
@@ -555,8 +555,8 @@ $(document).on('pageinit', '#containerPage', function() {
                 id: 'marker-' + obj.id,
                 class: 'marker marker-incomplete',
                 css: {
-                    top: obj.y,
-                    left: obj.x
+                    top: obj.top,
+                    left: obj.left
                 }
             }).appendTo('#map');
         },
