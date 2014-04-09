@@ -134,7 +134,7 @@ $(document).on('pageshow', '#taskview', function() {
                     }
                 });
                 Score.count("increase");
-                score++;
+                score += Score.INCREASE_BY;
             } else if ($.inArray(checkedAnswers[i], answers.wrongAnswers) > -1) {
                 $.each(checkedArray, function(key, value) {
                     if (checkedAnswers[i] === value) {
@@ -142,12 +142,12 @@ $(document).on('pageshow', '#taskview', function() {
                     }
                 });
                 Score.count("decrease");
-                score--;
+                score -= Score.DECREASE_BY;
             }
         }
 
-        for (var i = 0; i < emptyAnswers.length; i++) {
-            if ($.inArray(emptyAnswers[i], answers.correctAnswers) > -1) {
+        for (var j = 0; j < emptyAnswers.length; j++) {
+            if ($.inArray(emptyAnswers[j], answers.correctAnswers) > -1) {
                 /*
                 $.each(notCheckedArray, function ( key, value ) {
                   if (emptyAnswers[i] === value) {
@@ -155,7 +155,7 @@ $(document).on('pageshow', '#taskview', function() {
                   }
                 });
                 */
-            } else if ($.inArray(emptyAnswers[i], answers.wrongAnswers) > -1) {
+            } else if ($.inArray(emptyAnswers[j], answers.wrongAnswers) > -1) {
                 /*
                 $.each(notCheckedArray, function ( key, value ) {
                   if (emptyAnswers[i] === value) {
@@ -164,7 +164,7 @@ $(document).on('pageshow', '#taskview', function() {
                 });
                 */
                 Score.count("increase");
-                score++;
+                score += Score.INCREASE_BY;
             }
         }
 
