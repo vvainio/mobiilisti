@@ -782,6 +782,7 @@ $(document).on('pageinit', '#containerPage', function() {
                 data: $('#highscoreForm').serialize(),
                 success: function(data) {
                     Player.hasSubmittedHighscore = true;
+                    Game.save();
                     $('#highscoreForm').remove();
                     $('#form-success').fadeIn('slow');
                 },
