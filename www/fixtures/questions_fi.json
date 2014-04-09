@@ -6,8 +6,8 @@
         "isComplete": false,
         "questions": [{
             "area": "Luonnonprosessit, ekologia ja metsät",
-            "x": "30%",
-            "y": "15%",
+            "top": "5%",
+            "left": "53%",
             "backdrop": "c1-t1.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -22,8 +22,8 @@
             }
         }, {
             "area": "Biopolttoaine",
-            "x": "42%",
-            "y": "42%",
+            "top": "83%",
+            "left": "88%",
             "backdrop": "c1-t2.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -38,8 +38,8 @@
             }
         }, {
             "area": "Jokamiehenoikeudet",
-            "x": "53%",
-            "y": "89%",
+            "top": "81%",
+            "left": "53%",
             "backdrop": "c1-t3.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -54,8 +54,8 @@
             }
         }, {
             "area": "Luonnon monimuotoisuus",
-            "x": "76%",
-            "y": "88%",
+            "top": "92%",
+            "left": "37%",
             "backdrop": "c1-t4.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -76,8 +76,8 @@
         "isComplete": false,
         "questions": [{
             "area": "Ilmaston lämpeneminen ja hiilijalanjälki",
-            "x": "10%",
-            "y": "15%",
+            "top": "92%",
+            "left": "27%",
             "backdrop": "c2-t1.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -92,8 +92,8 @@
             }
         }, {
             "area": "Luonnonvarat",
-            "x": "42%",
-            "y": "42%",
+            "top": "31%",
+            "left": "27%",
             "backdrop": "c2-t2.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -108,8 +108,8 @@
             }
         }, {
             "area": "Jätehuolto",
-            "x": "53%",
-            "y": "89%",
+            "top": "68%",
+            "left": "86%",
             "backdrop": "c2-t3.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -124,8 +124,8 @@
             }
         }, {
             "area": "Kansainvälinen yhteisvastuullisuus kestävässä kehityksessä",
-            "x": "76%",
-            "y": "88%",
+            "top": "67%",
+            "left": "41%",
             "backdrop": "c2-t4.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -146,8 +146,8 @@
         "isComplete": false,
         "questions": [{
             "area": "Omenalajike",
-            "x": "10%",
-            "y": "15%",
+            "top": "48%",
+            "left": "74%",
             "backdrop": "c3-t1.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -162,8 +162,8 @@
             }
         }, {
             "area": "Hulevedet",
-            "x": "42%",
-            "y": "42%",
+            "top": "8%",
+            "left": "87%",
             "backdrop": "c3-t2.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -178,8 +178,8 @@
             }
         }, {
             "area": "Lepaan kasvihuone",
-            "x": "53%",
-            "y": "89%",
+            "top": "47%",
+            "left": "12%",
             "backdrop": "c3-t3.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -193,8 +193,8 @@
             }
         }, {
             "area": "Viini omasta sadosta",
-            "x": "76%",
-            "y": "88%",
+            "top": "22%",
+            "left": "55%",
             "backdrop": "c3-t4.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -215,8 +215,8 @@
         "isComplete": false,
         "questions": [{
             "area": "Maatiaiseläin",
-            "x": "10%",
-            "y": "15%",
+            "top": "91%",
+            "left": "20%",
             "backdrop": "c4-t1.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -231,8 +231,8 @@
             }
         }, {
             "area": "Mehiläiset",
-            "x": "42%",
-            "y": "42%",
+            "top": "64%",
+            "left": "36%",
             "backdrop": "c4-t2.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -247,8 +247,8 @@
             }
         }, {
             "area": "Olut",
-            "x": "53%",
-            "y": "89%",
+            "top": "46%",
+            "left": "63%",
             "backdrop": "c4-t3.jpg",
             "weight": 4,
             "type": "checkbox",
@@ -263,8 +263,8 @@
             }
         }, {
             "area": "Maaseudun kehittäminen",
-            "x": "76%",
-            "y": "88%",
+            "top": "24%",
+            "left": "76%",
             "backdrop": "c4-t4.jpg",
             "weight": 1,
             "type": "checkbox",
