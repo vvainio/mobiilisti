@@ -266,10 +266,6 @@ $(document).on('pageshow', '#leaderboard', function() {
 // MAIN - Page init
 $(document).on('pageinit', '#containerPage', function() {
 
-    var conf = {
-        animationEnd: "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend"
-    };
-
     Player = {
         selectedCharacter: 0,
         selectedCampus: 0,
@@ -399,7 +395,6 @@ $(document).on('pageinit', '#containerPage', function() {
                 for (var i = 0; i < 4; i++) {
                     Score.count("increase");
                 }
-                console.log("+4 bonus points (character === campus)");
             }
         },
 
@@ -484,16 +479,6 @@ $(document).on('pageinit', '#containerPage', function() {
 
                     index++;
                 });
-            } else if (type == 'slider') {
-                $.each(Game.data.campuses[Player.selectedCampus].questions[id].answers, function(key, value) {
-                    var html = "<br><input type='range' name='slider-fill' id='slider-fill' value='0' min='0' max='500' step='50' data-highlight='true' /><br>";
-
-                    $('form > fieldset').append(html);
-
-                    correctAnswers.push(value);
-                });
-            } else if (type == 'image') {
-
             }
 
             $('#taskview').css('background', 'url(../../img/' + img + ')');
@@ -656,19 +641,6 @@ $(document).on('pageinit', '#containerPage', function() {
         },
         // Create tasks for campusmap
         createTask: function(obj) {
-            /*var template = $('#campus').html(),
-                scores = CampusMap.countScore(obj.id),
-                data = {
-                    id: obj.id,
-                    campus: obj.campus,
-                    description: obj.description,
-                    score: scores.score,
-                    maxScore: scores.maxScore,
-                    isComplete: obj.isComplete
-                },
-                html = Mustache.to_html(template, data);
-
-            $('#campusmap > .content').append(html).trigger('create');*/
             var part1 = "<div id='campus-" + obj.id + "' class='" + obj.style + " campus-btn'>",
                 part2 = "<a href='campusview.html' class='ui-btn ui-shadow default'>",
                 part3 = "<span class='ui-icon-star ui-btn-icon-left icon-top' />",
