@@ -33,16 +33,6 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        window.localStorage.setItem("key", "value");
-        var keyname = window.localStorage.key(i);
-        // keyname is now equal to "key"
-        var value = window.localStorage.getItem("key");
-        // value is now equal to "value"
-        window.localStorage.removeItem("key");
-        window.localStorage.setItem("key2", "value2");
-        window.localStorage.clear();
-        // localStorage is now empty
-
         document.addEventListener("backbutton", function(e) {
             if ($.mobile.activePage.is('#containerpage')) {} else if ($.mobile.activePage.is('#characterselect') || $.mobile.activePage.is('#campusselect') || $.mobile.activePage.is('#guide')) {
                 navigator.app.backHistory();

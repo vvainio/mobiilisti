@@ -3,7 +3,7 @@ $.ajaxSetup({
     cache: false
 });
 
-var debug = true;
+var debug = false;
 
 /* Globals */
 var config;
@@ -277,15 +277,15 @@ $(document).on('pageinit', '#containerPage', function() {
 
     Storage = {
         getData: function () {
-            return JSON.parse(localStorage.getItem('data'));
+            return JSON.parse(window.localStorage.getItem('data'));
         },
 
         setData: function (data) {
-            localStorage.setItem('data', data);
+            window.localStorage.setItem('data', data);
         },
 
         clear: function () {
-            localStorage.clear();
+            window.localStorage.clear();
         }
     };
 
@@ -301,7 +301,7 @@ $(document).on('pageinit', '#containerPage', function() {
                 Game.language = lang;
                 Game.data = localData.data;
 
-                $.mobile.changePage("/views/" + lang + "/resume.html", {
+                $.mobile.changePage("./views/" + lang + "/resume.html", {
                     transition: "slidedown",
                     role: "dialog"
                 });
@@ -313,20 +313,20 @@ $(document).on('pageinit', '#containerPage', function() {
                         if (lang == 'fi') {
                             $.getJSON('./fixtures/questions_fi.json', function(jsonData) {
                                 Game.data = jsonData;
-                                $.mobile.changePage("/views/fi/characterselect.html");
+                                $.mobile.changePage("./views/fi/characterselect.html");
                             });
                         }
 
                         if (lang == 'en') {
                             $.getJSON('./fixtures/questions_en.json', function(jsonData) {
                                 Game.data = jsonData;
-                                $.mobile.changePage("/views/en/characterselect.html");
+                                $.mobile.changePage("./views/en/characterselect.html");
                             });
                         }
                     } else {
                         $.getJSON('./fixtures/debug.json', function(jsonData) {
                             Game.data = jsonData;
-                            $.mobile.changePage("/views/fi/characterselect.html");
+                            $.mobile.changePage("./views/fi/characterselect.html");
                         });
                     }
                 }
