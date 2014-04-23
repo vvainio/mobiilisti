@@ -503,7 +503,9 @@ $(document).on('pageinit', '#containerPage', function() {
         },
         animateEnd: function() {
             $('.content').addClass('animated hinge');
-            $('.content').one(conf.animationEnd, Game.end());
+            setTimeout(function() {
+                Game.end();
+            }, 3000);
         }
     };
 
