@@ -11,7 +11,7 @@
     "leaderboard": "Pistetilasto",
     "mainMenu": "Takaisin päävalikkoon",
     "continue": "Jatka peliä",
-    "reset": "Aloita peli alusta"
+    "reset": "Aloita uusi peli"
   },
   "views": {
     "characterselect": {
@@ -28,18 +28,24 @@
       "paragraph_4": "Siinä kaikki - lykkyä tykö!"
     },
     "campusview": {
-      "complete": "Kampus suoritettu!"
+      "complete": "Kampus suoritettu!",
+      "scoreText": "Pisteet: __score__"
     },
     "campusmap": {
       "title": "Kampukset",
       "complete": "Kampukset suoritettu!",
       "progress": "Suoritettu __percentage__%"
     },
+    "taskview": {
+      "title": "Kysymys",
+      "scoreText": "Pisteet: __score__",
+      "submitBtn": "Vastaaaaa"
+    },
     "complete": {
       "title": "Onnittelut!",
       "header": "Mahtavaa!",
       "paragraph_1": "Läpäisit kaikki kampukset ja tehtävät.",
-      "paragraph_2": "Sait __score__  pistettä."
+      "scoreText": "Sait __score__  pistettä."
     },
     "end": {
       "title": "Voihan räkä...!",
@@ -56,7 +62,7 @@
         "nickname_required": "Nimimerkki on pakollinen.",
         "nickname_content": "Nimimerkin tulee olla 2-16 merkin pituinen ja sisältää vain kirjaimia ja numeroita."
       },
-      "success": "Tuloksesi on lähetetty onnistuneesti!<br>Katso tulokset pistetilastosta.",
+      "success": "Tuloksesi on lähetetty onnistuneesti!",
       "results": "Katso tulokset pistetilastosta."
     },
     "leaderboard": {
@@ -68,9 +74,6 @@
     },
     "resume": {
       "paragraph_1": "Jatketaanko peliä tallennuksesta vai aloitetaanko peli alusta?"
-    },
-    "taskview": {
-      "title": "Kysymys"
     }
   }
 }
