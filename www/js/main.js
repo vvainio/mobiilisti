@@ -20,12 +20,15 @@ $(document).bind("mobileinit", function() {
 $(document).on('pageshow', '#containerPage', function() {
     $('.language').on('click', function() {
         var lang = $(this).attr('id');
+        i18n.init({ lng: lang });
         Game.setLanguage(lang);
         Game.loadData(lang);
     });
 });
 
 $(document).on('pageshow', '#resume', function() {
+    $("#resume").i18n();
+
     $('#continue').on('click', function() {
         Game.continue();
     });
@@ -39,6 +42,8 @@ $(document).on('pageshow', '#resume', function() {
 });
 
 $(document).on('pageshow', '#characterselect', function() {
+    $("#characterselect").i18n();
+
     // Initialize slider with selected character
     window.slider = new Swipe(document.getElementById('slider'), {
         startSlide: Player.selectedCharacter,
@@ -49,6 +54,8 @@ $(document).on('pageshow', '#characterselect', function() {
 });
 
 $(document).on('pageshow', '#campusselect', function() {
+    $("#campusselect").i18n();
+
     // Initialize slider with selected campus
     window.slider = new Swipe(document.getElementById('slider'), {
         startSlide: Player.selectedCampus,
@@ -58,7 +65,17 @@ $(document).on('pageshow', '#campusselect', function() {
     });
 });
 
+$(document).on('pageshow', '#guide', function() {
+    $("#guide").i18n();
+});
+
+$(document).on('pageshow', '#end', function() {
+    $("#end").i18n();
+});
+
 $(document).on('pageshow', '#campusview', function() {
+    $("#campusview").i18n();
+
     $('#title').html(Game.data.campuses[Player.selectedCampus].campus);
     $("#map-img").attr("src", "../../img/" + Game.data.campuses[Player.selectedCampus].map_image);
     Score.display();
@@ -70,20 +87,27 @@ $(document).on('pageshow', '#campusview', function() {
 });
 
 $(document).on('pageshow', '#campusmap', function() {
+    $("#campusmap").i18n();
+
     CampusMap.parseData();
     //Helper.removeActiveMarkers();
     //Helper.activateCampus();
     CampusMap.checkComplete();
-    CampusMap.completionProgress();
     Helper.setDivHeight();
 
     $('.ui-grid-a .ui-btn').on('click', function() {
         var id = parseInt($(this).parent().attr('id').slice(-1, 10));
         Player.selectedCampus = id;
     });
+
+    var number = CampusMap.completionProgress();
+    var translation = i18n.t("views.campusmap.progress", { percentage: number });
+    $('#campusmap h4').html(translation);
 });
 
 $(document).on('pageshow', '#taskview', function() {
+    $("#taskview").i18n();
+
     var startTime = new Date(),
         answers = Task.parseData(Player.selectedTask),
         maxScore = answers.maxScore,
@@ -219,11 +243,15 @@ $(document).on('pageshow', '#taskview', function() {
 });
 
 $(document).on('pageshow', '#complete', function() {
+    $("#complete").i18n();
+
     var total = Score.countTotal();
     $('#score').html(total);
 });
 
 $(document).on('pageshow', '#highscore', function() {
+    $("#highscore").i18n();
+
     Highscore.createList();
     var total = Score.countTotal();
 
@@ -259,6 +287,8 @@ $(document).on('pageshow', '#highscore', function() {
 });
 
 $(document).on('pageshow', '#leaderboard', function() {
+    $("#leaderboard").i18n();
+
     Leaderboard.getLeaders();
     Leaderboard.getAroundMe();
 });
@@ -709,7 +739,7 @@ $(document).on('pageinit', '#containerPage', function() {
 
             percentage = Math.floor((numOfCompletedTasks / numOfTasks) * 100);
 
-            $('#completion-progress').html(percentage);
+            return percentage;
         }
     };
 

@@ -1,6 +1,6 @@
 <div data-role="page" id="highscore">
   <div data-role="header" data-position="inline">
-    <h1 id="title">Huippupisteet</h1>
+    <h1 id="title" data-i18n="views.highscore.title"></h1>
   </div>
   <div class="content" data-role="content">
     <div id="listcontainer">
@@ -20,28 +20,31 @@
       </script>
     </div>
     <div>
-      <h3>Lopputulos:
+      <h3 data-i18n="views.highscore.header_1">
           <span id="displayScore"></span>
       </h3>
       <hr>
-      <h3>Online Pistetilasto</h3>
+      <h3 data-i18n="views.highscore.header_2"></h3>
       <form id="highscoreForm">
-          <p>Lähetä tuloksesi ja katso kuinka hyvin pärjäsit!</p>
+          <p data-i18n="views.highscore.paragraph_1"></p>
           <input type="text" name="nickname" id="nickname" placeholder="Anna nimimerkkisi" />
           <input type="hidden" name="score" id="total">
           <input type="submit" value="Lähetä" id="submitBtn">
       </form>
-      <span id="data-error"><strong>Palvelimeen ei saatu yhteyttä.</strong></span>
-      <span class="form-error" id="nickname-required-error">Nimimerkki on pakollinen.</span>
-      <span class="form-error" id="nickname-content-error">Nimimerkin tulee olla 2-16 merkin pituinen ja sisältää vain kirjaimia ja numeroita.</span>
-      <div id="form-success">Tuloksesi on lähetetty onnistuneesti!<br>Katso tulokset pistetilastosta.</div>
+      <span id="data-error"><strong data-i18n="views.highscore.errors.connection"></strong></span>
+      <span class="form-error" id="nickname-required-error" data-i18n="views.highscore.errors.nickname_required"></span>
+      <span class="form-error" id="nickname-content-error" data-i18n="views.highscore.errors.nickname_content"></span>
+      <div id="form-success">
+        <span data-i18n="views.highscore.success"></span><br>
+        <span data-i18n="views.highscore.results"></span>
+      </div>
     </div>
   </div>
   <div data-role="footer" data-position="fixed" data-tap-toggle="false">
     <div data-role="navbar">
       <ul>
-        <li><a href="#" data-icon="grid" class="ui-btn-active">Huippupisteet</a></li>
-        <li><a href="leaderboard.html" data-icon="star">Pistetilasto</a></li>
+        <li><a href="#" data-icon="grid" class="ui-btn-active" data-i18n="links.highscore_2"></a></li>
+        <li><a href="leaderboard.html" data-icon="star" data-i18n="links.leaderboard"></a></li>
       </ul>
     </div>
   </div>

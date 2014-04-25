@@ -1,0 +1,76 @@
+{
+  "links": {
+    "cancel": "Peruuta",
+    "back": "Takaisin",
+    "back_2": "Palaa takaisin",
+    "select": "Valitse",
+    "beginGame": "OK, aloita peli!",
+    "campusSelect": "Kampusvalinta",
+    "highscore": "Näytä huippupisteet ja pistetilasto",
+    "highscore_2": "Huippupisteet",
+    "leaderboard": "Pistetilasto",
+    "mainMenu": "Takaisin päävalikkoon",
+    "continue": "Jatka peliä",
+    "reset": "Aloita peli alusta"
+  },
+  "views": {
+    "characterselect": {
+      "title": "Hahmon valinta"
+    },
+    "campusselect": {
+      "title": "Kampusvalinta"
+    },
+    "guide": {
+      "title": "Ennen kuin aloitat...",
+      "paragraph_1": "Kerää pisteitä suorittamalla tehtäviä. Älä anna pistemäärän laskea pakkasen puolelle!",
+      "paragraph_2": "Peli päättyy kun olet suorittanut kaikki tehtävät. Voit suorittaa tehtävät ja kampukset vapaassa järjestyksessä.",
+      "paragraph_3": "Pidä kiirettä! Lopputuloksesi paranee mitä nopeammin vastaat kysymyksiin.",
+      "paragraph_4": "Siinä kaikki - lykkyä tykö!"
+    },
+    "campusview": {
+      "complete": "Kampus suoritettu!"
+    },
+    "campusmap": {
+      "title": "Kampukset",
+      "complete": "Kampukset suoritettu!",
+      "progress": "Suoritettu __percentage__%"
+    },
+    "complete": {
+      "title": "Onnittelut!",
+      "header": "Mahtavaa!",
+      "paragraph_1": "Läpäisit kaikki kampukset ja tehtävät.",
+      "paragraph_2": "Sait __score__  pistettä."
+    },
+    "end": {
+      "title": "Voihan räkä...!",
+      "header": "Voimasi ehtyivät!",
+      "paragraph_1": "Parempaa onnea ensi kerralla."
+    },
+    "highscore": {
+      "title": "Huippupisteet",
+      "header_1": "Lopputulos: ",
+      "header_2": "Online Pistetilasto",
+      "paragraph_1": "Lähetä tuloksesi ja katso kuinka hyvin pärjäsit!",
+      "errors": {
+        "connection": "Palvelimeen ei saatu yhteyttä.",
+        "nickname_required": "Nimimerkki on pakollinen.",
+        "nickname_content": "Nimimerkin tulee olla 2-16 merkin pituinen ja sisältää vain kirjaimia ja numeroita."
+      },
+      "success": "Tuloksesi on lähetetty onnistuneesti!<br>Katso tulokset pistetilastosta.",
+      "results": "Katso tulokset pistetilastosta."
+    },
+    "leaderboard": {
+      "title": "Pistetilasto",
+      "errors": {
+        "connection": "Palvelimeen ei saatu yhteyttä.",
+        "empty": "Tuloslista on tyhjä."
+      }
+    },
+    "resume": {
+      "paragraph_1": "Jatketaanko peliä tallennuksesta vai aloitetaanko peli alusta?"
+    },
+    "taskview": {
+      "title": "Kysymys"
+    }
+  }
+}

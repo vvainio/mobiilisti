@@ -1,10 +1,10 @@
 <div data-role="page" id="leaderboard">
   <div data-role="header" data-position="inline">
-    <h1 id="title">Pistetilasto</h1>
+    <h1 id="title" data-i18n="views.leaderboard.title"></h1>
   </div>
   <div class="content" data-role="content">
-    <strong id="data-error"><p>Palvelimeen ei saatu yhteyttä.</p></strong>
-    <strong id="no-results">Tuloslista on tyhjä.</strong>
+    <strong id="data-error"><p data-i18n="views.leaderboard.errors.connection"></p></strong>
+    <strong id="no-results" data-i18n="views.leaderboard.errors.empty"></strong>
     <div class="leaders">
       <script id="leaders" type="text/template">
       <h2>Top 10</h2>
@@ -43,8 +43,8 @@
   <div data-role="footer" data-position="fixed" data-tap-toggle="false">
     <div data-role="navbar">
       <ul>
-        <li><a href="highscore.html" data-icon="grid">Huippupisteet</a></li>
-        <li><a href="#" data-icon="star" class="ui-btn-active">Pistetilasto</a></li>
+        <li><a href="highscore.html" data-icon="grid" data-i18n="links.highscore_2"></a></li>
+        <li><a href="#" data-icon="star" class="ui-btn-active" data-i18n="links.leaderboard"></a></li>
       </ul>
       </div>
     </div>
