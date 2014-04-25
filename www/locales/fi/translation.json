@@ -29,7 +29,8 @@
     },
     "campusview": {
       "complete": "Kampus suoritettu!",
-      "scoreText": "Pisteet: __score__"
+      "scoreText": "Pisteet: __score__",
+      "result": "Tulos"
     },
     "campusmap": {
       "title": "Kampukset",
@@ -39,7 +40,7 @@
     "taskview": {
       "title": "Kysymys",
       "scoreText": "Pisteet: __score__",
-      "submitBtn": "Vastaaaaa"
+      "submitBtn": "Vastaa"
     },
     "complete": {
       "title": "Onnittelut!",
@@ -57,6 +58,8 @@
       "header_1": "Lopputulos: ",
       "header_2": "Online Pistetilasto",
       "paragraph_1": "Lähetä tuloksesi ja katso kuinka hyvin pärjäsit!",
+      "nicknamePrompt": "Anna nimimerkkisi",
+      "submitBtn": "Lähetä",
       "errors": {
         "connection": "Palvelimeen ei saatu yhteyttä.",
         "nickname_required": "Nimimerkki on pakollinen.",
@@ -67,6 +70,8 @@
     },
     "leaderboard": {
       "title": "Pistetilasto",
+      "topten": "Top 10",
+      "position": "Sijoituksesi",
       "errors": {
         "connection": "Palvelimeen ei saatu yhteyttä.",
         "empty": "Tuloslista on tyhjä."

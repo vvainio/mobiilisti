@@ -267,6 +267,7 @@ $(document).on('pagebeforeshow', '#complete', function() {
 
 $(document).on('pagebeforeshow', '#highscore', function() {
     $("#highscore").i18n();
+    $('#submitBtn').before(i18n.t("views.highscore.submitBtn"));
 
     Highscore.createList();
     var total = Score.countTotal();
@@ -994,5 +995,11 @@ $(function() {
     // Set Config Data
     $.getJSON('./fixtures/config.json', function(data) {
         config = data;
+    });
+
+    Handlebars.registerHelper('t', function(i18n_key) {
+        var result = i18n.t(i18n_key);
+ 
+        return new Handlebars.SafeString(result);
     });
 });

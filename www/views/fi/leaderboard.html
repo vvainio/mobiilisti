@@ -7,7 +7,7 @@
     <strong id="no-results" data-i18n="views.leaderboard.errors.empty"></strong>
     <div class="leaders">
       <script id="leaders" type="text/x-handlebars-template">
-      <h2>Top 10</h2>
+      <h2>{{t "views.leaderboard.topten" }}</h2>
       <table class="table-stroke table-stripe">
         <tbody>
           {{#leaders}}
@@ -25,7 +25,7 @@
     <hr>
     <div class="aroundme">
       <script id="aroundme" type="text/x-handlebars-template">
-      <h2>Sijoituksesi</h2>
+      <h2>{{t "views.leaderboard.position" }}</h2>
       <table class="table-stroke table-stripe">
         <tbody>
           {{#players}}

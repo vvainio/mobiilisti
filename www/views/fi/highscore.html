@@ -27,9 +27,9 @@
       <h3 data-i18n="views.highscore.header_2"></h3>
       <form id="highscoreForm">
           <p data-i18n="views.highscore.paragraph_1"></p>
-          <input type="text" name="nickname" id="nickname" placeholder="Anna nimimerkkisi" />
+          <input type="text" name="nickname" id="nickname" data-i18n="[placeholder]views.highscore.nicknamePrompt"/>
           <input type="hidden" name="score" id="total">
-          <input type="submit" value="Lähetä" id="submitBtn">
+          <input type="submit" id="submitBtn">
       </form>
       <span id="data-error"><strong data-i18n="views.highscore.errors.connection"></strong></span>
       <span class="form-error" id="nickname-required-error" data-i18n="views.highscore.errors.nickname_required"></span>
