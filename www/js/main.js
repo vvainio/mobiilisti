@@ -17,7 +17,7 @@ $(document).bind("mobileinit", function() {
 });
 
 // Page events
-$(document).on('pageshow', '#containerPage', function() {
+$(document).on('pagebeforeshow', '#containerPage', function() {
     $('.language').on('click', function() {
         var lang = $(this).attr('id');
         Game.setLanguage(lang);
@@ -25,7 +25,7 @@ $(document).on('pageshow', '#containerPage', function() {
     });
 });
 
-$(document).on('pageshow', '#resume', function() {
+$(document).on('pagebeforeshow', '#resume', function() {
     $('#continue').on('click', function() {
         Game.continue();
     });
@@ -58,7 +58,7 @@ $(document).on('pageshow', '#campusselect', function() {
     });
 });
 
-$(document).on('pageshow', '#campusview', function() {
+$(document).on('pagebeforeshow', '#campusview', function() {
     $('#title').html(Game.data.campuses[Player.selectedCampus].campus);
     $("#map-img").attr("src", "../../img/" + Game.data.campuses[Player.selectedCampus].map_image);
     Score.display();
@@ -69,13 +69,12 @@ $(document).on('pageshow', '#campusview', function() {
     CampusView.checkComplete();
 });
 
-$(document).on('pageshow', '#campusmap', function() {
+$(document).on('pagebeforeshow', '#campusmap', function() {
     CampusMap.parseData();
     //Helper.removeActiveMarkers();
     //Helper.activateCampus();
     CampusMap.checkComplete();
     CampusMap.completionProgress();
-    Helper.setDivHeight();
 
     $('.ui-grid-a .ui-btn').on('click', function() {
         var id = parseInt($(this).parent().attr('id').slice(-1, 10));
@@ -83,7 +82,11 @@ $(document).on('pageshow', '#campusmap', function() {
     });
 });
 
-$(document).on('pageshow', '#taskview', function() {
+$(document).on('pageshow', '#campusmap', function() {
+    Helper.setDivHeight();
+});
+
+$(document).on('pagebeforeshow', '#taskview', function() {
     var startTime = new Date(),
         answers = Task.parseData(Player.selectedTask),
         maxScore = answers.maxScore,
@@ -218,12 +221,12 @@ $(document).on('pageshow', '#taskview', function() {
     });
 });
 
-$(document).on('pageshow', '#complete', function() {
+$(document).on('pagebeforeshow', '#complete', function() {
     var total = Score.countTotal();
     $('#score').html(total);
 });
 
-$(document).on('pageshow', '#highscore', function() {
+$(document).on('pagebeforeshow', '#highscore', function() {
     Highscore.createList();
     var total = Score.countTotal();
 
@@ -258,7 +261,7 @@ $(document).on('pageshow', '#highscore', function() {
     });
 });
 
-$(document).on('pageshow', '#leaderboard', function() {
+$(document).on('pagebeforeshow', '#leaderboard', function() {
     Leaderboard.getLeaders();
     Leaderboard.getAroundMe();
 });
