@@ -3,7 +3,7 @@ $.ajaxSetup({
     cache: false
 });
 
-var debug = false;
+var debug = true;
 
 /* Globals */
 var config;
