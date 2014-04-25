@@ -3,7 +3,7 @@ $.ajaxSetup({
     cache: false
 });
 
-var debug = false;
+var debug = true;
 
 /* Globals */
 var config;
@@ -17,7 +17,7 @@ $(document).bind("mobileinit", function() {
 });
 
 // Page events
-$(document).on('pageshow', '#containerPage', function() {
+$(document).on('pagebeforeshow', '#containerPage', function() {
     $('.language').on('click', function() {
         var lang = $(this).attr('id');
         i18n.init({ lng: lang });
@@ -26,7 +26,7 @@ $(document).on('pageshow', '#containerPage', function() {
     });
 });
 
-$(document).on('pageshow', '#resume', function() {
+$(document).on('pagebeforeshow', '#resume', function() {
     $("#resume").i18n();
 
     $('#continue').on('click', function() {
@@ -65,17 +65,15 @@ $(document).on('pageshow', '#campusselect', function() {
     });
 });
 
-$(document).on('pageshow', '#guide', function() {
+$(document).on('pagebeforeshow', '#guide', function() {
     $("#guide").i18n();
 });
 
-$(document).on('pageshow', '#end', function() {
+$(document).on('pagebeforeshow', '#end', function() {
     $("#end").i18n();
 });
 
-$(document).on('pageshow', '#campusview', function() {
-    $("#campusview").i18n();
-
+$(document).on('pagebeforeshow', '#campusview', function() {
     $('#title').html(Game.data.campuses[Player.selectedCampus].campus);
     $("#map-img").attr("src", "../../img/" + Game.data.campuses[Player.selectedCampus].map_image);
     Score.display();
@@ -84,28 +82,33 @@ $(document).on('pageshow', '#campusview', function() {
     Helper.removeActiveMarkers();
     Helper.activateTask();
     CampusView.checkComplete();
+
+    $("#campusview").i18n();
 });
 
-$(document).on('pageshow', '#campusmap', function() {
-    $("#campusmap").i18n();
-
+$(document).on('pagebeforeshow', '#campusmap', function() {
     CampusMap.parseData();
     //Helper.removeActiveMarkers();
     //Helper.activateCampus();
     CampusMap.checkComplete();
-    Helper.setDivHeight();
+    CampusMap.completionProgress();
 
     $('.ui-grid-a .ui-btn').on('click', function() {
         var id = parseInt($(this).parent().attr('id').slice(-1, 10));
         Player.selectedCampus = id;
     });
 
+    $("#campusmap").i18n();
     var number = CampusMap.completionProgress();
     var translation = i18n.t("views.campusmap.progress", { percentage: number });
     $('#campusmap h4').html(translation);
 });
 
-$(document).on('pageshow', '#taskview', function() {
+$(document).on('pageshow', '#campusmap', function() {
+    Helper.setDivHeight();
+});
+
+$(document).on('pagebeforeshow', '#taskview', function() {
     $("#taskview").i18n();
 
     var startTime = new Date(),
@@ -242,14 +245,14 @@ $(document).on('pageshow', '#taskview', function() {
     });
 });
 
-$(document).on('pageshow', '#complete', function() {
+$(document).on('pagebeforeshow', '#complete', function() {
     $("#complete").i18n();
 
     var total = Score.countTotal();
     $('#score').html(total);
 });
 
-$(document).on('pageshow', '#highscore', function() {
+$(document).on('pagebeforeshow', '#highscore', function() {
     $("#highscore").i18n();
 
     Highscore.createList();
@@ -286,7 +289,7 @@ $(document).on('pageshow', '#highscore', function() {
     });
 });
 
-$(document).on('pageshow', '#leaderboard', function() {
+$(document).on('pagebeforeshow', '#leaderboard', function() {
     $("#leaderboard").i18n();
 
     Leaderboard.getLeaders();

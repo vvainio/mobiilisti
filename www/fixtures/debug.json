@@ -6,8 +6,8 @@
         "isComplete": false,
         "questions": [{
             "area": "Luonnonprosessit, ekologia ja metsät",
-            "x": "53%",
-            "y": "5%",
+            "top": "5%",
+            "left": "53%",
             "backdrop": "c1-t1.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -22,8 +22,8 @@
             }
         }, {
             "area": "Biopolttoaine",
-            "x": "88%",
-            "y": "83%",
+            "top": "83%",
+            "left": "88%",
             "backdrop": "c1-t2.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -38,8 +38,8 @@
             }
         }, {
             "area": "Jokamiehenoikeudet",
-            "x": "53%",
-            "y": "81%",
+            "top": "81%",
+            "left": "53%",
             "backdrop": "c1-t3.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -54,8 +54,8 @@
             }
         }, {
             "area": "Luonnon monimuotoisuus",
-            "x": "37%",
-            "y": "92%",
+            "top": "92%",
+            "left": "37%",
             "backdrop": "c1-t4.jpg",
             "weight": 1,
             "type": "checkbox",
