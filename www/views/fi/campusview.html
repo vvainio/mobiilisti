@@ -8,7 +8,7 @@
     <div id="map" class="center">
       <img id="map-img" src="">
     </div>
-    <script id="task" type="text/template">
+    <script id="task" type="text/x-handlebars-template">
     <div id="task-{{id}}" class="task">
       <ul data-role="listview" data-inset="true">
         <li><a href="taskview.html">
@@ -21,7 +21,7 @@
       </ul>
     </div>
     </script>
-    <script id="taskComplete" type="text/template">
+    <script id="taskComplete" type="text/x-handlebars-template">
       {{#isCampusComplete}}
       <div id="campusComplete" class="center">
         <h1>Kampus läpi!</h1>

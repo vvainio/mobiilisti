@@ -594,9 +594,9 @@ $(document).on('pageinit', '#containerPage', function() {
                     maxScore: obj.maxScore,
                     isComplete: obj.isComplete
                 },
-                html = Mustache.to_html(template, data);
+                html = Handlebars.compile(template);
 
-            $('#campusview > .content').append(html).trigger('create');
+            $('#campusview > .content').append(html(data)).trigger('create');
         },
         // Set task complete
         setTaskComplete: function(obj) {
@@ -760,9 +760,9 @@ $(document).on('pageinit', '#containerPage', function() {
         // Render highscores
         createList: function() {
             var template = $('#highscorelist').html(),
-                html = Mustache.to_html(template, Game.data);
+                html = Handlebars.compile(template);
 
-            $('#highscore > .content > #listcontainer').append(html).trigger('create');
+            $('#highscore > .content > #listcontainer').append(html(Game.data)).trigger('create');
         },
         // Count scores for each task and campus
         countScore: function() {
@@ -824,9 +824,9 @@ $(document).on('pageinit', '#containerPage', function() {
                             data = {
                                 'leaders': json
                             },
-                            html = Mustache.to_html(template, data);
+                            html = Handlebars.compile(template);
 
-                        $('#leaderboard > .content > .leaders').append(html).trigger('create');
+                        $('#leaderboard > .content > .leaders').append(html(data)).trigger('create');
 
                         Leaderboard.highlightRow("leaders");
                     } else {
@@ -858,9 +858,9 @@ $(document).on('pageinit', '#containerPage', function() {
                             data = {
                                 'Players': json
                             },
-                            html = Mustache.to_html(template, data);
+                            html = Handlebars.compile(template);
 
-                        $('#leaderboard > .content > .aroundme').append(html).trigger('create');
+                        $('#leaderboard > .content > .aroundme').append(html(data)).trigger('create');
 
                         Leaderboard.highlightRow("aroundme");
                     },
