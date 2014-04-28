@@ -270,10 +270,12 @@ $(document).on('pagebeforeshow', '#highscore', function() {
     $('#submitBtn').before(i18n.t("views.highscore.submitBtn"));
 
     Highscore.createList();
-    var total = Score.countTotal();
 
+    var total = Score.countTotal();
     $('#total').val(total);
-    $('#displayScore').html(total);
+
+    var translation = i18n.t("views.highscore.header_1", { score: total });
+    $('#displayScore').html(translation);
 
     if (Player.hasSubmittedHighscore) {
         $('#highscoreForm').remove();
@@ -999,7 +1001,7 @@ $(function() {
 
     Handlebars.registerHelper('t', function(i18n_key) {
         var result = i18n.t(i18n_key);
- 
+
         return new Handlebars.SafeString(result);
     });
 });
