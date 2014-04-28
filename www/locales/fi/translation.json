@@ -18,7 +18,25 @@
       "title": "Hahmon valinta"
     },
     "campusselect": {
-      "title": "Kampusvalinta"
+      "title": "Kampusvalinta",
+      "campuses": {
+        "evo": {
+          "title": "Evo",
+          "description": "HAMKin Evon yksikössä voi opiskella metsätaloutta. Metsäalan monipuolisen osaajan työssä yhdistyvät luonto, tekniikka, talous ja ihmisten parissa työskenteleminen."
+        },
+        "forssa": {
+          "title": "Forssa",
+          "description": "HAMKin Forssan yksikössä voi opiskella kestävää kehitystä. Monipuolisessa työssä parannetaan ihmisten ja elinympäristön välistä vuorovaikutusta sekä ymmärretään ympäristön muutokset ja niihin vaikuttavat tekijät."
+        },
+        "lepaa": {
+          "title": "Lepaa",
+          "description": "HAMKin Lepaan yksikössä voi opiskella maisemasuunnittelua, joka valmentaa työskentelemään esim. suunnittelutoimistossa, kaupungin viheryksikössä ja ympäristö- ja maaseutukeskuksessa sekä puutarhataloutta, jossa yhdistyvät biologinen, tekninen ja kaupallinen osaaminen."
+        },
+        "mustiala": {
+          "title": "Mustiala",
+          "description": "HAMKin Mustialan yksikössä voi opiskella maaseutuelinkeinoja, joka antaa hyvät valmiudet kohdata muuttuvan maaseudun haasteet."
+        }
+      }
     },
     "guide": {
       "title": "Ennen kuin aloitat...",
@@ -55,7 +73,7 @@
     },
     "highscore": {
       "title": "Huippupisteet",
-      "header_1": "Lopputulos: ",
+      "header_1": "Lopputulos: __score__",
       "header_2": "Online Pistetilasto",
       "paragraph_1": "Lähetä tuloksesi ja katso kuinka hyvin pärjäsit!",
       "nicknamePrompt": "Anna nimimerkkisi",
