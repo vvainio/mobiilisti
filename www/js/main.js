@@ -22,7 +22,7 @@ $(document).on('pagebeforeshow', '#containerPage', function() {
         var lang = $(this).attr('id');
         i18n.init({ lng: lang });
         Game.setLanguage(lang);
-        Game.loadData(lang);
+        Game.init(lang);
     });
 });
 
@@ -34,10 +34,8 @@ $(document).on('pagebeforeshow', '#resume', function() {
     });
 
     $('#reset').on('click', function() {
-        Storage.clear();
-        $.mobile.changePage("characterselect.html", {
-            transition: "slide"
-        });
+        Game.reset();
+        Game.init(Game.language);
     });
 });
 
@@ -79,7 +77,7 @@ $(document).on('pagebeforeshow', '#end', function() {
 
 $(document).on('pagebeforeshow', '#campusview', function() {
     $('#title').html(Game.data.campuses[Player.selectedCampus].campus);
-    $("#map-img").attr("src", "../../img/" + Game.data.campuses[Player.selectedCampus].map_image);
+    $("#map-img").attr("src", "../img/" + Game.data.campuses[Player.selectedCampus].map_image);
 
     CampusView.parseData();
     Helper.removeActiveMarkers();
@@ -342,44 +340,40 @@ $(document).on('pageinit', '#containerPage', function() {
         language: undefined,
         data: undefined,
         // Load dynamic content via JSON
-        loadData: function(lang) {
-            var localData = Storage.getData();
+        init: function(lang) {
+            var storageData = Storage.getData();
 
-            if (localData !== null) {
-                Player = localData;
-                Game.language = lang;
-                Game.data = localData.data;
-
-                $.mobile.changePage("./views/" + lang + "/resume.html", {
-                    transition: "slidedown",
-                    role: "dialog"
-                });
+            if (storageData !== null) {
+                Game.loadSavedData(storageData, lang);
             } else {
-                if (typeof Game.data === 'undefined') {
-                    console.log('No previous data found - loading JSON (' + lang + ')');
-
-                    if (!debug) {
-                        if (lang == 'fi') {
-                            $.getJSON('./fixtures/questions_fi.json', function(jsonData) {
-                                Game.data = jsonData;
-                                $.mobile.changePage("./views/fi/characterselect.html");
-                            });
-                        }
-
-                        if (lang == 'en') {
-                            $.getJSON('./fixtures/questions_en.json', function(jsonData) {
-                                Game.data = jsonData;
-                                $.mobile.changePage("./views/en/characterselect.html");
-                            });
-                        }
-                    } else {
-                        $.getJSON('./fixtures/debug.json', function(jsonData) {
-                            Game.data = jsonData;
-                            $.mobile.changePage("./views/fi/characterselect.html");
-                        });
-                    }
+                if (!debug) {
+                    Game.loadNewData(lang);
+                } else {
+                    $.getJSON('./fixtures/debug.json', function(jsonData) {
+                        Game.data = jsonData;
+                        $.mobile.changePage('./views/characterselect.html');
+                    });
                 }
             }
+        },
+
+        loadSavedData: function(storageData, lang) {
+            Player = storageData;
+            Game.language = lang;
+            Game.data = storageData.data;
+
+            $.mobile.changePage("resume.html", {
+                transition: "slidedown",
+                role: "dialog"
+            });
+        },
+
+        loadNewData: function(lang) {
+            var path = './fixtures/questions_' + lang + '.json';
+            $.getJSON(path, function(jsonData) {
+                Game.data = jsonData;
+                $.mobile.changePage('./views/characterselect.html');
+            });
         },
 
         continue: function() {
@@ -392,11 +386,11 @@ $(document).on('pageinit', '#containerPage', function() {
             });
 
             if (!allComplete) {
-                $.mobile.changePage("campusmap.html", {
+                $.mobile.changePage("./views/campusmap.html", {
                     transition: "slide"
                 });
             } else {
-                $.mobile.changePage("complete.html", {
+                $.mobile.changePage("./views/complete.html", {
                     transition: "slide"
                 });
             }
@@ -404,7 +398,7 @@ $(document).on('pageinit', '#containerPage', function() {
 
         // Trigger game ending
         end: function() {
-            Storage.clear();
+            Game.reset();
             $.mobile.changePage("end.html", {
                 transition: "slidedown"
             });
@@ -424,6 +418,19 @@ $(document).on('pageinit', '#containerPage', function() {
         save: function() {
             Player.data = Game.data;
             Storage.setData(JSON.stringify(Player));
+        },
+
+        reset: function() {
+            Storage.clear();
+            Game.data = undefined;
+
+            // Todo: set defaults in a better way
+            Player.selectedCharacter = 0;
+            Player.selectedCampus = 0;
+            Player.selectedTask = 0;
+            Player.score = 0;
+            Player.nickname = undefined;
+            Player.hasSubmittedHighscore = false;
         },
 
         // Set game language
@@ -521,7 +528,7 @@ $(document).on('pageinit', '#containerPage', function() {
                 });
             }
 
-            $('#taskview').css('background', 'url(../../img/' + img + ')');
+            $('#taskview').css('background', 'url(../img/' + img + ')');
 
             $('#taskview').trigger('create');
 
