@@ -69,6 +69,7 @@ $(document).on('pageshow', '#campusselect', function() {
 
 $(document).on('pagebeforeshow', '#guide', function() {
     $("#guide").i18n();
+    Score.checkBonus();
 });
 
 $(document).on('pagebeforeshow', '#end', function() {
@@ -445,10 +446,12 @@ $(document).on('pageinit', '#containerPage', function() {
         MAX: 64, // 4 * 4 * 4
         INCREASE_BY: 1,
         DECREASE_BY: 3,
-        // Give bonus points on correct campus & character selection
+        // Give 10 bonus points on correct campus & character selection
         checkBonus: function() {
+            // Reset score first
+            Player.score = 0;
             if (Player.selectedCharacter === Player.selectedCampus) {
-                for (var i = 0; i < 4; i++) {
+                for (var i = 0; i < 10; i++) {
                     Score.count("increase");
                 }
             }
