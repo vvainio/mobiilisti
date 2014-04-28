@@ -1,0 +1,102 @@
+{
+  "links": {
+    "cancel": "Cancel",
+    "back": "Back",
+    "back_2": "Back to Campus View",
+    "select": "Select",
+    "beginGame": "OK, let's begin!",
+    "campusSelect": "Change Campus",
+    "highscore": "View Highscores",
+    "highscore_2": "Highscores",
+    "leaderboard": "Leaderboard",
+    "mainMenu": "Back to Main Menu",
+    "continue": "Continue",
+    "reset": "Start new game"
+  },
+  "views": {
+    "characterselect": {
+      "title": "Character Selection"
+    },
+    "campusselect": {
+      "title": "Campus Selection",
+      "campuses": {
+        "evo": {
+          "title": "Evo",
+          "description": "HAMK's degree programme in Forestry is situated at Evo, Finland."
+        },
+        "forssa": {
+          "title": "Forssa",
+          "description": "HAMK's degree programme in Sustainable Development is situated at Forssa, Finland."
+        },
+        "lepaa": {
+          "title": "Lepaa",
+          "description": "HAMK's degree programmes Landscape Design and Horticulture are situated at Lepaa, Finland."
+        },
+        "mustiala": {
+          "title": "Mustiala",
+          "description": "HAMK's degree programme in Agricultural and Rural Industries is situated at Mustiala, Finland."
+        }
+      }
+    },
+    "guide": {
+      "title": "Before you start...",
+      "paragraph_1": "Gain points by completing tasks. Don't let the score drop below zero!",
+      "paragraph_2": "The game ends when you have completed all tasks.",
+      "paragraph_3": "Your highscore is determined by your answers and how fast you complete the tasks.",
+      "paragraph_4": "That's it - good luck!"
+    },
+    "campusview": {
+      "complete": "Campus complete!",
+      "scoreText": "Score: __score__",
+      "result": "Score"
+    },
+    "campusmap": {
+      "title": "Campuses",
+      "complete": "Completed all campuses!",
+      "progress": "Progress __percentage__%"
+    },
+    "taskview": {
+      "title": "Question",
+      "scoreText": "Score: __score__",
+      "submitBtn": "Submit"
+    },
+    "complete": {
+      "title": "Congratulations!",
+      "header": "Awesome!",
+      "paragraph_1": "You completed the game.",
+      "scoreText": "You scored __score__  points."
+    },
+    "end": {
+      "title": "The End",
+      "header": "Oh no!",
+      "paragraph_1": "Better luck next time."
+    },
+    "highscore": {
+      "title": "Highscores",
+      "header_1": "Total score: __score__",
+      "header_2": "Leaderboard",
+      "paragraph_1": "Submit your score and see how you rank among other players!",
+      "nicknamePrompt": "Enter your nickname",
+      "submitBtn": "Submit",
+      "errors": {
+        "connection": "Connection error, please try again later.",
+        "nickname_required": "Nickname is required.",
+        "nickname_content": "Nickname should be 2 to 16 characters long and only contain letters or numbers."
+      },
+      "success": "Your score has been successfully submitted.",
+      "results": "See the leaderboard for results!"
+    },
+    "leaderboard": {
+      "title": "Leaderboard",
+      "topten": "Top 10",
+      "position": "Your Score",
+      "errors": {
+        "connection": "An error occured, please try again.",
+        "empty": "No results."
+      }
+    },
+    "resume": {
+      "paragraph_1": "Do you want to continue where you left off or start a new game?"
+    }
+  }
+}
