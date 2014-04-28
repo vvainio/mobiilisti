@@ -131,7 +131,7 @@
             "type": "checkbox",
             "score": false,
             "isComplete": false,
-            "question": "Which of these international environmental agreements do you know:",
+            "question": "Which of these are real, international environmental agreements?",
             "answers": {
                 "Rio Tinto": false,
                 "Rio+20": true,
@@ -153,12 +153,12 @@
             "type": "checkbox",
             "score": false,
             "isComplete": false,
-            "question": "Name the variety of apple:",
+            "question": "Name the variety of the apple in the background:",
             "answers": {
-                "Lepaan puikula": false,
-                "Lepaan liereä": true,
-                "Lepaan vireä": true,
-                "Lepaan kireä": false
+                "Lepaa's Puikula": false,
+                "Lepaa's Liereä": true,
+                "Lepaa's Vireä": true,
+                "Lepaa's Kireä": false
             }
         }, {
             "area": "Drainage",
@@ -185,7 +185,7 @@
             "type": "checkbox",
             "score": false,
             "isComplete": false,
-            "question": "What is the carbon footprint of Lepaa greenhouse tomatoes compared to the footprint of Dutch tomatoes",
+            "question": "What is the carbon footprint of Lepaa greenhouse tomatoes compared to the footprint of Dutch tomatoes?",
             "answers": {
                 "Smaller": true,
                 "Larger": false,
