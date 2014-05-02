@@ -43,7 +43,7 @@ var app = {
             } else {
                 e.preventDefault();
                 navigator.notification.confirm(
-                    'Exit Mobiilisti?', function(button) {
+                    'Exit Biotrek?', function(button) {
                         if (button == 2) {
                           navigator.app.exitApp();
                         }
