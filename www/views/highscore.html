@@ -3,7 +3,7 @@
     <h1 id="title" data-i18n="views.highscore.title"></h1>
   </div>
   <div class="content" data-role="content">
-    <h3 id="displayScore" data-i18n="views.highscore.header_1"></h3>
+    <h3 id="displayScore" class="hidden" data-i18n="views.highscore.header_1"></h3>
     <div id="listcontainer">
       <script id="highscorelist" type="text/x-handlebars-template">
         <div id="result-list" data-role="collapsible-set" data-iconpos="right">
@@ -24,11 +24,11 @@
       <h3 data-i18n="views.highscore.header_2"></h3>
       <form id="highscoreForm">
           <p data-i18n="views.highscore.paragraph_1"></p>
-          <input type="text" name="nickname" id="nickname" data-i18n="[placeholder]views.highscore.nicknamePrompt"/>
+          <input type="text" name="nickname" id="nickname" data-i18n="[placeholder]views.highscore.nicknamePrompt">
           <input type="hidden" name="score" id="total">
           <input type="submit" id="submitBtn">
       </form>
-      <span id="data-error"><strong data-i18n="views.highscore.errors.connection"></strong></span>
+      <span class="form-error" id="data-error"><strong data-i18n="views.highscore.errors.connection"></strong></span>
       <span class="form-error" id="nickname-required-error" data-i18n="views.highscore.errors.nickname_required"></span>
       <span class="form-error" id="nickname-content-error" data-i18n="views.highscore.errors.nickname_content"></span>
       <div id="form-success">

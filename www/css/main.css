@@ -2,8 +2,8 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-backface-visibility: hidden;
 }
-@font-face{
-    font-family: Baveuse; 
+@font-face {
+    font-family: Baveuse;
     src: url('../fonts/baveuse.ttf') format('truetype');
     src: url('../fonts/baveuse.otf') format('opentype');
 }
@@ -31,7 +31,7 @@ em {
     background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) !important;
     background-image: linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) !important;
 }
-#characterselect h2, #campusselect h2 {
+#characterselect h2, #campusselect h2, #campusmap .campus-btn > a > h2 {
     font-family: Baveuse, sans-serif;
 }
 .ui-header > .ui-btn {
@@ -83,7 +83,7 @@ em {
     right: 0;
     bottom: 0;
 }
- #characterselect, #campusselect {
+#characterselect, #campusselect {
     background: #eee;
 }
 /* Carousel */
@@ -156,7 +156,7 @@ hr {
     background: #1474CD !important;
     text-shadow: none !important;
 }
- .ui-btn-icon-left:after {
+.ui-btn-icon-left:after {
     top: .5625em !important;
     margin-top: 0px !important;
 }
@@ -167,11 +167,11 @@ hr {
     animation-duration: 1.5s;
 }
 .delay {
-    -webkit-animation-delay: 0.5s;
-    -moz-animation-delay: 0.5s;
-    -ms-animation-delay: 0.5s;
-    -o-animation-delay: 0.5s;
-    animation-delay: 0.5s;
+    -webkit-animation-delay: 1.0s;
+    -moz-animation-delay: 1.0s;
+    -ms-animation-delay: 1.0s;
+    -o-animation-delay: 1.0s;
+    animation-delay: 1.0s;
 }
 /* Task form */
  #taskview {
@@ -219,7 +219,7 @@ hr {
 #score-text {
     top: 0;
     right: 0;
-    margin-top: 10px;
+    margin-top: 11.5px;
     margin-right: 20px;
     position: absolute;
 }
@@ -231,6 +231,7 @@ hr {
     bottom: -70px;
     margin-right: 20%;
     position: absolute;
+    z-index: 1000;
     -webkit-animation-delay: 1s;
     -moz-animation-delay: 1s;
     -ms-animation-delay: 1s;
@@ -241,7 +242,13 @@ hr {
     color: red;
     display: none;
 }
+#campusmap .ui-grid-a .ui-btn {
+    /* visibility: hidden; */
+}
 /* Misc */
+.hidden {
+    visibility: hidden;
+}
  .center {
     margin-left: auto;
     margin-right: auto;
@@ -271,7 +278,7 @@ hr {
     margin-top: 24px;
     width: 50%;
 }
- .score-bubble {
+.score-bubble {
     position: absolute;
     font-size: 11px;
     font-weight: bold;
@@ -339,195 +346,68 @@ hr {
     border-bottom: 1px solid rgba(0, 0, 0, .1);
 }
 /* Custom animations */
- .hatch {
-    -webkit-animation-name: hatch;
-    -moz-animation-name: hatch;
-    -ms-animation-name: hatch;
-    -o-animation-name: hatch;
+.hatch{
     animation-name: hatch;
+    -webkit-animation-name: hatch;
+
     animation-duration: 2s;
     -webkit-animation-duration: 2s;
-    -webkit-animation-timing-function: ease-in-out;
-    -moz-animation-timing-function: ease-in-out;
-    -ms-animation-timing-function: ease-in-out;
-    -o-animation-timing-function: ease-in-out;
+
     animation-timing-function: ease-in-out;
-    -webkit-transform-origin: 50% 100%;
-    -moz-transform-origin: 50% 100%;
-    -o-transform-origin: 50% 100%;
-    -ms-transform-origin: 50% 100%;
+    -webkit-animation-timing-function: ease-in-out;
+
     transform-origin: 50% 100%;
+    -ms-transform-origin: 50% 100%;
+    -webkit-transform-origin: 50% 100%;
+
     visibility: visible !important;
 }
-@keyframes"hatch" {
+
+@keyframes hatch {
+    0% {
+        transform: rotate(0deg) scaleY(0.6);
+    }
+    20% {
+        transform: rotate(-2deg) scaleY(1.05);
+    }
+    35% {
+        transform: rotate(2deg) scaleY(1);
+    }
+    50% {
+        transform: rotate(-2deg);
+    }
+    65% {
+        transform: rotate(1deg);
+    }
+    80% {
+        transform: rotate(-1deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@-webkit-keyframes hatch {
     0% {
         -webkit-transform: rotate(0deg) scaleY(0.6);
-        -moz-transform: rotate(0deg) scaleY(0.6);
-        -o-transform: rotate(0deg) scaleY(0.6);
-        -ms-transform: rotate(0deg) scaleY(0.6);
-        transform: rotate(0deg) scaleY(0.6);
     }
     20% {
         -webkit-transform: rotate(-2deg) scaleY(1.05);
-        -moz-transform: rotate(-2deg) scaleY(1.05);
-        -o-transform: rotate(-2deg) scaleY(1.05);
-        -ms-transform: rotate(-2deg) scaleY(1.05);
-        transform: rotate(-2deg) scaleY(1.05);
     }
     35% {
         -webkit-transform: rotate(2deg) scaleY(1);
-        -moz-transform: rotate(2deg) scaleY(1);
-        -o-transform: rotate(2deg) scaleY(1);
-        -ms-transform: rotate(2deg) scaleY(1);
-        transform: rotate(2deg) scaleY(1);
     }
     50% {
         -webkit-transform: rotate(-2deg);
-        -moz-transform: rotate(-2deg);
-        -o-transform: rotate(-2deg);
-        -ms-transform: rotate(-2deg);
-        transform: rotate(-2deg);
     }
     65% {
         -webkit-transform: rotate(1deg);
-        -moz-transform: rotate(1deg);
-        -o-transform: rotate(1deg);
-        -ms-transform: rotate(1deg);
-        transform: rotate(1deg);
     }
     80% {
         -webkit-transform: rotate(-1deg);
-        -moz-transform: rotate(-1deg);
-        -o-transform: rotate(-1deg);
-        -ms-transform: rotate(-1deg);
-        transform: rotate(-1deg);
     }
     100% {
         -webkit-transform: rotate(0deg);
-        -moz-transform: rotate(0deg);
-        -o-transform: rotate(0deg);
-        -ms-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-}
-@-moz-keyframes hatch {
-    0% {
-        -moz-transform: rotate(0deg) scaleY(0.6);
-        transform: rotate(0deg) scaleY(0.6);
-    }
-    20% {
-        -moz-transform: rotate(-2deg) scaleY(1.05);
-        transform: rotate(-2deg) scaleY(1.05);
-    }
-    35% {
-        -moz-transform: rotate(2deg) scaleY(1);
-        transform: rotate(2deg) scaleY(1);
-    }
-    50% {
-        -moz-transform: rotate(-2deg);
-        transform: rotate(-2deg);
-    }
-    65% {
-        -moz-transform: rotate(1deg);
-        transform: rotate(1deg);
-    }
-    80% {
-        -moz-transform: rotate(-1deg);
-        transform: rotate(-1deg);
-    }
-    100% {
-        -moz-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-}
-@-webkit-keyframes"hatch" {
-    0% {
-        -webkit-transform: rotate(0deg) scaleY(0.6);
-        transform: rotate(0deg) scaleY(0.6);
-    }
-    20% {
-        -webkit-transform: rotate(-2deg) scaleY(1.05);
-        transform: rotate(-2deg) scaleY(1.05);
-    }
-    35% {
-        -webkit-transform: rotate(2deg) scaleY(1);
-        transform: rotate(2deg) scaleY(1);
-    }
-    50% {
-        -webkit-transform: rotate(-2deg);
-        transform: rotate(-2deg);
-    }
-    65% {
-        -webkit-transform: rotate(1deg);
-        transform: rotate(1deg);
-    }
-    80% {
-        -webkit-transform: rotate(-1deg);
-        transform: rotate(-1deg);
-    }
-    100% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-}
-@-ms-keyframes"hatch" {
-    0% {
-        -ms-transform: rotate(0deg) scaleY(0.6);
-        transform: rotate(0deg) scaleY(0.6);
-    }
-    20% {
-        -ms-transform: rotate(-2deg) scaleY(1.05);
-        transform: rotate(-2deg) scaleY(1.05);
-    }
-    35% {
-        -ms-transform: rotate(2deg) scaleY(1);
-        transform: rotate(2deg) scaleY(1);
-    }
-    50% {
-        -ms-transform: rotate(-2deg);
-        transform: rotate(-2deg);
-    }
-    65% {
-        -ms-transform: rotate(1deg);
-        transform: rotate(1deg);
-    }
-    80% {
-        -ms-transform: rotate(-1deg);
-        transform: rotate(-1deg);
-    }
-    100% {
-        -ms-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-}
-@-o-keyframes"hatch" {
-    0% {
-        -o-transform: rotate(0deg) scaleY(0.6);
-        transform: rotate(0deg) scaleY(0.6);
-    }
-    20% {
-        -o-transform: rotate(-2deg) scaleY(1.05);
-        transform: rotate(-2deg) scaleY(1.05);
-    }
-    35% {
-        -o-transform: rotate(2deg) scaleY(1);
-        transform: rotate(2deg) scaleY(1);
-    }
-    50% {
-        -o-transform: rotate(-2deg);
-        transform: rotate(-2deg);
-    }
-    65% {
-        -o-transform: rotate(1deg);
-        transform: rotate(1deg);
-    }
-    80% {
-        -o-transform: rotate(-1deg);
-        transform: rotate(-1deg);
-    }
-    100% {
-        -o-transform: rotate(0deg);
-        transform: rotate(0deg);
     }
 }
 /* Fix animation issues on android 4.x */

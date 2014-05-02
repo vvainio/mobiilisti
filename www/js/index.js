@@ -33,8 +33,12 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
+        FastClick.attach(document.body);
+
         document.addEventListener("backbutton", function(e) {
-            if ($.mobile.activePage.is('#containerpage')) {} else if ($.mobile.activePage.is('#characterselect') || $.mobile.activePage.is('#campusselect') || $.mobile.activePage.is('#guide')) {
+            if ($.mobile.activePage.is('#containerpage')) {
+                //
+            } else if ($.mobile.activePage.is('#characterselect') || $.mobile.activePage.is('#campusselect') || $.mobile.activePage.is('#guide')) {
                 navigator.app.backHistory();
             } else {
                 e.preventDefault();
@@ -49,10 +53,10 @@ var app = {
         }, false);
 
         function onNfc(nfcEvent) {
-            var tag = nfcEvent.tag;
+            var tag   = nfcEvent.tag;
             var tagId = nfc.bytesToHexString(tag.id);
-            var uri = "http://tagglem.com/n/" + tagId;
-            var ref = window.open(uri, '_blank', 'location=yes');
+            var uri   = "http://tagglem.com/n/" + tagId;
+            var ref   = window.open(uri, '_blank', 'location=yes');
         }
 
         function nfcOk() {
@@ -65,16 +69,5 @@ var app = {
 
         nfc.addTagDiscoveredListener(onNfc, nfcOk, nfcFail);
 
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
     }
 };

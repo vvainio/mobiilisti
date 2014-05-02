@@ -3,12 +3,33 @@
     <h1 data-i18n="views.campusmap.title"></h1>
   </div>
   <div class="content" data-role="content">
-    <div class="ui-grid-a"></div>
+    <div class="ui-grid-a">
+      <script id="campus" type="text/x-handlebars-template">
+        {{#if isComplete}}
+        <div id="campus-{{id}}" class="{{style}} campus-btn">
+          <a href="campusview.html" class="ui-btn ui-shadow complete">
+            <span class="ui-icon-check ui-btn-icon-left icon-top"></span>
+            <h2>{{campus}}</h2>
+            <p>{{description}}</p>
+            <small>{{t "views.campusmap.score" }}</small>
+          </a>
+        </div>
+        {{else}}
+        <div id="campus-{{id}}" class="{{style}} campus-btn">
+          <a href="campusview.html" class="ui-btn ui-shadow default">
+            <span class="ui-icon-star ui-btn-icon-left icon-top"></span>
+            <h2>{{campus}}</h2>
+            <p>{{description}}</p>
+          </a>
+        </div>
+        {{/if}}
+      </script>
+    </div>
     <div class="fixed">
       <div id="campus-complete" data-i18n="views.campusmap.complete"></div>
     </div>
   </div>
-  <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-    <h4 data-i18n="views.campusmap.progress"></h4>
+  <div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false">
+    <h4 class="hidden" data-i18n="views.campusmap.progress"></h4>
   </div>
 </div>

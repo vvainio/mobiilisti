@@ -40,10 +40,11 @@
     },
     "guide": {
       "title": "Before you start...",
-      "paragraph_1": "Gain points by completing tasks. Don't let the score drop below zero!",
+      "paragraph_1": "Your objective is to gain points by completing tasks.",
       "paragraph_2": "The game ends when you have completed all tasks.",
       "paragraph_3": "Your highscore is determined by your answers and how fast you complete the tasks.",
-      "paragraph_4": "That's it - good luck!"
+      "paragraph_4": "Don't let the score drop below zero or the game is over!",
+      "paragraph_5": "That's it - good luck!"
     },
     "campusview": {
       "complete": "Campus complete!",
@@ -53,6 +54,7 @@
     "campusmap": {
       "title": "Campuses",
       "complete": "Completed all campuses!",
+      "score": "Score: __score__ / __maxScore__",
       "progress": "Progress __percentage__%"
     },
     "taskview": {
@@ -63,8 +65,10 @@
     "complete": {
       "title": "Congratulations!",
       "header": "Awesome!",
-      "paragraph_1": "You completed the game.",
-      "scoreText": "You scored __score__  points."
+      "paragraph_1": "You have completed the game.",
+      "totalScore": "Your final score is __totalScore__ points.",
+      "totalPoints": "You received __totalPoints__ out of __maxPoints__ points from the tasks.",
+      "totalTime": "You answered all the questions in __totalTime__ seconds."
     },
     "end": {
       "title": "The End",
@@ -96,7 +100,7 @@
       }
     },
     "resume": {
-      "paragraph_1": "Do you want to continue where you left off or start a new game?"
+      "paragraph_1": "Do you wish to continue where you left off or start a new game?"
     }
   }
 }

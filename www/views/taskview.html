@@ -1,15 +1,23 @@
 <div data-role="page" id="taskview">
   <div class="header" data-role="header" data-position="inline">
     <h1 id="title" data-i18n="views.taskview.title"></h1>
-    <div id="score-text" data-i18n="views.taskview.scoreText"></div>
+    <div id="score-text" class="hidden" data-i18n="views.taskview.scoreText"></div>
   </div>
   <div class="content" data-role="content">
-    <div id="question" class="center"></div>
-    <form id="taskForm">
-      <fieldset data-role="controlgroup">
-      </fieldset>
-      <input id="task-submit-btn" type="submit">
-    </form>
+    <script id="task-template" type="text/x-handlebars-template">
+      <div class="center">
+        <strong>{{{question}}}</strong>
+      </div>
+      <form id="taskForm">
+        <fieldset data-role="controlgroup">
+            {{#each answers}}
+              <input type="checkbox" name="checkbox-{{@index}}" id="checkbox-{{@index}}">
+              <label class="btn-down-reset" for="checkbox-{{@index}}">{{{@key}}}</label>
+            {{/each}}
+        </fieldset>
+        <input id="task-submit-btn" type="submit">
+      </form>
+    </script>
     <div id="task-navbar" data-role="navbar">
       <ul>
         <li><a href="campusview.html" data-i18n="links.back_2"></a></li>

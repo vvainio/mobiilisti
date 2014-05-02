@@ -157,7 +157,7 @@
             "answers": {
                 "Lepaan puikula": false,
                 "Lepaan liereä": true,
-                "Lepaan vireä": true,
+                "Lepaan vireä": false,
                 "Lepaan kireä": false
             }
         }, {
@@ -254,7 +254,7 @@
             "type": "checkbox",
             "score": false,
             "isComplete": false,
-            "question": "Kuinka monta ohramallaskiloa tarvitset 4,7 %-olutlitran tuottamiseksi?",
+            "question": "Kuinka paljon ohramallasta tarvitset 4,7 %-olutlitran tuottamiseksi?",
             "answers": {
                 "10 grammaa": false,
                 "80 grammaa": false,

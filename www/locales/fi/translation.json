@@ -40,10 +40,11 @@
     },
     "guide": {
       "title": "Ennen kuin aloitat...",
-      "paragraph_1": "Kerää pisteitä suorittamalla tehtäviä. Älä anna pistemäärän laskea pakkasen puolelle!",
-      "paragraph_2": "Peli päättyy kun olet suorittanut kaikki tehtävät. Voit suorittaa tehtävät ja kampukset vapaassa järjestyksessä.",
-      "paragraph_3": "Pidä kiirettä! Lopputuloksesi paranee mitä nopeammin vastaat kysymyksiin.",
-      "paragraph_4": "Siinä kaikki - lykkyä tykö!"
+      "paragraph_1": "Tavoitteenasi on kerätä pisteitä suorittamalla tehtäviä.",
+      "paragraph_2": "Voit suorittaa tehtävät ja kampukset vapaassa järjestyksessä. Peli päättyy kun olet suorittanut kaikki tehtävät.",
+      "paragraph_3": "Pidä kiirettä! Lopputulokseesi vaikuttaa oikeiden vastausten lisäksi myös vastausaika.",
+      "paragraph_4": "Älä päästä kokonaispistemäärää laskemaan pakkasen puolelle tai muuten peli päättyy!",
+      "paragraph_5": "Siinä kaikki - lykkyä tykö!"
     },
     "campusview": {
       "complete": "Kampus suoritettu!",
@@ -53,6 +54,7 @@
     "campusmap": {
       "title": "Kampukset",
       "complete": "Kampukset suoritettu!",
+      "score": "Pisteet: __score__ / __maxScore__",
       "progress": "Suoritettu __percentage__%"
     },
     "taskview": {
@@ -64,10 +66,12 @@
       "title": "Onnittelut!",
       "header": "Mahtavaa!",
       "paragraph_1": "Läpäisit kaikki kampukset ja tehtävät.",
-      "scoreText": "Sait __score__  pistettä."
+      "totalScore": "Sait __totalScore__  pistettä.",
+      "totalPoints": "Tehtäväkohtainen pistemääräsi oli __totalPoints__ / __maxPoints__.",
+      "totalTime": "Tehtävien tekoon sinulta kului __totalTime__ sekuntia."
     },
     "end": {
-      "title": "Voihan räkä...!",
+      "title": "Voihan räkä...",
       "header": "Voimasi ehtyivät!",
       "paragraph_1": "Parempaa onnea ensi kerralla."
     },
