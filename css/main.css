@@ -137,11 +137,16 @@ hr {
 }
 #help-panel {
     width: 45%;
+    min-width: 272px;
     background: rgba(255,255,255,0.95);
 }
 /* Campus screen */
  #campusmap .ui-content {
     padding: 0 !important;
+}
+.campus-btn > a > p {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .default {
     color: #fff !important;
