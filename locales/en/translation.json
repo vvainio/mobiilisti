@@ -1,6 +1,7 @@
 {
   "links": {
     "cancel": "Cancel",
+    "close": "Sulje",
     "back": "Back",
     "back_2": "Back to Campus View",
     "select": "Select",
@@ -41,7 +42,7 @@
     "guide": {
       "title": "Before you start...",
       "paragraph_1": "Your objective is to gain points by completing tasks.",
-      "paragraph_2": "The game ends when you have completed all tasks.",
+      "paragraph_2": "The game ends when you have completed all the tasks in every campus.",
       "paragraph_3": "Your highscore is determined by your answers and how fast you complete the tasks.",
       "paragraph_4": "Don't let the score drop below zero or the game is over!",
       "paragraph_5": "That's it - good luck!"
@@ -49,7 +50,14 @@
     "campusview": {
       "complete": "Campus complete!",
       "scoreText": "Score: __score__",
-      "result": "Score"
+      "result": "Score",
+      "panel": {
+        "title": "Instructions",
+        "paragraph_1": "Begin by selecting a task from the markers on the map. Then start the task from the button below the map.",
+        "paragraph_2": "The order in which you complete the tasks and campuses is up to you. Try to answer the questions as quickly as possible!",
+        "paragraph_3": "You can switch between the campuses at any time using the Change Campus -button.",
+        "paragraph_4": "The active campus and your total score is displayed in the header bar."
+      }
     },
     "campusmap": {
       "title": "Campuses",

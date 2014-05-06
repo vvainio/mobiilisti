@@ -123,9 +123,20 @@ views.show = {
     guide: function () {},
 
     campusview: function () {
+        var help = $('#help-panel');
         var translation = i18n.t("views.campusview.scoreText", { score: Player.score });
         $('#score-text').html(translation).removeClass('hidden');
         $('#title').html(Game.data.campuses[Player.selectedCampus].campus);
+
+        if (Player.showGuidePanel) {
+            help.panel('open');
+        }
+
+        help.on('click', '#close-panel', function (event) {
+            event.preventDefault();
+
+            Player.showGuidePanel = false;
+        });
     },
 
     campusmap: function () {

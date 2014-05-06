@@ -1,6 +1,7 @@
 {
   "links": {
     "cancel": "Peruuta",
+    "close": "Sulje",
     "back": "Takaisin",
     "back_2": "Palaa takaisin",
     "select": "Valitse",
@@ -41,7 +42,7 @@
     "guide": {
       "title": "Ennen kuin aloitat...",
       "paragraph_1": "Tavoitteenasi on kerätä pisteitä suorittamalla tehtäviä.",
-      "paragraph_2": "Voit suorittaa tehtävät ja kampukset vapaassa järjestyksessä. Peli päättyy kun olet suorittanut kaikki tehtävät.",
+      "paragraph_2": "Peli päättyy kun olet suorittanut kaikkien kampusten tehtävät.",
       "paragraph_3": "Pidä kiirettä! Lopputulokseesi vaikuttaa oikeiden vastausten lisäksi myös vastausaika.",
       "paragraph_4": "Älä päästä kokonaispistemäärää laskemaan pakkasen puolelle tai muuten peli päättyy!",
       "paragraph_5": "Siinä kaikki - lykkyä tykö!"
@@ -49,7 +50,14 @@
     "campusview": {
       "complete": "Kampus suoritettu!",
       "scoreText": "Pisteet: __score__",
-      "result": "Tulos"
+      "result": "Tulos",
+      "panel": {
+        "title": "Ohjeita",
+        "paragraph_1": "Valitse ensin mieleisesi tehtävä kartan tehtäväpisteistä.  Tämän jälkeen voit aloittaa tehtävän kartan alla olevasta painikkeesta.",
+        "paragraph_2": "Tehtävien ja kampusten suoritusjärjestys on vapaa. Yritä vastata tehtävän kysymyksiin mahdollisimman nopeasti!",
+        "paragraph_3": "Voit vaihtaa kampusta Kampusvalinta-painikkeesta missä tahansa vaiheessa peliä.",
+        "paragraph_4": "Aktiivinen kampus ja kokonaispistemäärä on nähtävillä yläpalkissa."
+      }
     },
     "campusmap": {
       "title": "Kampukset",

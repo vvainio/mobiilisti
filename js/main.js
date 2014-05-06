@@ -28,7 +28,8 @@ var Player = {
         selectedCampus:        0,
         selectedTask:          0,
         nickname:              undefined,
-        hasSubmittedHighscore: false
+        hasSubmittedHighscore: false,
+        showGuidePanel:        true
     };
 
 var Game = {
@@ -117,6 +118,7 @@ var Game = {
             Player.selectedTask          = 0;
             Player.nickname              = undefined;
             Player.hasSubmittedHighscore = false;
+            Player.showGuidePanel        = true;
         },
 
         // Set game language

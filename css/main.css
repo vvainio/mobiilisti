@@ -135,6 +135,10 @@ hr {
 #task-navbar {
     display: none;
 }
+#help-panel {
+    width: 45%;
+    background: rgba(255,255,255,0.95);
+}
 /* Campus screen */
  #campusmap .ui-content {
     padding: 0 !important;
