@@ -231,8 +231,8 @@
             }
         }, {
             "area": "Bees",
-            "top": "64%",
-            "left": "36%",
+            "top": "24%",
+            "left": "76%",
             "backdrop": "c4-t2.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -263,8 +263,8 @@
             }
         }, {
             "area": "Rural development",
-            "top": "24%",
-            "left": "76%",
+            "top": "64%",
+            "left": "36%",
             "backdrop": "c4-t4.jpg",
             "weight": 1,
             "type": "checkbox",
