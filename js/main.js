@@ -45,7 +45,9 @@ var Game = {
                 if (!config.debugMode) {
                     Game.loadNewData(lang);
                 } else {
-                    $.getJSON('./fixtures/debug.json', function (jsonData) {
+                    var path = './fixtures/debug.json';
+
+                    $.getJSON(path, function (jsonData) {
                         Game.data = jsonData;
                         Utils.changePage('./views/characterselect.html');
                     });
@@ -56,9 +58,46 @@ var Game = {
         loadSavedData: function (storageData, lang) {
             Player        = storageData;
             Game.language = lang;
-            Game.data     = storageData.data;
+
+            Game.mergeData(storageData);
+
+            // Remove unnecessary data
+            delete Player.data;
 
             Utils.changePage('resume.html', 'none', 'dialog');
+        },
+
+        // Replace save game object keys if game language is different
+        mergeData: function (storageData) {
+            var translatedData = storageData.data;
+            var path           = './fixtures/questions_' + Game.language + '.json';
+
+            if (Game.language === storageData.language) {
+                Game.data = storageData.data;
+                return;
+            }
+
+            $.getJSON(path, function (jsonData) {
+                var tempData = jsonData;
+                translateData(tempData);
+            });
+
+            function translateData(tempData) {
+                translatedData.language = Game.language;
+
+                $.each(tempData.campuses, function (i, campuses) {
+                    translatedData.campuses[i].campus      = campuses.campus;
+                    translatedData.campuses[i].description = campuses.description;
+
+                    $.each(campuses.questions, function (j, questions) {
+                        translatedData.campuses[i].questions[j].area     = questions.area;
+                        translatedData.campuses[i].questions[j].question = questions.question;
+                        translatedData.campuses[i].questions[j].answers  = questions.answers;
+                    });
+                });
+
+                Game.data = translatedData;
+            }
         },
 
         loadNewData: function (lang) {
