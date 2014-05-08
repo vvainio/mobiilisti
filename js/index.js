@@ -63,9 +63,8 @@ var app = {
         function onNfc(nfcEvent) {
             var tag   = nfcEvent.tag;
             var tagId = nfc.bytesToHexString(tag.id);
-            var url   = "http://tagglem.com/n/" + tagId;
-
-            window.open(url, '_system');
+            var uri   = "http://tagglem.com/n/" + tagId;
+            var ref   = window.open(uri, '_blank', 'location=yes');
         }
 
         function nfcOk() {
