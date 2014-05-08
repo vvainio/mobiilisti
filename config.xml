@@ -26,5 +26,5 @@
     <gap:platform name="android" />
     <gap:plugin name="com.chariotsolutions.nfc.plugin" version="0.4.8" />
     <gap:plugin name="org.apache.cordova.dialogs" />
-    <access origin="*" subdomains="true" />
+    <access origin="http://*.hamk.fi" />
 </widget>
