@@ -27,4 +27,5 @@
     <gap:plugin name="com.chariotsolutions.nfc.plugin" version="0.4.8" />
     <gap:plugin name="org.apache.cordova.dialogs" />
     <access origin="http://*.hamk.fi" />
+    <access origin="http://tagglem.com" />
 </widget>
