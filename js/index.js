@@ -60,11 +60,16 @@ var app = {
             }
         }, false);
 
+        function loadUrl(url) {
+            navigator.app.loadUrl(url, { openExternal:true });
+        }
+
         function onNfc(nfcEvent) {
             var tag   = nfcEvent.tag;
             var tagId = nfc.bytesToHexString(tag.id);
             var uri   = "http://tagglem.com/n/" + tagId;
-            var ref   = window.open(uri, '_blank', 'location=yes');
+
+            loadUrl(uri);
         }
 
         function nfcOk() {
