@@ -216,8 +216,8 @@
         "isComplete": false,
         "questions": [{
             "area": "Maatiaiseläin",
-            "top": "91%",
-            "left": "20%",
+            "top": "24%",
+            "left": "76%",
             "backdrop": "c4-t1.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -232,8 +232,8 @@
             }
         }, {
             "area": "Mehiläiset",
-            "top": "24%",
-            "left": "76%",
+            "top": "91%",
+            "left": "20%",
             "backdrop": "c4-t2.jpg",
             "weight": 1,
             "type": "checkbox",
@@ -248,8 +248,8 @@
             }
         }, {
             "area": "Olut",
-            "top": "46%",
-            "left": "63%",
+            "top": "64%",
+            "left": "36%",
             "backdrop": "c4-t3.jpg",
             "weight": 4,
             "type": "checkbox",
@@ -264,8 +264,8 @@
             }
         }, {
             "area": "Maaseudun kehittäminen",
-            "top": "63%",
-            "left": "36%",
+            "top": "46%",
+            "left": "63%",
             "backdrop": "c4-t4.jpg",
             "weight": 1,
             "type": "checkbox",
