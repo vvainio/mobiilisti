@@ -69,8 +69,8 @@ var Game = {
 
         // Replace save game object keys if game language is different
         mergeData: function (storageData) {
-            var translatedData = storageData.data;
             var path           = './fixtures/questions_' + Game.language + '.json';
+            var translatedData = storageData.data;
 
             if (Game.language === storageData.language) {
                 Game.data = storageData.data;
@@ -683,6 +683,7 @@ var Helper = {
 
                 Player.selectedCampus = markerId;
                 Player.selectedTask   = 0;
+
                 campuses.hide();
                 campus.show();
             }

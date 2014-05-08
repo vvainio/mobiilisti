@@ -33,22 +33,23 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        FastClick.attach(document.body);
-
         document.addEventListener("backbutton", function(e) {
-            if ($.mobile.activePage.is('#containerpage')) {
+            if ($.mobile.activePage.is('#containerPage')) {
                 //
-            } else if ($.mobile.activePage.is('#characterselect') || $.mobile.activePage.is('#campusselect') || $.mobile.activePage.is('#guide')) {
-                navigator.app.backHistory();
-            } else {
+            } else if ($.mobile.activePage.is('#campusview') || $.mobile.activePage.is('#complete') ||
+                     $.mobile.activePage.is('#end') || $.mobile.activePage.is('#taskview')) {
+
                 e.preventDefault();
+
                 navigator.notification.confirm(
-                    'Exit Biotrek?', function(button) {
+                    'Exit BioTrek?', function(button) {
                         if (button == 2) {
                           navigator.app.exitApp();
                         }
                       }, 'Exit', 'No,Yes'
                 );
+            } else {
+                navigator.app.backHistory();
             }
         }, false);
 
@@ -68,6 +69,5 @@ var app = {
         }
 
         nfc.addTagDiscoveredListener(onNfc, nfcOk, nfcFail);
-
     }
 };
