@@ -81,7 +81,8 @@
     "end": {
       "title": "Voihan räkä...",
       "header": "Voimasi ehtyivät!",
-      "paragraph_1": "Parempaa onnea ensi kerralla."
+      "paragraph_1": "Parempaa onnea ensi kerralla.",
+      "paragraph_2": "Muista pitää silmällä pistemäärääsi!"
     },
     "highscore": {
       "title": "Huippupisteet",

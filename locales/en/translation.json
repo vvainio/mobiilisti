@@ -81,7 +81,8 @@
     "end": {
       "title": "The End",
       "header": "Oh no!",
-      "paragraph_1": "Better luck next time."
+      "paragraph_1": "Better luck next time.",
+      "paragraph_2": "Remember to keep an eye on the total score!"
     },
     "highscore": {
       "title": "Highscores",
