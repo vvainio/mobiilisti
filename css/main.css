@@ -336,6 +336,16 @@ hr {
 #no-results {
     display: none;
 }
+/* Highscore */
+#highscore #displayScore {
+  margin-top: 0.5em;  
+}
+#result-list .ui-li-has-count {
+    padding-right: 6.8125em !important;
+}
+#result-list span.ui-li-count.time {
+    right: 4.6em;
+}
 /* Table styling */
  table {
     width: 100%;

@@ -793,6 +793,12 @@ $(function () {
         return new Handlebars.SafeString(result);
     });
 
+    Handlebars.registerHelper('round', function (number) {
+        var result = Math.round(number * 10) / 10;
+
+        return new Handlebars.SafeString(result);
+    });
+
     /*
         Handles jQuery Mobile pageforeshow and pageshow events
           - Pages are defined in pagesToTranslate array

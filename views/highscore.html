@@ -13,7 +13,10 @@
               <h3>{{campus}}</h3>
               <ul data-role="listview" data-inset="true">
                 {{#questions}}
-                  <li>{{area}} <span class="ui-li-count">{{score}}</span></li>
+                  <li>{{area}} 
+                  <span class="ui-li-count time">{{round taskTime}} s</span>
+                  <span class="ui-li-count">{{score}} / {{maxScore}}</span>
+                  </li>
                 {{/questions}}
               </ul>
             </div>
