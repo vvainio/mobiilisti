@@ -34,20 +34,27 @@ var app = {
     // function, we must explicity call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         document.addEventListener("backbutton", function(e) {
-            if ($.mobile.activePage.is('#containerPage')) {
+            if ($.mobile.activePage.is('#containerPage') ||$ .mobile.activePage.is('#taskview')) {
                 //
-            } else if ($.mobile.activePage.is('#campusview') || $.mobile.activePage.is('#complete') ||
-                     $.mobile.activePage.is('#end') || $.mobile.activePage.is('#taskview')) {
-
+            } else if ($.mobile.activePage.is('#campusview') || $.mobile.activePage.is('#complete') || $.mobile.activePage.is('#end')) {
                 e.preventDefault();
-
-                navigator.notification.confirm(
-                    'Exit BioTrek?', function(button) {
-                        if (button == 2) {
-                          navigator.app.exitApp();
-                        }
-                      }, 'Exit', 'No,Yes'
-                );
+                if (typeof Game.language === 'undefined' || Game.language === 'en') {
+                    navigator.notification.confirm(
+                        'Exit BioTrek?', function(button) {
+                            if (button == 2) {
+                              navigator.app.exitApp();
+                            }
+                          }, 'Exit', 'No,Yes'
+                    );
+                } else {
+                    navigator.notification.confirm(
+                        'Suljetaanko BioTrek?', function(button) {
+                            if (button == 2) {
+                              navigator.app.exitApp();
+                            }
+                          }, 'Lopeta', 'Ei,Kyllä'
+                    );
+                }
             } else {
                 navigator.app.backHistory();
             }
